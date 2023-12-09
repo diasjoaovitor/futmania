@@ -5,11 +5,13 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 function memoryRouter() {
   const router = createMemoryRouter(
     [
-      { path: '/other-page', element: <Nav /> },
-      { path: '/', element: <Nav /> }
+      { path: '/', element: <Nav /> },
+      { path: '/estatisticas', element: <Nav /> },
+      { path: '/membros', element: <Nav /> },
+      { path: '/financas', element: <Nav /> }
     ],
     {
-      initialEntries: ['/other-page']
+      initialEntries: ['/']
     }
   )
   render(<RouterProvider router={router} />)
@@ -20,8 +22,13 @@ describe('<Nav />', () => {
   it('should navigate to another page', () => {
     const router = memoryRouter()
     const navItems = screen.getAllByRole('button')
-    expect(router.state.location.pathname).toBe('/other-page')
-    const [babas] = navItems
+    const [babas, stats, members, finances] = navItems
+    fireEvent.click(finances)
+    expect(router.state.location.pathname).toBe('/financas')
+    fireEvent.click(members)
+    expect(router.state.location.pathname).toBe('/membros')
+    fireEvent.click(stats)
+    expect(router.state.location.pathname).toBe('/estatisticas')
     fireEvent.click(babas)
     expect(router.state.location.pathname).toBe('/')
   })
