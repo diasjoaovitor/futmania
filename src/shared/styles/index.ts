@@ -20,3 +20,20 @@ export const FlexColumn: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column'
 }
+
+export const ButtonGrid: SxProps<Theme> = {
+  display: 'grid',
+  gridTemplateColumns: 'auto auto',
+  gap: 1,
+  button: {
+    maxWidth: 120
+  }
+}
+
+export function Li(borderColor: string): SxProps<Theme> {
+  return {
+    borderLeft: '.5em solid',
+    borderColor,
+    mb: 2
+  }
+}
