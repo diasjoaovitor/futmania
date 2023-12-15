@@ -6,8 +6,8 @@ import {
 } from '@mui/material'
 import { Close } from '@mui/icons-material'
 
-type Props = {
-  open: boolean
+export type AlertProps = {
+  isOpened: boolean
   severity: 'error' | 'info' | 'success' | 'warning'
   title: string
   description?: string
@@ -16,16 +16,16 @@ type Props = {
 }
 
 export function Alert({
-  open,
+  isOpened,
   severity,
   title,
   description,
   autoHide,
   handleClose
-}: Props) {
+}: AlertProps) {
   return (
     <Snackbar
-      open={open}
+      open={isOpened}
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       autoHideDuration={!autoHide ? null : 4000}
       onClose={handleClose}
