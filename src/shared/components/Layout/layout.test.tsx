@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { useMediaQuery } from '@mui/material'
 import { ThemeProvider } from '@/shared/contexts'
+import { AlertProps } from '..'
 import { Layout } from '.'
 
 jest.mock('@mui/material', () => ({
@@ -18,7 +19,13 @@ function Page() {
         path: '/',
         element: (
           <ThemeProvider>
-            <Layout title="Página Inicial">conteúdo da página inicial</Layout>
+            <Layout
+              title="Página Inicial"
+              isPending={false}
+              alertProps={{} as AlertProps}
+            >
+              conteúdo da página inicial
+            </Layout>
           </ThemeProvider>
         )
       }
@@ -48,7 +55,7 @@ describe('<Layout />', () => {
     const viteIcon = screen.getByTestId('ViteIcon')
     const title = viteIcon.nextElementSibling as HTMLDivElement
     expect(viteIcon).toBeInTheDocument()
-    expect(title.textContent).toBe('Vite Boilerplate')
+    expect(title.textContent).toBe('Futmania')
     expect(screen.queryByRole('navigation')).toBeInTheDocument()
   })
 })
