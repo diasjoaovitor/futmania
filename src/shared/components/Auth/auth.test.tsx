@@ -7,7 +7,7 @@ import { Auth } from '.'
 
 jest.mock('../../contexts/AuthContext/useAuth')
 
-const mockedUseAuthContext = useAuthContext as jest.Mock<{
+const mockedUseAuthContext = useAuthContext as unknown as jest.Mock<{
   user: User | null
   isLoading: boolean
 }>
