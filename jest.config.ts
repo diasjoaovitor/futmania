@@ -13,7 +13,8 @@ export default {
     '!src/shared/icons/*',
     '!src/shared/themes/*',
     '!src/shared/firebase/*',
-    'src/shared/functions/**/*'
+    '!src/shared/states/*',
+    '!src/shared/functions/getters/*'
   ],
   setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
   modulePaths: ['<rootDir>/src/'],
