@@ -5,7 +5,7 @@ export function useAuth() {
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    navigate('entrar')
+    navigate('/entrar')
   }
 
   const handleLogout = async () => {
