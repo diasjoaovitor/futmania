@@ -1,14 +1,16 @@
 import { ReactNode } from 'react'
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { AppBar } from '..'
+import { Alert, AlertProps, AppBar, Loader } from '..'
 import * as S from './style'
 
 type Props = {
   title: string
   children: ReactNode
+  isPending: boolean
+  alertProps: AlertProps
 }
 
-export function Layout({ title, children }: Props) {
+export function Layout({ title, children, isPending, alertProps }: Props) {
   const theme = useTheme()
   const md = useMediaQuery(theme.breakpoints.up('md'))
   return (
@@ -22,6 +24,8 @@ export function Layout({ title, children }: Props) {
         )}
         <main>{children}</main>
       </Box>
+      <Loader open={isPending} />
+      <Alert {...alertProps} />
     </Box>
   )
 }

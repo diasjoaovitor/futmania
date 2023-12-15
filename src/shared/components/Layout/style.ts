@@ -14,5 +14,6 @@ export const Content: SxProps<Theme> = {
   h1: {
     mb: 3,
     ...(GS.Title as CSSObject)
-  }
+  },
+  flex: 1
 }
