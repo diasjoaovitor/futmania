@@ -1,14 +1,375 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { User } from 'firebase/auth'
+import { AuthProvider, ThemeProvider } from '@/shared/contexts'
+import { useAuth as useAuthContext } from '@/shared/contexts/AuthContext/useAuth'
+import {
+  useMutationCreateMember,
+  useMutationDeleteMember,
+  useMutationUpdateMember,
+  useQueriesMembersAndBabas
+} from '@/shared/react-query'
+import { TBaba, TBabaUser, TMember } from '@/shared/types'
 import { Members } from '.'
 
+jest.mock('../../shared/contexts/AuthContext/useAuth')
+jest.mock('../../shared/react-query/queries/useQueriesMembersAndBabas')
+jest.mock('../../shared/react-query/mutations/useMutationCreateMember')
+jest.mock('../../shared/react-query/mutations/useMutationUpdateMember')
+jest.mock('../../shared/react-query/mutations/useMutationDeleteMember')
+
+const member: TMember = {
+  createdAt: '2023',
+  isFixedMember: true,
+  isGoalkeeper: false,
+  name: 'João',
+  userId: 'a',
+  id: '1'
+}
+
+const mockedMembers: TMember[] = [
+  {
+    ...member
+  },
+  {
+    ...member,
+    name: 'Vitor',
+    isGoalkeeper: true,
+    id: '2'
+  },
+  {
+    ...member,
+    name: 'Pedro',
+    isFixedMember: false,
+    id: '3'
+  },
+  {
+    ...member,
+    name: 'Abel',
+    id: '4'
+  },
+  {
+    ...member,
+    name: 'Endrick',
+    id: '5'
+  },
+  {
+    ...member,
+    name: 'Dudu',
+    isFixedMember: false,
+    id: '6'
+  },
+  {
+    ...member,
+    name: 'Weverton',
+    isGoalkeeper: true,
+    id: '7'
+  }
+]
+
+const mockedBabas: TBaba[] = [
+  {
+    createdAt: '2023',
+    date: '2023',
+    teams: [
+      {
+        draws: 1,
+        members: [
+          {
+            goals: 1,
+            id: '1'
+          },
+          {
+            goals: 2,
+            id: '2'
+          },
+          {
+            goals: 3,
+            id: '3'
+          }
+        ],
+        name: 'Team 1',
+        wins: 2
+      }
+    ],
+    userId: 'a'
+  }
+]
+
+type TUseAuthContext = {
+  user: User | null
+  babaUser: TBabaUser
+  isLoading: boolean
+}
+
+const mockedUseAuthContext =
+  useAuthContext as unknown as jest.Mock<TUseAuthContext>
+
+function mockedUseAuthContextSetup(args: TUseAuthContext | object) {
+  const state: TUseAuthContext = {
+    isLoading: false,
+    user: { uid: '123' } as User,
+    babaUser: {
+      id: '123',
+      name: 'Baba'
+    }
+  }
+  mockedUseAuthContext.mockImplementation(() => ({
+    ...state,
+    ...args
+  }))
+}
+
+type TUseQueriesMembersAndBabas = {
+  membersData: TMember[] | undefined
+  membersIsPending: boolean
+  isMembersError: boolean
+  babasData: TBaba[] | undefined
+  babasIsPending: boolean
+  isBabasError: boolean
+}
+
+const mockedUseQueriesMembersAndBabas =
+  useQueriesMembersAndBabas as unknown as jest.Mock<TUseQueriesMembersAndBabas>
+
+function mockedUseQueriesMembersAndBabasSetup(
+  args: TUseQueriesMembersAndBabas | object
+) {
+  const state: TUseQueriesMembersAndBabas = {
+    membersData: mockedMembers,
+    membersIsPending: false,
+    isMembersError: false,
+    babasData: mockedBabas,
+    babasIsPending: false,
+    isBabasError: false
+  }
+  mockedUseQueriesMembersAndBabas.mockImplementation(() => ({
+    ...state,
+    ...args
+  }))
+}
+
+type TUseMutation = {
+  mutate: any
+  data: TMember | string | undefined
+  isError: boolean
+  isPending: boolean
+}
+
+function mockedUseMutationSetup(
+  useMutation: () => TUseMutation,
+  args: TUseMutation | object
+) {
+  const mockedUseMutation = useMutation as unknown as jest.Mock<TUseMutation>
+  const state: TUseMutation = {
+    mutate: jest.fn(),
+    data: undefined,
+    isError: false,
+    isPending: false
+  }
+  mockedUseMutation.mockImplementation(() => ({
+    ...state,
+    ...args
+  }))
+}
+
+const client = new QueryClient()
+
+function Page() {
+  return (
+    <QueryClientProvider client={client}>
+      <ThemeProvider>
+        <AuthProvider>
+          <Members />
+        </AuthProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  )
+}
+
 describe('<Members />', () => {
-  it('should render the heading and main', () => {
-    render(<Members />)
+  beforeEach(() => {
+    mockedUseAuthContextSetup({})
+    mockedUseQueriesMembersAndBabasSetup({})
+    mockedUseMutationSetup(useMutationCreateMember, {})
+    mockedUseMutationSetup(useMutationUpdateMember, {})
+    mockedUseMutationSetup(useMutationDeleteMember, {})
+  })
+
+  it('should render empty list', () => {
+    mockedUseQueriesMembersAndBabasSetup({
+      membersData: [],
+      babasData: []
+    })
+    render(<Page />)
+    expect(screen.getByText('Não há membros cadastrados')).toBeInTheDocument()
+  })
+
+  it('should render ordered members list', () => {
+    render(<Page />)
     expect(
-      screen.getByRole('heading', { name: /membros/i })
+      screen.getByRole('heading', { name: /Membros Fixos/i })
     ).toBeInTheDocument()
-    expect(screen.getByRole('main').firstChild!.textContent).toBe(
-      'Conteúdo de membros'
-    )
+    expect(
+      screen.getByRole('heading', { name: /Goleiros/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /Membros Avulsos/i })
+    ).toBeInTheDocument()
+    expect(screen.getByText('1 - Abel')).toBeInTheDocument()
+    expect(screen.getByText('2 - Endrick')).toBeInTheDocument()
+    expect(screen.getByText('3 - João')).toBeInTheDocument()
+    expect(screen.getByText('1 - Vitor')).toBeInTheDocument()
+    expect(screen.getByText('2 - Weverton')).toBeInTheDocument()
+    expect(screen.getByText('1 - Dudu')).toBeInTheDocument()
+    expect(screen.getByText('2 - Pedro')).toBeInTheDocument()
+  })
+
+  it('should render the list of non-members compactly and completely', () => {
+    const { rerender } = render(<Page />)
+    expect(
+      screen.queryByRole('button', { name: /Ver mais/i })
+    ).not.toBeInTheDocument()
+    mockedUseQueriesMembersAndBabasSetup({
+      membersData: mockedMembers.map((member) => ({
+        ...member,
+        isFixedMember: false
+      }))
+    })
+    rerender(<Page />)
+    const more = screen.getByRole('button', { name: /Ver mais/i })
+    expect(more).toBeInTheDocument()
+    fireEvent.click(more)
+    expect(screen.getByText('7 - Weverton')).toBeInTheDocument()
+    const less = screen.getByRole('button', { name: /Ver menos/i })
+    fireEvent.click(less)
+    expect(screen.queryByText('7 - Weverton')).not.toBeInTheDocument()
+  })
+
+  it('should not render the button to add new members when it does not have authentication', () => {
+    mockedUseAuthContextSetup({ user: null })
+    render(<Page />)
+    expect(
+      screen.queryByRole('button', { name: /Cadastrar Membros/i })
+    ).not.toBeInTheDocument()
+  })
+
+  it('should create a new member successfully', () => {
+    const { rerender } = render(<Page />)
+    const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
+    fireEvent.click(button)
+    const name = screen.getByLabelText('Nome *') as HTMLInputElement
+    expect(name.value).toBe('')
+    mockedUseMutationSetup(useMutationCreateMember, {
+      data: {
+        ...member,
+        name: 'Gustavo Gomes',
+        id: '8'
+      }
+    })
+    rerender(<Page />)
+    expect(screen.getByText('Membro criado com sucesso!')).toBeInTheDocument()
+    expect(screen.getByText('3 - Gustavo Gomes')).toBeInTheDocument()
+    expect(screen.getByRole('form')).toBeInTheDocument()
+  })
+
+  it('should render an alert message when create a new member fails', () => {
+    const { rerender } = render(<Page />)
+    const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
+    fireEvent.click(button)
+    expect(screen.getByRole('heading', { name: 'Cadastrar Membros' }))
+    mockedUseMutationSetup(useMutationCreateMember, {
+      isError: true
+    })
+    rerender(<Page />)
+    expect(
+      screen.getByText('Não foi possível criar o membro')
+    ).toBeInTheDocument()
+    expect(screen.getByRole('form')).toBeInTheDocument()
+  })
+
+  it('should update a new member successfully', () => {
+    const { rerender } = render(<Page />)
+    const button = screen.getByRole('button', { name: /João/i })
+    fireEvent.click(button)
+    expect(screen.getByRole('heading', { name: 'Editar Membro' }))
+    const name = screen.getByLabelText('Nome *') as HTMLInputElement
+    expect(name.value).toBe('João')
+    const isFixedMember = screen.getByLabelText('Fixo') as HTMLInputElement
+    expect(isFixedMember.checked).toBe(true)
+    mockedUseMutationSetup(useMutationUpdateMember, {
+      data: {
+        ...member,
+        name: 'João Dias',
+        isFixedMember: false
+      }
+    })
+    rerender(<Page />)
+    expect(screen.getByText('Membro editado com sucesso!')).toBeInTheDocument()
+    expect(screen.getByText('2 - João Dias')).toBeInTheDocument()
+    expect(screen.queryByRole('form')).not.toBeInTheDocument()
+  })
+
+  it('should render an alert message when update a member fails', () => {
+    const { rerender } = render(<Page />)
+    const button = screen.getByRole('button', { name: /João/i })
+    fireEvent.click(button)
+    mockedUseMutationSetup(useMutationUpdateMember, {
+      isError: true
+    })
+    rerender(<Page />)
+    expect(
+      screen.getByText('Não foi possível atualizar os dados de João')
+    ).toBeInTheDocument()
+    expect(screen.getByRole('form')).toBeInTheDocument()
+  })
+
+  it('should delete a member successfully', () => {
+    const { rerender } = render(<Page />)
+    const button = screen.getByRole('button', { name: /João/i })
+    fireEvent.click(button)
+    expect(screen.getByRole('heading', { name: 'Editar Membro' }))
+    const deleteButton = screen.getByRole('button', { name: /Excluir Membro/i })
+    fireEvent.click(deleteButton)
+    expect(screen.getByText('Deseja realmente excluir João?'))
+    mockedUseMutationSetup(useMutationDeleteMember, {
+      data: '1'
+    })
+    rerender(<Page />)
+    expect(screen.getByText('Membro excluído com sucesso!')).toBeInTheDocument()
+    expect(screen.queryByText('3 - João')).not.toBeInTheDocument()
+    expect(screen.queryByRole('form')).not.toBeInTheDocument()
+  })
+
+  it('should render an alert message when deleting a member fails because the member has already participated in a baba', async () => {
+    render(<Page />)
+    const button = screen.getByRole('button', { name: /João/i })
+    fireEvent.click(button)
+    const deleteButton = screen.getByRole('button', { name: /Excluir Membro/i })
+    fireEvent.click(deleteButton)
+    expect(screen.getByText('Deseja realmente excluir João?'))
+    fireEvent.click(screen.getByRole('button', { name: /Sim/i }))
+    expect(
+      screen.getByText('João já está vinculado a um baba')
+    ).toBeInTheDocument()
+    expect(screen.getByText('3 - João')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByRole('form')).toBeInTheDocument()
+    })
+  })
+
+  it('should render an alert message when delete a member fails', () => {
+    const { rerender } = render(<Page />)
+    const button = screen.getByRole('button', { name: /João/i })
+    fireEvent.click(button)
+    mockedUseMutationSetup(useMutationDeleteMember, {
+      isError: true
+    })
+    rerender(<Page />)
+    expect(
+      screen.getByText('Não foi possível excluir João')
+    ).toBeInTheDocument()
+    expect(screen.getByRole('form')).toBeInTheDocument()
+    expect(screen.getByText('3 - João')).toBeInTheDocument()
   })
 })
