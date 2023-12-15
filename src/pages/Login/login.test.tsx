@@ -1,12 +1,19 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Login } from '.'
 import { login } from '@/shared/firebase'
+import { Login } from '.'
 
-jest.mock('../../shared/firebase')
+jest.mock('../../shared/firebase/auth')
 
 const mockedLogin = login as jest.Mock
+
+async function loginSetup(email: string, password: string) {
+  await userEvent.type(screen.getByLabelText('Email *'), email)
+  await userEvent.type(screen.getByLabelText('Senha *'), password)
+  await userEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+}
 
 const client = new QueryClient()
 
@@ -38,10 +45,16 @@ describe('<Login />', () => {
   it('should login correctly', async () => {
     mockedLogin.mockImplementation(() => Promise.resolve())
     const router = memoryRouter()
-    fireEvent.submit(screen.getByRole('form'))
-    await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/')
-    })
+    await loginSetup('test@test.com', '123456')
+    expect(router.state.location.pathname).toBe('/')
+  })
+
+  it('should login in as guest', () => {
+    const router = memoryRouter()
+    fireEvent.click(
+      screen.getByRole('link', { name: /Entrar como visitante/i })
+    )
+    expect(router.state.location.pathname).toBe('/')
   })
 
   it('should render error message', async () => {
@@ -50,16 +63,10 @@ describe('<Login />', () => {
     })
     memoryRouter()
     fireEvent.submit(screen.getByRole('form'))
-    await waitFor(() => {
-      expect(screen.getByText('Email ou senha inválidos!')).toBeInTheDocument()
-    })
-  })
-
-  it('should navigate to home', () => {
-    const router = memoryRouter()
-    fireEvent.click(
-      screen.getByRole('link', { name: /Entrar como visitante/i })
-    )
-    expect(router.state.location.pathname).toBe('/')
+    expect(
+      screen.getByText('Todos os campos devem ser preenchidos!')
+    ).toBeInTheDocument()
+    await loginSetup('test@test.com', '123456')
+    expect(screen.getByText('Email ou senha inválidos!')).toBeInTheDocument()
   })
 })
