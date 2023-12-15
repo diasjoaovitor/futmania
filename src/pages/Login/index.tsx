@@ -14,7 +14,7 @@ import { inputs } from './inputs'
 import * as S from './style'
 
 export function Login() {
-  const { error, handleClose, handleSubmit, isPending } = useLogin()
+  const { isPending, alertProps, handleSubmit } = useLogin()
 
   return (
     <Box sx={S.Wrapper}>
@@ -35,12 +35,7 @@ export function Login() {
       <MUILink component={Link} to="/">
         Entrar como visitante
       </MUILink>
-      <Alert
-        open={Boolean(error)}
-        severity="error"
-        title={error}
-        handleClose={handleClose}
-      />
+      <Alert {...alertProps} />
       <Loader open={isPending} />
     </Box>
   )

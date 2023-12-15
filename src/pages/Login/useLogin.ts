@@ -1,38 +1,47 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { AuthError } from 'firebase/auth'
+import { AlertProps } from '@/shared/components'
 import { getErrorMessage } from '@/shared/errors'
 import { getElementValues } from '@/shared/functions'
 import { login } from '@/shared/firebase'
+import { useAlert } from '@/shared/hooks'
 
 export function useLogin() {
   const navigate = useNavigate()
 
-  const [error, setError] = useState<string>('')
+  const { alert, setAlert, alertIsOpened, handleCloseAlert } = useAlert()
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       login(email, password),
     onSuccess: () => navigate('/'),
-    onError: (error: AuthError) => setError(getErrorMessage(error.code))
+    onError: (error: AuthError) => {
+      setAlert({
+        severity: 'error',
+        title: getErrorMessage(error.code)
+      })
+    }
   })
-
-  const handleClose = () => setError('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const [email, password, passwordConfirmation] = getElementValues(e, [
-      'email',
-      'password',
-      'passwordConfirmation'
-    ])
-    if (passwordConfirmation && password !== passwordConfirmation) {
-      setError('As senhas digitadas não são iguais!')
+    const [email, password] = getElementValues(e, ['email', 'password'])
+    if (!email || !password) {
+      setAlert({
+        severity: 'error',
+        title: 'Todos os campos devem ser preenchidos!'
+      })
       return
     }
     mutate({ email, password })
   }
 
-  return { isPending, error, handleClose, handleSubmit }
+  const alertProps: AlertProps = {
+    ...alert,
+    isOpened: alertIsOpened,
+    handleClose: handleCloseAlert
+  }
+
+  return { isPending, alertProps, handleSubmit }
 }
