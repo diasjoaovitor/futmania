@@ -7,7 +7,7 @@ export function Logo() {
     <Box sx={GS.FlexRow}>
       <ViteIcon />
       <Typography ml={1} variant="h6">
-        Vite Boilerplate
+        Futmania
       </Typography>
     </Box>
   )

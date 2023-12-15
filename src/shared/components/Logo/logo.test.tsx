@@ -4,6 +4,6 @@ import { Logo } from '.'
 describe('<Logo />', () => {
   it('should render the app logo', () => {
     render(<Logo />)
-    expect(screen.getByText('Vite Boilerplate')).toBeInTheDocument()
+    expect(screen.getByText('Futmania')).toBeInTheDocument()
   })
 })
