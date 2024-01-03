@@ -1,4 +1,5 @@
 import { SxProps, Theme } from '@mui/material'
+import { palette } from '../themes'
 
 export const Title: SxProps<Theme> = {
   '&::after': {
@@ -6,7 +7,7 @@ export const Title: SxProps<Theme> = {
     width: 60,
     height: 8,
     display: 'block',
-    backgroundColor: '#42a5f5'
+    backgroundColor: palette.darkBlue
   }
 }
 
@@ -30,10 +31,10 @@ export const ButtonGrid: SxProps<Theme> = {
   }
 }
 
-export function Li(borderColor: string): SxProps<Theme> {
+export function Li(borderColor?: string): SxProps<Theme> {
   return {
     borderLeft: '.5em solid',
-    borderColor,
+    borderColor: borderColor || palette.darkBlue,
     mb: 2
   }
 }
