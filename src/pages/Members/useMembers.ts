@@ -196,6 +196,18 @@ export function useMembers() {
       !user
     )
       return
+    const memberAlreadyExists = members.some(
+      ({ name: _name, id }) =>
+        name.toLowerCase() === _name.toLowerCase() && id !== member.id
+    )
+    if (memberAlreadyExists) {
+      setAlert({
+        severity: 'error',
+        title: 'Não possível realizar a ação!',
+        description: `Um membro de nome ${name} já existe`
+      })
+      return
+    }
     const data: TMember = {
       name,
       isFixedMember,
@@ -203,7 +215,7 @@ export function useMembers() {
       createdAt,
       userId: user.uid
     }
-    !member.id ? mutateCreate(data) : mutateUpdate(data)
+    !member.id ? mutateCreate(data) : mutateUpdate({ ...data, id: member.id })
   }
 
   const membersFormProps: MembersFormProps = {
@@ -236,6 +248,7 @@ export function useMembers() {
     deleteIsPending
 
   return {
+    user,
     membersFormProps,
     handleOpenModal,
     handleOpenModalUpdate,
