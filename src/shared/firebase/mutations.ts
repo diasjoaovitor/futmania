@@ -3,13 +3,16 @@ import {
   collection,
   deleteDoc,
   doc,
-  updateDoc
+  updateDoc,
+  writeBatch
 } from 'firebase/firestore'
+import { v4 as uuid } from 'uuid'
 import { db } from '.'
 import { TBaba, TFinance, TMember } from '@/shared/types'
 
 export async function createMember(member: TMember) {
-  await addDoc(collection(db, 'members'), member)
+  const { id } = await addDoc(collection(db, 'members'), member)
+  return id
 }
 
 export async function updateMember(member: TMember) {
@@ -21,7 +24,8 @@ export async function deleteMember(id: string) {
 }
 
 export async function createBaba(baba: TBaba) {
-  await addDoc(collection(db, 'babas'), baba)
+  const { id } = await addDoc(collection(db, 'babas'), baba)
+  return id
 }
 
 export async function updateBaba(baba: TBaba) {
@@ -33,7 +37,17 @@ export async function deleteBaba(id: string) {
 }
 
 export async function createFinance(finance: TFinance) {
-  await addDoc(collection(db, 'finances'), finance)
+  const { id } = await addDoc(collection(db, 'finances'), finance)
+  return id
+}
+
+export async function createFinances(finances: TFinance[]) {
+  const batch = writeBatch(db)
+  finances.forEach((finance) => {
+    const ref = doc(db, 'finances', uuid())
+    batch.set(ref, finance)
+  })
+  await batch.commit()
 }
 
 export async function updateFinance(finance: TFinance) {
