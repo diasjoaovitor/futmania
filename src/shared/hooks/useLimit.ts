@@ -1,11 +1,9 @@
 import { useState } from 'react'
 
-const min = 5
-
-export function useLimit(data: any[]) {
+export function useLimit(data: any[], min: number) {
   const [limit, setLimit] = useState(min)
 
-  const array = data.slice(0, limit)
+  const limited = data.slice(0, limit)
 
   const max = data.length
 
@@ -15,5 +13,5 @@ export function useLimit(data: any[]) {
     setLimit((limit) => (limit === min ? max : min))
   }
 
-  return { array, isFull, handleLimit }
+  return { limited, isFull, handleLimit }
 }
