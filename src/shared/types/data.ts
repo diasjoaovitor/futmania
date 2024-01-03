@@ -35,6 +35,7 @@ export type TFinance = {
   memberId?: string
   date: string
   description: string
+  value: number
   type: '+' | '-'
   userId: string
   createdAt: string
