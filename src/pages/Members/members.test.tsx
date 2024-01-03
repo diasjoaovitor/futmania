@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { User } from 'firebase/auth'
 import { AuthProvider, ThemeProvider } from '@/shared/contexts'
@@ -288,7 +289,7 @@ describe('<Members />', () => {
     expect(screen.getByRole('form')).toBeInTheDocument()
   })
 
-  it('should update a new member successfully', () => {
+  it('should update a member successfully', () => {
     const { rerender } = render(<Page />)
     const button = screen.getByRole('button', { name: /João/i })
     fireEvent.click(button)
@@ -322,6 +323,67 @@ describe('<Members />', () => {
       screen.getByText('Não foi possível atualizar os dados de João')
     ).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
+  })
+
+  it('should create a new member successfully', () => {
+    const { rerender } = render(<Page />)
+    const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
+    fireEvent.click(button)
+    const name = screen.getByLabelText('Nome *') as HTMLInputElement
+    expect(name.value).toBe('')
+    mockedUseMutationSetup(useMutationCreateMember, {
+      data: {
+        ...member,
+        name: 'Gustavo Gomes',
+        id: '8'
+      }
+    })
+    rerender(<Page />)
+    expect(screen.getByText('Membro criado com sucesso!')).toBeInTheDocument()
+    expect(screen.getByText('3 - Gustavo Gomes')).toBeInTheDocument()
+    expect(screen.getByRole('form')).toBeInTheDocument()
+  })
+
+  it('should render an alert message when creating a member fails because it already exists', async () => {
+    render(<Page />)
+    await userEvent.click(
+      screen.getByRole('button', { name: /Cadastrar Membros/i })
+    )
+    await userEvent.type(screen.getByRole('textbox', { name: 'Nome' }), 'João')
+    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }))
+    await waitFor(() => {
+      expect(
+        screen.getByText('Não possível realizar a ação!')
+      ).toBeInTheDocument()
+      expect(
+        screen.getByText('Um membro de nome João já existe')
+      ).toBeInTheDocument()
+    })
+    expect(screen.getByRole('form')).toBeInTheDocument()
+  })
+
+  it('should render an alert message when updating a member fails because it already exists', async () => {
+    render(<Page />)
+    await userEvent.click(screen.getByRole('button', { name: /João/i }))
+    const name = screen.getByRole('textbox', { name: 'Nome' })
+    await userEvent.clear(name)
+    await userEvent.type(name, 'Vitor')
+    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }))
+    await waitFor(() => {
+      expect(
+        screen.getByText('Um membro de nome Vitor já existe')
+      ).toBeInTheDocument()
+    })
+  })
+
+  it('should not render an alert message when updating a another value it member already exists', async () => {
+    render(<Page />)
+    await userEvent.click(screen.getByRole('button', { name: /João/i }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Goleiro' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }))
+    expect(
+      screen.queryByText('Um membro de nome Vitor já existe')
+    ).not.toBeInTheDocument()
   })
 
   it('should delete a member successfully', () => {
@@ -371,5 +433,31 @@ describe('<Members />', () => {
     ).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
     expect(screen.getByText('3 - João')).toBeInTheDocument()
+  })
+
+  it('should render an alert message when there is an error getting the babas', async () => {
+    mockedUseQueriesMembersAndBabasSetup({
+      babasData: undefined,
+      isBabasError: true
+    })
+    render(<Page />)
+    await waitFor(() => {
+      expect(
+        screen.getByText('Não foi possível buscar os dados')
+      ).toBeInTheDocument()
+    })
+  })
+
+  it('should render an alert message when there is an error getting the members', async () => {
+    mockedUseQueriesMembersAndBabasSetup({
+      membersData: undefined,
+      isMembersError: true
+    })
+    render(<Page />)
+    await waitFor(() => {
+      expect(
+        screen.getByText('Não foi possível buscar os membros')
+      ).toBeInTheDocument()
+    })
   })
 })
