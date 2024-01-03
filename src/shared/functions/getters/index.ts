@@ -1,3 +1,5 @@
+import { TMember } from '@/shared/types'
+
 function getElements(
   e: React.FormEvent<HTMLFormElement>,
   elementNames: string[]
@@ -24,4 +26,8 @@ export function getElementsCheckedValues(
   return elements.map(
     (element) => (element as HTMLInputElement | null)?.checked
   )
+}
+
+export function getMemberById(members: TMember[], id: string) {
+  return members.find(({ id: _id }) => _id === id)
 }
