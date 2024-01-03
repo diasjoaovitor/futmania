@@ -6,8 +6,8 @@ export function useMutationCreateMember() {
   const { mutate, data, isPending, isError, error } = useMutation({
     mutationKey: ['createMember'],
     mutationFn: async (member: TMember) => {
-      await createMember(member)
-      return member
+      const id = await createMember(member)
+      return { ...member, id }
     }
   })
 
