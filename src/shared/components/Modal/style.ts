@@ -1,4 +1,5 @@
 import { CSSObject, SxProps, Theme } from '@mui/material'
+import { palette } from '@/shared/themes'
 import * as GS from '@/shared/styles'
 
 export const Wrapper: SxProps<Theme> = {
@@ -11,7 +12,7 @@ export const Wrapper: SxProps<Theme> = {
 export const Content: SxProps<Theme> = {
   border: '1px solid',
   borderColor: 'background.paper',
-  backgroundColor: '#000',
+  backgroundColor: palette.black,
   p: 3,
   width: '100%',
   maxWidth: 600,
