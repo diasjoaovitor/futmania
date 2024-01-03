@@ -1,6 +1,12 @@
-import { TAuthInputProps } from '@/shared/components'
+import { HTMLInputTypeAttribute } from 'react'
 
-export const inputs: TAuthInputProps[] = [
+export type TLoginInput = {
+  label: string
+  name: string
+  type: HTMLInputTypeAttribute
+}
+
+export const inputs: TLoginInput[] = [
   {
     label: 'Email',
     name: 'email',
