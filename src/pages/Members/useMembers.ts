@@ -1,23 +1,36 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { AlertProps, DialogProps, MembersFormProps } from '@/shared/components'
+import {
+  AlertProps,
+  DialogProps,
+  MemberModalProps,
+  MembersFormProps
+} from '@/shared/components'
 import { useAuthContext } from '@/shared/contexts'
 import {
   useMutationCreateMember,
   useMutationDeleteMember,
   useMutationUpdateMember,
-  useQueriesMembersAndBabas
+  useQueriesMembersAndBabasAndFinances
 } from '@/shared/react-query'
 import { useAlert, useDialog, useModal } from '@/shared/hooks'
-import { TMember } from '@/shared/types'
+import { TBaba, TFinance, TMember } from '@/shared/types'
 import { createdAt } from '@/shared/states'
-import { getElementValues, getElementsCheckedValues } from '@/shared/functions'
+import {
+  getElementValues,
+  getElementsCheckedValues,
+  getMemberStats
+} from '@/shared/functions'
 import { someBabaIncludesMember } from './functions'
 
 export function useMembers() {
   const { user, babaUser } = useAuthContext()
+  const [finances, setFinances] = useState<TFinance[]>([])
+  const [babas, setBabas] = useState<TBaba[]>([])
   const [members, setMembers] = useState<TMember[]>([])
   const [member, setMember] = useState<TMember>({} as TMember)
   const id = user?.uid || babaUser.id
+
+  const stats = member.id ? getMemberStats(babas, member.id) : null
 
   const {
     membersData,
@@ -25,8 +38,11 @@ export function useMembers() {
     isMembersError,
     babasData,
     babasIsPending,
-    isBabasError
-  } = useQueriesMembersAndBabas(id)
+    isBabasError,
+    financesData,
+    financesIsPending,
+    isFinancesError
+  } = useQueriesMembersAndBabasAndFinances(id)
 
   const {
     mutate: mutateCreate,
@@ -49,9 +65,14 @@ export function useMembers() {
 
   const { alert, setAlert, alertIsOpened, handleCloseAlert } = useAlert()
   const {
-    modalIsOpened,
-    handleOpenModal,
-    handleCloseModal: closeModal
+    modalIsOpened: memberFormIsOpened,
+    handleOpenModal: handleOpenMemberForm,
+    handleCloseModal: handleCloseMemberFormModal
+  } = useModal()
+  const {
+    modalIsOpened: memberStatsIsOpened,
+    handleOpenModal: handleOpenMemberStats,
+    handleCloseModal: handleCloseMemberStats
   } = useModal()
   const { dialog, dialogIsOpened, setDialog, handleCloseDialog } = useDialog()
 
@@ -59,26 +80,21 @@ export function useMembers() {
     'Verifique sua conexão com a internet ou atualize a página'
 
   useEffect(() => {
-    membersData && membersData.length > 0 && setMembers(membersData)
-  }, [membersData])
+    if (membersData && babasData && financesData) {
+      setMembers(membersData)
+      setBabas(babasData)
+      setFinances(financesData)
+    }
+  }, [membersData, babasData, financesData])
 
   useEffect(() => {
-    if (!isMembersError) return
-    setAlert({
-      severity: 'error',
-      title: 'Não foi possível buscar os membros',
-      description
-    })
-  }, [isMembersError])
-
-  useEffect(() => {
-    if (!isBabasError) return
+    if (!isMembersError || !isBabasError || !isFinancesError) return
     setAlert({
       severity: 'error',
       title: 'Não foi possível buscar os dados',
       description
     })
-  }, [isBabasError])
+  }, [isMembersError, isBabasError, isFinancesError])
 
   useEffect(() => {
     if (!isCreateError) return
@@ -129,7 +145,7 @@ export function useMembers() {
         member.id !== mutateDataUpdate.id ? member : mutateDataUpdate
       )
     )
-    handleCloseModal()
+    handleCloseMemberForm()
   }, [mutateDataUpdate])
 
   useEffect(() => {
@@ -142,18 +158,17 @@ export function useMembers() {
     setMembers((members) =>
       members.filter((member) => member.id !== mutateDataDelete)
     )
-    handleCloseModal()
+    handleCloseMemberForm()
   }, [mutateDataDelete])
 
-  const handleCloseModal = () => {
+  const handleCloseMemberForm = () => {
     setMember({} as TMember)
-    closeModal()
+    handleCloseMemberFormModal()
   }
 
-  const handleOpenModalUpdate = (member: TMember) => {
-    if (!user) return
+  const handleMemberClick = (member: TMember) => {
     setMember(member)
-    handleOpenModal()
+    !user ? handleOpenMemberStats() : handleOpenMemberForm()
   }
 
   const handleOpenDialogDelete = () => {
@@ -219,12 +234,21 @@ export function useMembers() {
   }
 
   const membersFormProps: MembersFormProps = {
-    isOpened: modalIsOpened,
+    isOpened: memberFormIsOpened,
     title: !member.id ? 'Cadastrar Membros' : 'Editar Membro',
     member,
-    handleClose: handleCloseModal,
+    handleClose: handleCloseMemberForm,
+    handleOpenMemberStats: handleOpenMemberStats,
     handleDelete: handleOpenDialogDelete,
     handleSubmit
+  }
+
+  const memberStatsProps: MemberModalProps = {
+    isOpened: memberStatsIsOpened,
+    finances,
+    member,
+    stats,
+    handleClose: handleCloseMemberStats
   }
 
   const alertProps: AlertProps = {
@@ -243,16 +267,18 @@ export function useMembers() {
   const isPending =
     membersIsPending ||
     babasIsPending ||
+    financesIsPending ||
     createIsPending ||
     updateIsPending ||
     deleteIsPending
 
   return {
     user,
-    membersFormProps,
-    handleOpenModal,
-    handleOpenModalUpdate,
     members,
+    handleOpenMemberForm,
+    handleMemberClick,
+    membersFormProps,
+    memberStatsProps,
     alertProps,
     dialogProps,
     isPending

@@ -3,6 +3,7 @@ import {
   Dialog,
   ExpandButton,
   Layout,
+  MemberModal,
   MembersForm,
   MembersList
 } from '@/shared/components'
@@ -11,6 +12,8 @@ import { useLimit } from '@/shared/hooks'
 import { separateMembers, sortMembersByName } from '@/shared/functions'
 import { useMembers } from './useMembers'
 
+const min = 5
+
 export function Members() {
   const {
     theme: { palette }
@@ -18,10 +21,11 @@ export function Members() {
 
   const {
     user,
-    membersFormProps,
-    handleOpenModal,
-    handleOpenModalUpdate,
     members,
+    handleOpenMemberForm,
+    handleMemberClick,
+    membersFormProps,
+    memberStatsProps,
     alertProps,
     dialogProps,
     isPending
@@ -33,7 +37,7 @@ export function Members() {
     limited: limitedNonMembers,
     isFull,
     handleLimit
-  } = useLimit(sortMembersByName(nonMembers), 5)
+  } = useLimit(sortMembersByName(nonMembers), min)
 
   return (
     <Layout title="Membros" isPending={isPending} alertProps={alertProps}>
@@ -44,7 +48,7 @@ export function Members() {
               title="Membros Fixos"
               members={sortMembersByName(fixedMembers)}
               color={palette.primary.main}
-              handleClick={handleOpenModalUpdate}
+              handleClick={handleMemberClick}
             />
           )}
           {goalkeepers.length !== 0 && (
@@ -52,7 +56,7 @@ export function Members() {
               title="Goleiros"
               members={sortMembersByName(goalkeepers)}
               color={palette.secondary.main}
-              handleClick={handleOpenModalUpdate}
+              handleClick={handleMemberClick}
             />
           )}
           {nonMembers.length !== 0 && (
@@ -61,9 +65,9 @@ export function Members() {
                 title="Membros Avulsos"
                 members={limitedNonMembers}
                 color={palette.secondary.light}
-                handleClick={handleOpenModalUpdate}
+                handleClick={handleMemberClick}
               />
-              {nonMembers.length > 5 && (
+              {nonMembers.length > min && (
                 <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
               )}
             </>
@@ -72,9 +76,14 @@ export function Members() {
       ) : (
         <Typography>Não há membros cadastrados</Typography>
       )}
+      <MemberModal {...memberStatsProps} />
       {user && (
         <>
-          <Button sx={{ my: 2 }} variant="outlined" onClick={handleOpenModal}>
+          <Button
+            sx={{ my: 2 }}
+            variant="outlined"
+            onClick={handleOpenMemberForm}
+          >
             Cadastrar Membros
           </Button>
           <MembersForm {...membersFormProps} />

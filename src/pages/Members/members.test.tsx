@@ -8,13 +8,15 @@ import {
   useMutationCreateMember,
   useMutationDeleteMember,
   useMutationUpdateMember,
-  useQueriesMembersAndBabas
+  useQueriesMembersAndBabasAndFinances
 } from '@/shared/react-query'
-import { TBaba, TBabaUser, TMember } from '@/shared/types'
+import { TBaba, TBabaUser, TFinance, TMember } from '@/shared/types'
 import { Members } from '.'
 
 jest.mock('../../shared/contexts/AuthContext/useAuth')
-jest.mock('../../shared/react-query/queries/useQueriesMembersAndBabas')
+jest.mock(
+  '../../shared/react-query/queries/useQueriesMembersAndBabasAndFinances'
+)
 jest.mock('../../shared/react-query/mutations/useMutationCreateMember')
 jest.mock('../../shared/react-query/mutations/useMutationUpdateMember')
 jest.mock('../../shared/react-query/mutations/useMutationDeleteMember')
@@ -121,30 +123,36 @@ function mockedUseAuthContextSetup(args: TUseAuthContext | object) {
   }))
 }
 
-type TUseQueriesMembersAndBabas = {
+type TUseQueriesMembersAndBabasAndFinances = {
   membersData: TMember[] | undefined
   membersIsPending: boolean
   isMembersError: boolean
   babasData: TBaba[] | undefined
   babasIsPending: boolean
   isBabasError: boolean
+  financesData: TFinance[] | undefined
+  financesIsPending: boolean
+  isFinancesError: boolean
 }
 
-const mockedUseQueriesMembersAndBabas =
-  useQueriesMembersAndBabas as unknown as jest.Mock<TUseQueriesMembersAndBabas>
+const mockedUseQueriesMembersAndBabasAndFinances =
+  useQueriesMembersAndBabasAndFinances as unknown as jest.Mock<TUseQueriesMembersAndBabasAndFinances>
 
-function mockedUseQueriesMembersAndBabasSetup(
-  args: TUseQueriesMembersAndBabas | object
+function mockedUseQueriesMembersAndBabasAndFinancesSetup(
+  args: TUseQueriesMembersAndBabasAndFinances | object
 ) {
-  const state: TUseQueriesMembersAndBabas = {
+  const state: TUseQueriesMembersAndBabasAndFinances = {
     membersData: mockedMembers,
     membersIsPending: false,
     isMembersError: false,
     babasData: mockedBabas,
     babasIsPending: false,
-    isBabasError: false
+    isBabasError: false,
+    financesData: [],
+    financesIsPending: false,
+    isFinancesError: false
   }
-  mockedUseQueriesMembersAndBabas.mockImplementation(() => ({
+  mockedUseQueriesMembersAndBabasAndFinances.mockImplementation(() => ({
     ...state,
     ...args
   }))
@@ -191,14 +199,14 @@ function Page() {
 describe('<Members />', () => {
   beforeEach(() => {
     mockedUseAuthContextSetup({})
-    mockedUseQueriesMembersAndBabasSetup({})
+    mockedUseQueriesMembersAndBabasAndFinancesSetup({})
     mockedUseMutationSetup(useMutationCreateMember, {})
     mockedUseMutationSetup(useMutationUpdateMember, {})
     mockedUseMutationSetup(useMutationDeleteMember, {})
   })
 
   it('should render empty list', () => {
-    mockedUseQueriesMembersAndBabasSetup({
+    mockedUseQueriesMembersAndBabasAndFinancesSetup({
       membersData: [],
       babasData: []
     })
@@ -231,7 +239,7 @@ describe('<Members />', () => {
     expect(
       screen.queryByRole('button', { name: /Ver mais/i })
     ).not.toBeInTheDocument()
-    mockedUseQueriesMembersAndBabasSetup({
+    mockedUseQueriesMembersAndBabasAndFinancesSetup({
       membersData: mockedMembers.map((member) => ({
         ...member,
         isFixedMember: false
@@ -435,28 +443,19 @@ describe('<Members />', () => {
     expect(screen.getByText('3 - João')).toBeInTheDocument()
   })
 
-  it('should render an alert message when there is an error getting the babas', async () => {
-    mockedUseQueriesMembersAndBabasSetup({
+  it('should render an alert message when there is an error getting the data', async () => {
+    mockedUseQueriesMembersAndBabasAndFinancesSetup({
+      membersData: undefined,
+      isMembersError: true,
       babasData: undefined,
-      isBabasError: true
+      isBabasError: true,
+      financesData: undefined,
+      isFinancesError: true
     })
     render(<Page />)
     await waitFor(() => {
       expect(
         screen.getByText('Não foi possível buscar os dados')
-      ).toBeInTheDocument()
-    })
-  })
-
-  it('should render an alert message when there is an error getting the members', async () => {
-    mockedUseQueriesMembersAndBabasSetup({
-      membersData: undefined,
-      isMembersError: true
-    })
-    render(<Page />)
-    await waitFor(() => {
-      expect(
-        screen.getByText('Não foi possível buscar os membros')
       ).toBeInTheDocument()
     })
   })
