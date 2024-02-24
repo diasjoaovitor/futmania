@@ -33,13 +33,13 @@ export function FinancesListItem({ finance, handleClick }: Props) {
       onClick={() => handleClick(finance)}
     >
       <div>
-        <Typography variant="caption" color="gray">
+        <Typography variant="caption" color={palette.gray}>
           {caption}
         </Typography>
         <Typography>{description}</Typography>
       </div>
       <Box textAlign="right">
-        <Typography variant="caption" color="gray">
+        <Typography variant="caption" color={palette.gray}>
           {getDayNumMonthExtensive(date)}
         </Typography>
         <Typography variant="h6">{formatCurrency(Number(value))}</Typography>
