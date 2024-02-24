@@ -29,7 +29,7 @@ const theme = (theme: Theme, color: 'error' | 'primary') =>
 export function InputDate({ date, color, handleChange }: Props) {
   return (
     <ThemeProvider theme={(t: Theme) => theme(t, color || 'primary')}>
-      <FormControl fullWidth>
+      <FormControl fullWidth className="InputDate">
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
           <DatePicker
             label="Data"
