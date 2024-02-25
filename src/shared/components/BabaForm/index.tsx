@@ -35,6 +35,7 @@ export function BabaForm({
     baba,
     member,
     handleDateChange,
+    handleAddMemberClick,
     handleMemberClick,
     handleMemberChange,
     handleChange,
@@ -82,6 +83,11 @@ export function BabaForm({
               )
             })}
             <ListItem disablePadding sx={{ my: 2 }}>
+              <Button onClick={() => handleAddMemberClick(teamIndex)}>
+                Adicionar Membro
+              </Button>
+            </ListItem>
+            <ListItem disablePadding sx={{ mb: 2 }}>
               <TextField
                 name="wins"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

@@ -12,6 +12,7 @@ export function useBabaForm({
 }) {
   const [member, setMember] = useState<[string, string | undefined]>(['', ''])
   const [baba, setBaba] = useState<TBaba>(b)
+  const [teamIndex, setTeamIndex] = useState(0)
 
   const { modalIsOpened, handleOpenModal, handleCloseModal } = useModal()
 
@@ -77,6 +78,11 @@ export function useBabaForm({
     })
   }
 
+  const handleAddMemberClick = (team: number) => {
+    setTeamIndex(team)
+    handleOpenModal()
+  }
+
   const handleCloseMembersModal = () => {
     const [prevMember, newMember] = member
     const teams = baba.teams.map((team) => ({
@@ -87,6 +93,8 @@ export function useBabaForm({
           )
         : team.members.filter(({ id }) => prevMember !== id)
     }))
+    if (!prevMember && newMember)
+      teams[teamIndex].members.push({ id: newMember, goals: 0 })
     setBaba({ ...baba, teams })
     handleCloseModal()
   }
@@ -95,6 +103,7 @@ export function useBabaForm({
     baba,
     member,
     handleDateChange,
+    handleAddMemberClick,
     handleMemberClick,
     handleMemberChange,
     handleChange,
