@@ -1,4 +1,5 @@
-import { TMember } from '@/shared/types'
+import { TBaba, TMember } from '@/shared/types'
+import { getMonth, getYear } from '..'
 
 function getElements(
   e: React.FormEvent<HTMLFormElement>,
@@ -30,4 +31,18 @@ export function getElementsCheckedValues(
 
 export function getMemberById(members: TMember[], id: string) {
   return members.find(({ id: _id }) => _id === id)
+}
+
+export function getDistinctValues(values: (string | number)[]) {
+  return Array.from(new Set(values))
+}
+
+export function getBabasInSeason(season: string, year: number, babas: TBaba[]) {
+  return babas.filter(({ date }) => {
+    const month = getMonth(date)
+    const y = getYear(date)
+    const [monthFrom, monthTo] = season.split('-')
+    const period = month >= Number(monthFrom) && month <= Number(monthTo)
+    return (period && getYear(date) === year) || (period && y === year)
+  })
 }
