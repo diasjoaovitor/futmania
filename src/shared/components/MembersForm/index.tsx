@@ -1,13 +1,13 @@
 import {
+  Box,
   Button,
-  FormControl,
+  Divider,
   FormControlLabel,
   FormGroup,
-  Switch,
-  TextField
+  Switch
 } from '@mui/material'
 import { TMember } from '@/shared/types'
-import { Modal } from '..'
+import { InputWithButton, Modal } from '..'
 import * as GS from '@/shared/styles'
 
 export type MembersFormProps = {
@@ -15,6 +15,7 @@ export type MembersFormProps = {
   title: string
   member: TMember
   handleClose(): void
+  handleOpenMemberStats(): void
   handleSubmit(e: React.FormEvent<HTMLFormElement>): void
   handleDelete(): void
 }
@@ -24,18 +25,26 @@ export function MembersForm({
   title,
   member: { id, name, isFixedMember, isGoalkeeper },
   handleClose,
+  handleOpenMemberStats,
   handleSubmit,
   handleDelete
 }: MembersFormProps) {
   return (
     <Modal title={title} isOpened={isOpened} handleClose={handleClose}>
       <form onSubmit={handleSubmit} role="form">
-        <FormControl sx={GS.ButtonGrid}>
-          <TextField name="name" label="Nome" defaultValue={name} required />
-          <Button type="submit" variant="contained">
-            Salvar
-          </Button>
-        </FormControl>
+        <InputWithButton
+          inputProps={{
+            name: 'name',
+            label: 'Nome',
+            defaultValue: name,
+            required: true
+          }}
+          buttonProps={{
+            children: 'Salvar',
+            type: 'submit',
+            variant: 'contained'
+          }}
+        />
         <FormGroup row>
           <FormControlLabel
             control={
@@ -51,9 +60,19 @@ export function MembersForm({
           />
         </FormGroup>
         {id && (
-          <Button variant="text" color="error" onClick={handleDelete}>
-            Excluir Membro
-          </Button>
+          <Box sx={GS.FlexRow}>
+            <Button
+              variant="text"
+              color="secondary"
+              onClick={handleOpenMemberStats}
+            >
+              Ver Estatísticas
+            </Button>
+            <Divider orientation="vertical" variant="middle" flexItem />
+            <Button variant="text" color="error" onClick={handleDelete}>
+              Excluir Membro
+            </Button>
+          </Box>
         )}
       </form>
     </Modal>
