@@ -7,11 +7,13 @@ describe('<MembersForm />', () => {
     const handleClose = jest.fn()
     const handleDelete = jest.fn()
     const handleSubmit = jest.fn()
+    const handleOpenMemberStats = jest.fn()
     const { rerender } = render(
       <MembersForm
         title="MembersForm"
         isOpened={true}
         member={{} as TMember}
+        handleOpenMemberStats={handleOpenMemberStats}
         handleClose={handleClose}
         handleDelete={handleDelete}
         handleSubmit={handleSubmit}
@@ -35,6 +37,7 @@ describe('<MembersForm />', () => {
             id: '1'
           } as TMember
         }
+        handleOpenMemberStats={handleOpenMemberStats}
         handleClose={handleClose}
         handleDelete={handleDelete}
         handleSubmit={handleSubmit}
