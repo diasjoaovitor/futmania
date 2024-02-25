@@ -9,7 +9,10 @@ import {
 } from '@mui/material'
 import { palette } from '@/shared/themes'
 import { TFinance, TMember } from '@/shared/types'
-import { someFinanceIncludesMember } from '@/shared/functions'
+import {
+  someFinanceIncludesMember,
+  sortMembersByName
+} from '@/shared/functions'
 import { memberIsChecked } from './functions'
 import * as GS from '@/shared/styles'
 
@@ -17,6 +20,7 @@ type Props = {
   title: string
   members: TMember[]
   checkedMembers: string[]
+  disabledMembers?: string[]
   finances: TFinance[]
   handleChange(e: ChangeEvent<HTMLInputElement>): void
 }
@@ -25,6 +29,7 @@ export function MembersCheckboxList({
   title,
   members,
   checkedMembers,
+  disabledMembers,
   finances,
   handleChange
 }: Props) {
@@ -33,7 +38,7 @@ export function MembersCheckboxList({
       <Typography component="h3" variant="h6" mb={2}>
         {title}
       </Typography>
-      {members.map((member) => (
+      {sortMembersByName(members).map((member) => (
         <ListItem
           key={member.id}
           sx={GS.Li(
@@ -49,6 +54,10 @@ export function MembersCheckboxList({
                   checked={memberIsChecked(checkedMembers, member.id as string)}
                   value={member.id}
                   onChange={handleChange}
+                  disabled={
+                    disabledMembers &&
+                    memberIsChecked(disabledMembers, member.id as string)
+                  }
                 />
               }
               label={member.name}
