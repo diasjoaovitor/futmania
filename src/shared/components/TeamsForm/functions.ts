@@ -29,6 +29,7 @@ export function drawTeams(
         members.length === minLenght ? index : null
       )
       .filter((i) => i !== null)
+      .slice(0, members.length)
     const index =
       possibleTeamsIndex[Math.floor(Math.random() * possibleTeamsIndex.length)]
     const member = mbs[mbs.length - 1]
