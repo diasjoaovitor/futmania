@@ -10,8 +10,9 @@ export const seasons = ['0-3', '4-7', '8-11']
 
 export const currentSeason = seasons.find((season) => {
   const [monthFrom] = season.split('-')
-  return new Array(4)
-    .fill(-1)
-    .map(() => Number(monthFrom) + 1)
+  const currentSeason = new Array(4)
+    .fill(0)
+    .map((_, index) => Number(monthFrom) + index)
     .includes(dayjs(currentDate).month())
+  return currentSeason
 }) as string
