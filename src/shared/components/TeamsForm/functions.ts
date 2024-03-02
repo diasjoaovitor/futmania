@@ -29,9 +29,12 @@ export function drawTeams(
         members.length === minLenght ? index : null
       )
       .filter((i) => i !== null)
+      .sort((a, b) => (a && b ? a - b : 1))
       .slice(0, members.length)
     const index =
-      possibleTeamsIndex[Math.floor(Math.random() * possibleTeamsIndex.length)]
+      possibleTeamsIndex[
+        Math.floor(Math.random() * (possibleTeamsIndex.length - 1))
+      ]
     const member = mbs[mbs.length - 1]
     tms = tms.map((team, i) => {
       return index !== i
