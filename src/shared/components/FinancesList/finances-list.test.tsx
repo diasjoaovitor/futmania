@@ -1,16 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { TFinance } from '@/shared/types'
+import { mockedFinance } from '@/shared/tests'
 import { FinancesList } from '.'
-
-const mockedFinance: TFinance = {
-  createdAt: '2023',
-  date: '2023-12-24',
-  description: 'A Finance',
-  type: '+',
-  userId: 'abc',
-  value: 10,
-  id: '1'
-}
 
 describe('<FinancesList />', () => {
   it('should render the heading and empty list', () => {
@@ -38,7 +28,7 @@ describe('<FinancesList />', () => {
         handleClick={jest.fn()}
       />
     )
-    expect(screen.getByText('A Finance')).toBeInTheDocument()
+    expect(screen.getByText('First Income')).toBeInTheDocument()
     expect(screen.getByText('Another Finance')).toBeInTheDocument()
   })
 })

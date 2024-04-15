@@ -1,34 +1,7 @@
-import { TFrequency, TStats } from '@/shared/functions'
-import { TMember } from '@/shared/types'
+import { TStats } from '@/shared/functions'
+import { mockedFrequency, mockedMember } from '..'
 
-const mockedFrequency: TFrequency[] = [
-  {
-    date: '2024-02-14',
-    showedUp: false
-  },
-  {
-    date: '2024-02-04',
-    showedUp: true
-  },
-  {
-    date: '2024-01-21',
-    showedUp: false
-  },
-  {
-    date: '2024-01-14',
-    showedUp: true
-  }
-]
-
-const mockedMember: TMember = {
-  createdAt: '2023',
-  isFixedMember: true,
-  isGoalkeeper: false,
-  name: 'João',
-  userId: 'abc'
-}
-
-const mockedMemberStats: TStats = {
+export const mockedMemberStats: TStats = {
   ...mockedMember,
   frequency: [],
   goals: 0,

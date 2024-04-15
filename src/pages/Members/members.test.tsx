@@ -11,6 +11,7 @@ import {
   useQueriesMembersAndBabasAndFinances
 } from '@/shared/react-query'
 import { TBaba, TBabaUser, TFinance, TMember } from '@/shared/types'
+import { mockedBabas, mockedMember, mockedMembers } from '@/shared/tests'
 import { Members } from '.'
 
 jest.mock('../../shared/contexts/AuthContext/useAuth')
@@ -20,84 +21,6 @@ jest.mock(
 jest.mock('../../shared/react-query/mutations/useMutationCreateMember')
 jest.mock('../../shared/react-query/mutations/useMutationUpdateMember')
 jest.mock('../../shared/react-query/mutations/useMutationDeleteMember')
-
-const member: TMember = {
-  createdAt: '2023',
-  isFixedMember: true,
-  isGoalkeeper: false,
-  name: 'João',
-  userId: 'a',
-  id: '1'
-}
-
-const mockedMembers: TMember[] = [
-  {
-    ...member
-  },
-  {
-    ...member,
-    name: 'Vitor',
-    isGoalkeeper: true,
-    id: '2'
-  },
-  {
-    ...member,
-    name: 'Pedro',
-    isFixedMember: false,
-    id: '3'
-  },
-  {
-    ...member,
-    name: 'Abel',
-    id: '4'
-  },
-  {
-    ...member,
-    name: 'Endrick',
-    id: '5'
-  },
-  {
-    ...member,
-    name: 'Dudu',
-    isFixedMember: false,
-    id: '6'
-  },
-  {
-    ...member,
-    name: 'Weverton',
-    isGoalkeeper: true,
-    id: '7'
-  }
-]
-
-const mockedBabas: TBaba[] = [
-  {
-    createdAt: '2023',
-    date: '2023',
-    teams: [
-      {
-        draws: 1,
-        members: [
-          {
-            goals: 1,
-            id: '1'
-          },
-          {
-            goals: 2,
-            id: '2'
-          },
-          {
-            goals: 3,
-            id: '3'
-          }
-        ],
-        name: 'Team 1',
-        wins: 2
-      }
-    ],
-    userId: 'a'
-  }
-]
 
 type TUseAuthContext = {
   user: User | null
@@ -271,7 +194,7 @@ describe('<Members />', () => {
     expect(name.value).toBe('')
     mockedUseMutationSetup(useMutationCreateMember, {
       data: {
-        ...member,
+        ...mockedMember,
         name: 'Gustavo Gomes',
         id: '8'
       }
@@ -308,7 +231,7 @@ describe('<Members />', () => {
     expect(isFixedMember.checked).toBe(true)
     mockedUseMutationSetup(useMutationUpdateMember, {
       data: {
-        ...member,
+        ...mockedMember,
         name: 'João Dias',
         isFixedMember: false
       }
@@ -341,7 +264,7 @@ describe('<Members />', () => {
     expect(name.value).toBe('')
     mockedUseMutationSetup(useMutationCreateMember, {
       data: {
-        ...member,
+        ...mockedMember,
         name: 'Gustavo Gomes',
         id: '8'
       }

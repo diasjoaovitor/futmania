@@ -1,19 +1,17 @@
 import { render, screen } from '@testing-library/react'
-import { Babas } from '.'
-import { TBaba, TBabaUser, TMember } from '@/shared/types'
-import { useAuth as useAuthContext } from '@/shared/contexts/AuthContext/useAuth'
-import { useQueriesMembersAndBabasAndFinances } from '@/shared/react-query'
-import { AuthProvider } from '@/shared/contexts'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { TBaba, TBabaUser, TFinance, TMember } from '@/shared/types'
+import { useAuth as useAuthContext } from '@/shared/contexts/AuthContext/useAuth'
+import { AuthProvider } from '@/shared/contexts'
+import { getBabas, getFinances, getMembers } from '@/shared/firebase'
+import { Babas } from '.'
 
 jest.mock('../../shared/contexts/AuthContext/useAuth')
-jest.mock(
-  '../../shared/react-query/queries/useQueriesMembersAndBabasAndFinances'
-)
+jest.mock('../../shared/firebase')
 
-const mockedMembers: TMember[] = []
-
-const mockedBabas: TBaba[] = []
+const mockedGetMembers = getMembers as jest.Mock<Promise<TMember[]>>
+const mockedGetBabas = getBabas as jest.Mock<Promise<TBaba[]>>
+const mockedGetFinances = getFinances as jest.Mock<Promise<TFinance[]>>
 
 type TUseAuthContext = {
   user: null
@@ -39,41 +37,14 @@ function mockedUseAuthContextSetup(args: TUseAuthContext | object) {
   }))
 }
 
-type TUseQueriesMembersAndBabas = {
-  membersData: TMember[] | undefined
-  membersIsPending: boolean
-  isMembersError: boolean
-  babasData: TBaba[] | undefined
-  babasIsPending: boolean
-  isBabasError: boolean
-}
-
-const mockedUseQueriesMembersAndBabasAndFinances =
-  useQueriesMembersAndBabasAndFinances as unknown as jest.Mock<TUseQueriesMembersAndBabas>
-
-function mockedUseQueriesMembersAndBabasAndFinancesSetup(
-  args: TUseQueriesMembersAndBabas | object
-) {
-  const state: TUseQueriesMembersAndBabas = {
-    membersData: mockedMembers,
-    membersIsPending: false,
-    isMembersError: false,
-    babasData: mockedBabas,
-    babasIsPending: false,
-    isBabasError: false
-  }
-  mockedUseQueriesMembersAndBabasAndFinances.mockImplementation(() => ({
-    ...state,
-    ...args
-  }))
-}
-
 const client = new QueryClient()
 
 describe('<Babas />', () => {
   beforeEach(() => {
     mockedUseAuthContextSetup({})
-    mockedUseQueriesMembersAndBabasAndFinancesSetup({})
+    mockedGetMembers.mockImplementation(() => Promise.resolve([]))
+    mockedGetBabas.mockImplementation(() => Promise.resolve([]))
+    mockedGetFinances.mockImplementation(() => Promise.resolve([]))
   })
 
   it('should render the heading', () => {

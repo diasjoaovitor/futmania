@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import { BabaLeaderboardRow } from '..'
-import { mockedMembers, mockedTeam } from './mocks'
+import { mockedMembers, mockedTeams } from '@/shared/tests'
+import { BabaLeaderboardRow } from '.'
 
 describe('<BabaLeaderboardRow />', () => {
   it('should render component', () => {
@@ -9,7 +9,7 @@ describe('<BabaLeaderboardRow />', () => {
       <table>
         <tbody>
           <BabaLeaderboardRow
-            team={mockedTeam}
+            team={mockedTeams[0]}
             members={mockedMembers}
             handleClick={handleClick}
           />
@@ -21,7 +21,7 @@ describe('<BabaLeaderboardRow />', () => {
       within(teamCols).getAllByRole('cell')
     const expandButton = within(teamFirstCol).getByRole('button')
     expect(within(expandButton).getByTestId('ExpandMoreIcon'))
-    expect(teamFirstCol.textContent).toBe('Time 1')
+    expect(teamFirstCol.textContent).toBe('Team 1')
     expect(teamSecondCol.textContent).toBe('8')
     expect(teamThirdCol.textContent).toBe('2')
     expect(teamFourthCol.textContent).toBe('2')
@@ -32,13 +32,8 @@ describe('<BabaLeaderboardRow />', () => {
     expect(firstCol.textContent).toBe('Nome')
     expect(secondCol.textContent).toBe('Gols')
 
-    const [
-      _,
-      firstMemberRow,
-      secondMemberRow,
-      thirdMemberRow,
-      fourthMemberRow
-    ] = within(membersRow).getAllByRole('row')
+    const [, firstMemberRow, secondMemberRow] =
+      within(membersRow).getAllByRole('row')
 
     const [firstMemberName, firstMemberGoals] =
       within(firstMemberRow).getAllByRole('cell')
@@ -47,17 +42,7 @@ describe('<BabaLeaderboardRow />', () => {
 
     const [secondMemberName, secondMemberGoals] =
       within(secondMemberRow).getAllByRole('cell')
-    expect(secondMemberName.textContent).toBe('Abel')
-    expect(secondMemberGoals.textContent).toBe('1')
-
-    const [thirdMemberName, thirdMemberGoals] =
-      within(thirdMemberRow).getAllByRole('cell')
-    expect(thirdMemberName.textContent).toBe('Vitor')
-    expect(thirdMemberGoals.textContent).toBe('0')
-
-    const [fourthMemberName, fourthMemberGoals] =
-      within(fourthMemberRow).getAllByRole('cell')
-    expect(fourthMemberName.textContent).toBe('Pedro')
-    expect(fourthMemberGoals.textContent).toBe('0')
+    expect(secondMemberName.textContent).toBe('Vitor')
+    expect(secondMemberGoals.textContent).toBe('0')
   })
 })

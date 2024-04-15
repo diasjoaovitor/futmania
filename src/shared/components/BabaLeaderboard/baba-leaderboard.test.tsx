@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
-import { BabaLeaderboard } from '..'
-import { mockedBaba, mockedMembers } from './mocks'
+import { mockedBaba, mockedMembers } from '@/shared/tests'
+import { BabaLeaderboard } from '.'
 
 describe('<BabaLeaderboard />', () => {
   it('should render ordered teams with correctly scoring', () => {
@@ -28,7 +28,7 @@ describe('<BabaLeaderboard />', () => {
       firstTeamThirdCol,
       firstTeamFourthCol
     ] = within(firstTeamRow).getAllByRole('cell')
-    expect(firstTeamFirstCol.textContent).toBe('Time 3')
+    expect(firstTeamFirstCol.textContent).toBe('Team 3')
     expect(firstTeamSecondCol.textContent).toBe('9')
     expect(firstTeamThirdCol.textContent).toBe('3')
     expect(firstTeamFourthCol.textContent).toBe('0')
@@ -39,7 +39,7 @@ describe('<BabaLeaderboard />', () => {
       secondTeamThirdCol,
       secondTeamFourthCol
     ] = within(secondTeamRow).getAllByRole('cell')
-    expect(secondTeamFirstCol.textContent).toBe('Time 1')
+    expect(secondTeamFirstCol.textContent).toBe('Team 1')
     expect(secondTeamSecondCol.textContent).toBe('8')
     expect(secondTeamThirdCol.textContent).toBe('2')
     expect(secondTeamFourthCol.textContent).toBe('2')
@@ -50,7 +50,7 @@ describe('<BabaLeaderboard />', () => {
       thirdTeamThirdCol,
       thirdTeamFourthCol
     ] = within(thirdTeamRow).getAllByRole('cell')
-    expect(thirdTeamFirstCol.textContent).toBe('Time 2')
+    expect(thirdTeamFirstCol.textContent).toBe('Team 2')
     expect(thirdTeamSecondCol.textContent).toBe('5')
     expect(thirdTeamThirdCol.textContent).toBe('1')
     expect(thirdTeamFourthCol.textContent).toBe('2')

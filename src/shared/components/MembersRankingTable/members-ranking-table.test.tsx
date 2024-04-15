@@ -11,7 +11,9 @@ describe('<MembersRankingTable />', () => {
         isFull={true}
         handleLimit={handleLimit}
       >
-        content
+        <tr>
+          <td>content</td>
+        </tr>
       </MembersRankingTable>
     )
     expect(

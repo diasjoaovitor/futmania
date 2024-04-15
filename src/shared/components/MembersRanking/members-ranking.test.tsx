@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { MembersRanking } from '..'
-import { mockedStats } from './mocks'
+import { mockedStats } from '@/shared/tests'
+import { MembersRanking } from '.'
 
 describe('<MembersRanking />', () => {
   it('should render the headings and call handleClick after click', () => {

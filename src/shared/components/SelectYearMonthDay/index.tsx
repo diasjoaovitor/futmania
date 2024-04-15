@@ -5,6 +5,7 @@ import {
   sortNumberDesc
 } from '@/shared/functions'
 import { months } from '@/shared/states'
+import { SelectYear } from '../SelectYear'
 
 type Props = {
   year: number
@@ -44,13 +45,7 @@ export function SelectYearMonthDay({
           </MenuItem>
         ))}
       </Select>
-      <Select name="year" value={String(year)} onChange={handleChange}>
-        {sortNumberDesc(years).map((year) => (
-          <MenuItem key={year} value={year}>
-            {year}
-          </MenuItem>
-        ))}
-      </Select>
+      <SelectYear year={year} years={years} handleChange={handleChange} />
     </Box>
   )
 }

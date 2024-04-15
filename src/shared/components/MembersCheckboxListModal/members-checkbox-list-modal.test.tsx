@@ -1,31 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
-import { TMember } from '@/shared/types'
 import { MembersCheckboxListModal } from '.'
-
-const mockedMember: TMember = {
-  createdAt: '2023',
-  isFixedMember: true,
-  isGoalkeeper: false,
-  name: 'João',
-  userId: 'abc',
-  id: '1'
-}
-
-const mockedMembers: TMember[] = [
-  mockedMember,
-  {
-    ...mockedMember,
-    name: 'Vitor',
-    isFixedMember: false,
-    id: '2'
-  },
-  {
-    ...mockedMember,
-    name: 'Dias',
-    isGoalkeeper: true,
-    id: '3'
-  }
-]
+import { mockedMembers } from '@/shared/tests'
 
 describe('<Members Checkbox List Modal />', () => {
   it('should render the heading', () => {
@@ -47,8 +22,8 @@ describe('<Members Checkbox List Modal />', () => {
     expect(within(members).getByText('Membros Fixos'))
     expect(within(members).getByText('João'))
     expect(within(goalkeepers).getByText('Goleiros'))
-    expect(within(goalkeepers).getByText('Dias'))
+    expect(within(goalkeepers).getByText('Vitor'))
     expect(within(nonMembers).getByText('Membros Avulsos'))
-    expect(within(nonMembers).getByText('Vitor'))
+    expect(within(nonMembers).getByText('Pedro'))
   })
 })

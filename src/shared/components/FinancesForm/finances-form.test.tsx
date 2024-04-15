@@ -3,17 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from '@/shared/contexts'
 import { TFinance } from '@/shared/types'
 import { palette } from '@/shared/themes'
+import { mockedFinance } from '@/shared/tests'
 import { FinancesForm } from '.'
-
-const mockedFinance: TFinance = {
-  createdAt: '2023',
-  date: '2023-12-26',
-  description: 'An Finance',
-  type: '-',
-  userId: 'abc',
-  value: 10,
-  id: '1'
-}
 
 function Component({
   finance,
@@ -52,7 +43,7 @@ describe('<FinancesForm />', () => {
     const handleSubmit = jest.fn()
     render(
       <Component
-        finance={{ ...mockedFinance, id: undefined }}
+        finance={{ ...mockedFinance, id: undefined, type: '-' }}
         handleChange={handleChange}
         handleDelete={jest.fn()}
         handleSubmit={handleSubmit}
@@ -86,7 +77,7 @@ describe('<FinancesForm />', () => {
     const handleDelete = jest.fn()
     render(
       <Component
-        finance={{ ...mockedFinance, id: undefined, type: '+' }}
+        finance={{ ...mockedFinance, id: undefined }}
         handleChange={handleChange}
         handleDelete={handleDelete}
         handleSubmit={jest.fn()}

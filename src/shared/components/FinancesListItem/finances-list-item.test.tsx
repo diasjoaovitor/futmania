@@ -1,17 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { TFinance } from '@/shared/types'
 import { palette } from '@/shared/themes'
+import { mockedFinance } from '@/shared/tests'
 import { FinancesListItem } from '.'
-
-const mockedFinance: TFinance = {
-  createdAt: '2023',
-  date: '2023-12-24',
-  description: 'A Finance',
-  type: '+',
-  userId: 'abc',
-  value: 10,
-  id: '1'
-}
 
 describe('<FinancesListItem />', () => {
   it('should render income finance with correctly presentation', () => {
@@ -20,8 +10,8 @@ describe('<FinancesListItem />', () => {
       <FinancesListItem finance={mockedFinance} handleClick={handleClick} />
     )
     expect(screen.getByText('Receita')).toBeInTheDocument()
-    expect(screen.getByText('24 de dezembro')).toBeInTheDocument()
-    expect(screen.getByText('A Finance')).toBeInTheDocument()
+    expect(screen.getByText('12 de dezembro')).toBeInTheDocument()
+    expect(screen.getByText('First Income')).toBeInTheDocument()
     const li = screen.getByRole('listitem')
     expect(li).toHaveStyle(`border-color: ${palette.blue}`)
     fireEvent.click(li)

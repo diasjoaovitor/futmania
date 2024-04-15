@@ -6,7 +6,14 @@ import { useQueryUser } from '@/shared/react-query'
 import { useAlert } from '@/shared/hooks'
 import { AlertProps } from '@/shared/components'
 
-export function useAuth() {
+export type TUseAuthContext = {
+  user: User | null
+  babaUser: TBabaUser
+  isLoading: boolean
+  alertProps: AlertProps
+}
+
+export function useAuth(): TUseAuthContext {
   const [user, setUser] = useState<User | null>(null)
   const [babaUser, setBabaUser] = useState<TBabaUser>({
     name: 'Baba do Iecem',

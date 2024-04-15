@@ -1,25 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { TMember } from '@/shared/types'
+import { mockedMembers } from '@/shared/tests'
 import { MembersList } from '.'
 
-const mockedMembers: TMember[] = [
-  {
-    createdAt: '2023',
-    isFixedMember: true,
-    isGoalkeeper: false,
-    name: 'João',
-    userId: 'a',
-    id: '1'
-  },
-  {
-    createdAt: '2023',
-    isFixedMember: true,
-    isGoalkeeper: false,
-    name: 'Vitor',
-    userId: 'a',
-    id: '2'
-  }
-]
 describe('<MembersList />', () => {
   it('should render component', () => {
     const handleClick = jest.fn()
