@@ -1,5 +1,6 @@
 import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { getMonthExtensive, sortNumberDesc } from '@/shared/functions'
+import { SelectYear } from '../SelectYear'
 import { months } from '@/shared/states'
 
 type Props = {
@@ -24,13 +25,7 @@ export function SelectYearMonth({ year, years, month, handleChange }: Props) {
           </MenuItem>
         ))}
       </Select>
-      <Select name="year" value={String(year)} onChange={handleChange}>
-        {sortNumberDesc(years).map((year) => (
-          <MenuItem key={year} value={year}>
-            {year}
-          </MenuItem>
-        ))}
-      </Select>
+      <SelectYear year={year} years={years} handleChange={handleChange} />
     </Box>
   )
 }
