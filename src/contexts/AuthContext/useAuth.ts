@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { User } from 'firebase/auth'
-import { authConfig } from '@/firebase'
+import { authConfig } from '@/config'
 import { TBabaUser } from '@/types'
 import { useQueryUser } from '@/react-query'
 import { useAlert } from '@/hooks'

@@ -7,7 +7,7 @@ import {
   writeBatch
 } from 'firebase/firestore'
 import { v4 as uuid } from 'uuid'
-import { db } from '.'
+import { db } from '@/config'
 import { TBaba, TFinance, TMember } from '@/types'
 
 export async function createMember(member: TMember) {
