@@ -4,22 +4,22 @@ import {
   DialogProps,
   MemberModalProps,
   MembersFormProps
-} from '@/shared/components'
-import { useAuthContext } from '@/shared/contexts'
+} from '@/components'
+import { useAuthContext } from '@/contexts'
 import {
   useMutationCreateMember,
   useMutationDeleteMember,
   useMutationUpdateMember,
   useQueriesMembersAndBabasAndFinances
-} from '@/shared/react-query'
-import { useAlert, useDialog, useModal } from '@/shared/hooks'
-import { TBaba, TFinance, TMember } from '@/shared/types'
-import { createdAt } from '@/shared/states'
+} from '@/react-query'
+import { useAlert, useDialog, useModal } from '@/hooks'
+import { TBaba, TFinance, TMember } from '@/types'
+import { createdAt } from '@/states'
 import {
   getElementValues,
   getElementsCheckedValues,
   getMemberStats
-} from '@/shared/functions'
+} from '@/functions'
 import { someBabaIncludesMember } from './functions'
 
 export function useMembers() {

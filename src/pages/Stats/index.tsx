@@ -1,10 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import {
-  Layout,
-  MemberModal,
-  MembersRanking,
-  SelectSeason
-} from '@/shared/components'
+import { Layout, MemberModal, MembersRanking, SelectSeason } from '@/components'
 import { useStats } from './useStats'
 import * as S from './style'
 

@@ -1,5 +1,5 @@
 import { CSSObject, SxProps, Theme } from '@mui/material'
-import * as GS from '@/shared/styles'
+import * as GS from '@/styles'
 
 export const Wrapper: SxProps<Theme> = {
   height: '100vh',

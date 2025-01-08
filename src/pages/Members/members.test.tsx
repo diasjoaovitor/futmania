@@ -2,16 +2,16 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { User } from 'firebase/auth'
-import { AuthProvider, ThemeProvider } from '@/shared/contexts'
-import { useAuth as useAuthContext } from '@/shared/contexts/AuthContext/useAuth'
+import { AuthProvider, ThemeProvider } from '@/contexts'
+import { useAuth as useAuthContext } from '@/contexts/AuthContext/useAuth'
 import {
   useMutationCreateMember,
   useMutationDeleteMember,
   useMutationUpdateMember,
   useQueriesMembersAndBabasAndFinances
-} from '@/shared/react-query'
-import { TBaba, TBabaUser, TFinance, TMember } from '@/shared/types'
-import { mockedBabas, mockedMember, mockedMembers } from '@/shared/tests'
+} from '@/react-query'
+import { TBaba, TBabaUser, TFinance, TMember } from '@/types'
+import { mockedBabas, mockedMember, mockedMembers } from '@/tests'
 import { Members } from '.'
 
 jest.mock('../../shared/contexts/AuthContext/useAuth')

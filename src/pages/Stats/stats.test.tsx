@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { AuthProvider } from '@/shared/contexts'
-import { useAuth as useAuthContext } from '@/shared/contexts/AuthContext/useAuth'
+import { AuthProvider } from '@/contexts'
+import { useAuth as useAuthContext } from '@/contexts/AuthContext/useAuth'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { TBabaUser } from '@/shared/types'
+import { TBabaUser } from '@/types'
 import { Stats } from '.'
 
 jest.mock('../../shared/contexts/AuthContext/useAuth')

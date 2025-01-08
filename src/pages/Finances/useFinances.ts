@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
 import { SelectChangeEvent } from '@mui/material'
-import { AlertProps, DialogProps, FinancesFormProps } from '@/shared/components'
+import { AlertProps, DialogProps, FinancesFormProps } from '@/components'
 import {
   useMutationCreateFinance,
   useMutationCreateFinances,
@@ -9,12 +9,12 @@ import {
   useMutationUpdateFinance,
   useQueryFinances,
   useQueryMembers
-} from '@/shared/react-query'
-import { useAuthContext } from '@/shared/contexts'
-import { getMemberById, getMonth, getYear } from '@/shared/functions'
-import { useAlert, useDialog, useModal } from '@/shared/hooks'
-import { TFinance, TMember } from '@/shared/types'
-import { currentDate } from '@/shared/states'
+} from '@/react-query'
+import { useAuthContext } from '@/contexts'
+import { getMemberById, getMonth, getYear } from '@/functions'
+import { useAlert, useDialog, useModal } from '@/hooks'
+import { TFinance, TMember } from '@/types'
+import { currentDate } from '@/states'
 import { defaultFinanceState } from './states'
 import { getPayments, getWallet } from './functions'
 
@@ -255,13 +255,13 @@ export function useFinances() {
         case 1:
           return `Pagamento de ${getMemberById(members, id)?.name}`
         case 2:
-          return `Pagamento de ${getMemberById(members, id)
-            ?.name} e um outro membro`
+          return `Pagamento de ${
+            getMemberById(members, id)?.name
+          } e um outro membro`
         default:
-          return `Pagamento de ${getMemberById(
-            members,
-            finance.memberId || checked[0]
-          )?.name} e outros ${checked.length - 1} membros`
+          return `Pagamento de ${
+            getMemberById(members, finance.memberId || checked[0])?.name
+          } e outros ${checked.length - 1} membros`
       }
     }
     setFinance((finance) => ({

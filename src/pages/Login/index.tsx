@@ -8,7 +8,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { Alert, Loader, Logo } from '@/shared/components'
+import { Alert, Loader, Logo } from '@/components'
 import { useLogin } from './useLogin'
 import { inputs } from './inputs'
 import * as S from './style'
