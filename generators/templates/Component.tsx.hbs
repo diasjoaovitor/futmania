@@ -1,10 +1,13 @@
-import { Box, Typography } from '@mui/material'
-import * as S from './style'
+import { ReactNode } from 'react'
+import { Box } from '@mui/material'
+import * as S from './styles'
 
-export function {{pascalCase name}}() {
+type T{{pascalCase name}}Props = {
+  children: ReactNode
+}
+
+export const {{pascalCase name}} = ({ children }: T{{pascalCase name}}Props) => {
   return (
-    <Box sx={S.Wrapper}>
-      <Typography component="h1">{{pascalCase name}}</Typography>
-    </Box>
+    <Box sx={S.Wrapper}>{children}</Box>
   )
 }
