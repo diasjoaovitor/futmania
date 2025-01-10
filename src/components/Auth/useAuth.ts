@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { logout } from '@/firebase'
+import { AuthService } from '@/services'
+
+const authService = new AuthService()
 
 export function useAuth() {
   const navigate = useNavigate()
@@ -9,7 +11,7 @@ export function useAuth() {
   }
 
   const handleLogout = async () => {
-    await logout()
+    await authService.signOut()
   }
 
   return { handleLogin, handleLogout }
