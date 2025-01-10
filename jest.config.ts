@@ -10,13 +10,13 @@ export default {
     '!src/**/use*.ts',
     '!src/**/nav-items.ts',
     '!src/**/inputs.ts',
-    '!src/shared/icons/*',
-    '!src/shared/themes/*',
-    '!src/shared/firebase/*',
-    '!src/shared/states/*',
-    '!src/shared/functions/getters/*'
+    '!src/icons/*',
+    '!src/themes/*',
+    '!src/firebase/*',
+    '!src/states/*',
+    '!src/functions/getters/*'
   ],
-  setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   modulePaths: ['<rootDir>/src/'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': [
@@ -33,6 +33,6 @@ export default {
     ]
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/shared$1'
+    '^@/(.*)$': '<rootDir>/src/$1'
   }
 }
