@@ -1,9 +1,7 @@
-import { HTMLInputTypeAttribute } from 'react'
-
 export type TLoginInput = {
   label: string
-  name: string
-  type: HTMLInputTypeAttribute
+  name: 'email' | 'password'
+  type: 'email' | 'password'
 }
 
 export const inputs: TLoginInput[] = [
