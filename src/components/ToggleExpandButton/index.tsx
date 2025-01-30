@@ -1,11 +1,15 @@
-import { IconButton, Typography } from '@mui/material'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import { IconButton, Typography } from '@mui/material'
 
-type Props = {
+type TToggleExpandButtonProps = {
   isExpanded: boolean
   handleClick(): void
 }
-export function ExpandButton({ isExpanded, handleClick }: Props) {
+
+export const ToggleExpandButton = ({
+  isExpanded,
+  handleClick
+}: TToggleExpandButtonProps) => {
   const button = !isExpanded
     ? {
         title: 'Ver mais',
