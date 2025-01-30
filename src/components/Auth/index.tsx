@@ -1,21 +1,44 @@
-import { Login, Logout } from '@mui/icons-material'
-import { ListItemButton } from '@mui/material'
-import { useAuthContext } from '@/contexts'
-import { useAuth } from './useAuth'
+import { ReactNode } from 'react'
+import * as yup from 'yup'
 
-export function Auth() {
-  const { user } = useAuthContext()
-  const { handleLogin, handleLogout } = useAuth()
+import { AuthLayout, Loader } from '@/components'
 
-  return !user?.uid ? (
-    <ListItemButton onClick={handleLogin}>
-      <Login />
-      Login
-    </ListItemButton>
-  ) : (
-    <ListItemButton onClick={handleLogout}>
-      <Logout />
-      Logout
-    </ListItemButton>
+import { Form } from './Form'
+import { TAuthFormInput } from './types'
+import { useComponentHandler } from './use-component-handler'
+
+type TAuthProps = {
+  title: string
+  buttonText: string
+  schema: yup.AnyObjectSchema
+  inputs: TAuthFormInput[]
+  fn: (params: any) => Promise<void>
+  LinkGroup: () => ReactNode
+  children?: ReactNode
+}
+
+export const Auth = ({
+  title,
+  buttonText,
+  schema,
+  inputs,
+  fn,
+  LinkGroup
+}: TAuthProps) => {
+  const { isPending, handleSubmit } = useComponentHandler(fn)
+
+  return (
+    <AuthLayout title={title}>
+      <>
+        <Form
+          buttonText={buttonText}
+          schema={schema}
+          inputs={inputs}
+          handleSubmit={handleSubmit}
+        />
+        <LinkGroup />
+        <Loader open={isPending} />
+      </>
+    </AuthLayout>
   )
 }
