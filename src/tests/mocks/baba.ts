@@ -1,4 +1,4 @@
-import { TBaba, TTeam } from '@/types'
+import { TBabaModel, TTeam } from '@/models'
 
 export const mockedTeams: TTeam[] = [
   {
@@ -7,11 +7,11 @@ export const mockedTeams: TTeam[] = [
     wins: 2,
     members: [
       {
-        id: '1', // João
+        memberId: '1', // João
         goals: 2
       },
       {
-        id: '2', // Vitor
+        memberId: '2', // Vitor
         goals: 0
       }
     ]
@@ -22,11 +22,11 @@ export const mockedTeams: TTeam[] = [
     wins: 1,
     members: [
       {
-        id: '3', // Pedro
+        memberId: '3', // Pedro
         goals: 0
       },
       {
-        id: '4', // Abel
+        memberId: '4', // Abel
         goals: 1
       }
     ]
@@ -37,39 +37,36 @@ export const mockedTeams: TTeam[] = [
     wins: 3,
     members: [
       {
-        id: '5', // Endrick
+        memberId: '5', // Endrick
         goals: 2
       },
       {
-        id: '6', // Dudu
+        memberId: '6', // Dudu
         goals: 1
       }
     ]
   }
 ]
 
-export const mockedBaba: TBaba = {
+export const mockedBaba: TBabaModel = {
+  updatedAt: '2023',
   createdAt: '2023',
   date: '2023-11-04',
   teams: mockedTeams,
-  userId: 'abc',
+  userId: '1',
   id: '1'
 }
 
-export const mockedBabas: TBaba[] = [
+export const mockedBabas: TBabaModel[] = [
   mockedBaba,
   {
-    createdAt: '2024',
+    ...mockedBaba,
     date: '2024-01-25',
-    teams: mockedTeams,
-    userId: 'abc',
     id: '2'
   },
   {
-    createdAt: '2024',
+    ...mockedBaba,
     date: '2024-04-04',
-    teams: mockedTeams,
-    userId: 'abc',
     id: '3'
   }
 ]

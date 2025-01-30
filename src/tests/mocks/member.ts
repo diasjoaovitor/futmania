@@ -1,15 +1,16 @@
-import { TMember } from '@/types'
+import { TMemberModel } from '@/models'
 
-export const mockedMember: TMember = {
+export const mockedMember: TMemberModel = {
   createdAt: '2023',
+  id: '1',
   isFixedMember: true,
   isGoalkeeper: false,
   name: 'João',
-  userId: 'abc',
-  id: '1'
+  userId: '1',
+  updatedAt: '2023'
 }
 
-export const mockedMembers: TMember[] = [
+export const mockedMembers: TMemberModel[] = [
   mockedMember,
   {
     ...mockedMember,
@@ -44,5 +45,10 @@ export const mockedMembers: TMember[] = [
     name: 'Weverton',
     isGoalkeeper: true,
     id: '7'
+  },
+  {
+    ...mockedMember,
+    name: 'Zidane',
+    id: '8'
   }
 ]

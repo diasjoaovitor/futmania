@@ -1,4 +1,4 @@
-import { TFrequency } from '@/functions'
+import { TFrequency } from '@/utils'
 
 export const mockedFrequency: TFrequency[] = [
   {
