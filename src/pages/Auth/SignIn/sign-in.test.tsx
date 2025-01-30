@@ -1,29 +1,32 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+import { TSignInParams } from '@/interfaces'
 import { AuthService } from '@/services'
 import { memoryRouter } from '@/tests'
+
 import { SignIn } from '.'
-import { NotificationProvider } from '@/contexts'
 
 jest.mock('@/services/auth')
 
 const mockedSignIn = jest.spyOn(AuthService.prototype, 'signIn')
 
-const client = new QueryClient()
-
-const signInSetup = async (email: string, password: string) => {
+const signInSetup = async ({ email, password }: TSignInParams) => {
   await userEvent.type(screen.getByLabelText('Email'), email)
   await userEvent.type(screen.getByLabelText('Senha'), password)
-  await userEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+  await userEvent.click(screen.getByRole('button', { name: 'SignIn' }))
 }
 
-const setup = () => {
-  const { Component, router } = memoryRouter(
+const setup = () =>
+  memoryRouter(
     [
       {
-        path: '/entrar',
+        path: '/signin',
         element: <SignIn />
+      },
+      {
+        path: '/signup',
+        element: <></>
       },
       {
         path: '/',
@@ -31,29 +34,34 @@ const setup = () => {
       }
     ],
     {
-      initialEntries: ['/entrar']
+      initialEntries: ['/signin']
     }
   )
-  return {
-    router,
-    Component: () => (
-      <QueryClientProvider client={client}>
-        <NotificationProvider>
-          <Component />
-        </NotificationProvider>
-      </QueryClientProvider>
-    )
-  }
-}
 
 describe('<signIn />', () => {
+  it('should navigate to signUp page', () => {
+    const { Component, router } = setup()
+    render(<Component />)
+    fireEvent.click(
+      screen.getByRole('link', { name: 'Não tem uma conta? Cadastre-se' })
+    )
+    expect(router.state.location.pathname).toBe('/signup')
+  })
+
+  it('should navigate to reset-password page', () => {
+    const { Component, router } = setup()
+    render(<Component />)
+    fireEvent.click(
+      screen.getByRole('link', { name: 'Esqueceu a senha? Recuperar' })
+    )
+    expect(router.state.location.pathname).toBe('/reset-password')
+  })
+
   it('should signIn correctly', async () => {
     const { Component, router } = setup()
     render(<Component />)
     mockedSignIn.mockImplementation(() => Promise.resolve())
-    await waitFor(async () => {
-      await signInSetup('test@test.com', '123456')
-    })
+    await signInSetup({ email: 'test@test.com', password: '123456' })
     expect(router.state.location.pathname).toBe('/')
   })
 
@@ -76,12 +84,8 @@ describe('<signIn />', () => {
     await waitFor(() => {
       expect(screen.getByText('Email é obrigatório')).toBeInTheDocument()
     })
-    await waitFor(() => {
-      expect(screen.getByText('Senha é obrigatória')).toBeInTheDocument()
-    })
-    await waitFor(async () => {
-      await signInSetup('test@test.com', '123456')
-      expect(screen.getByText('Email ou senha inválidos!')).toBeInTheDocument()
-    })
+    expect(screen.getByText('Senha é obrigatória')).toBeInTheDocument()
+    await signInSetup({ email: 'test@test.com', password: '123456' })
+    expect(screen.getByText('Email ou senha inválidos!')).toBeInTheDocument()
   })
 })
