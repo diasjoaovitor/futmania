@@ -6,38 +6,40 @@ import {
   FormGroup,
   Switch
 } from '@mui/material'
-import { TMember } from '@/types'
-import { InputWithButton, Modal } from '..'
+
+import { InputWithButton, Modal } from '@/components'
+import { TMemberModel } from '@/models'
 import * as GS from '@/styles'
 
-export type MembersFormProps = {
+import { useComponentHandler } from './use-component-handler'
+
+export type TFormProps = {
   isOpened: boolean
   title: string
-  member: TMember
+  member: TMemberModel | null
   handleClose(): void
   handleOpenMemberStats(): void
-  handleSubmit(e: React.FormEvent<HTMLFormElement>): void
-  handleDelete(): void
 }
 
-export function MembersForm({
+export const Form = ({
   isOpened,
   title,
-  member: { id, name, isFixedMember, isGoalkeeper },
+  member,
   handleClose,
-  handleOpenMemberStats,
-  handleSubmit,
-  handleDelete
-}: MembersFormProps) {
+  handleOpenMemberStats
+}: TFormProps) => {
+  const { defaultValues, form, handleDialogOpen, handleSubmit } =
+    useComponentHandler({ member, isOpened, handleClose })
+
   return (
     <Modal title={title} isOpened={isOpened} handleClose={handleClose}>
-      <form onSubmit={handleSubmit} role="form">
+      <form role="form" onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         <InputWithButton
           inputProps={{
-            name: 'name',
             label: 'Nome',
-            defaultValue: name,
-            required: true
+            ...form.register('name'),
+            error: !!form.formState.errors.name,
+            helperText: form.formState.errors.name?.message
           }}
           buttonProps={{
             children: 'Salvar',
@@ -48,18 +50,24 @@ export function MembersForm({
         <FormGroup row>
           <FormControlLabel
             control={
-              <Switch defaultChecked={isFixedMember} name="isFixedMember" />
+              <Switch
+                {...form.register('isFixedMember')}
+                defaultChecked={defaultValues.isFixedMember}
+              />
             }
             label="Fixo"
           />
           <FormControlLabel
             control={
-              <Switch defaultChecked={isGoalkeeper} name="isGoalkeeper" />
+              <Switch
+                {...form.register('isGoalkeeper')}
+                defaultChecked={defaultValues.isGoalkeeper}
+              />
             }
             label="Goleiro"
           />
         </FormGroup>
-        {id && (
+        {member && (
           <Box sx={GS.FlexRow}>
             <Button
               variant="text"
@@ -69,7 +77,7 @@ export function MembersForm({
               Ver Estatísticas
             </Button>
             <Divider orientation="vertical" variant="middle" flexItem />
-            <Button variant="text" color="error" onClick={handleDelete}>
+            <Button variant="text" color="error" onClick={handleDialogOpen}>
               Excluir Membro
             </Button>
           </Box>

@@ -1,93 +1,96 @@
 import { Button, Typography } from '@mui/material'
-import {
-  Dialog,
-  ExpandButton,
-  Layout,
-  MemberModal,
-  MembersForm,
-  MembersList
-} from '@/components'
-import { useThemeContext } from '@/contexts'
-import { useLimit } from '@/hooks'
-import { separateMembers, sortMembersByName } from '@/functions'
-import { useMembers } from './useMembers'
 
-const min = 5
+import { Layout, MemberStatsModal, ToggleExpandButton } from '@/components'
+import { getMemberStats, sortMembersByName } from '@/utils'
 
-export function Members() {
+import { Form, List } from './components'
+import { useComponentHandler } from './use-component-handler'
+
+export const Members = () => {
   const {
-    theme: { palette }
-  } = useThemeContext()
-
-  const {
-    user,
+    isAuthenticatedInTheSelectedBaba,
+    member,
     members,
-    handleOpenMemberForm,
-    handleMemberClick,
-    membersFormProps,
-    memberStatsProps,
-    alertProps,
-    dialogProps,
-    isPending
-  } = useMembers()
-
-  const { fixedMembers, goalkeepers, nonMembers } = separateMembers(members)
-
-  const {
-    limited: limitedNonMembers,
+    babas,
+    finances,
+    fixedMembers,
+    goalkeepers,
+    nonMembers,
+    limited,
+    min,
     isFull,
-    handleLimit
-  } = useLimit(sortMembersByName(nonMembers), min)
-
+    formProps,
+    isStatsModalOpen,
+    handleLimit,
+    handleMemberClick,
+    setIsStatsModalOpen,
+    setIsFormModalOpen
+  } = useComponentHandler()
   return (
-    <Layout title="Membros" isPending={isPending} alertProps={alertProps}>
-      {members.length !== 0 ? (
+    <Layout title="Membros">
+      {members.length ? (
         <>
-          {fixedMembers.length !== 0 && (
-            <MembersList
+          {fixedMembers.length > 0 && (
+            <List
               title="Membros Fixos"
               members={sortMembersByName(fixedMembers)}
-              color={palette.primary.main}
+              finances={finances}
+              babas={babas}
+              color="primary.main"
               handleClick={handleMemberClick}
             />
           )}
           {goalkeepers.length !== 0 && (
-            <MembersList
+            <List
               title="Goleiros"
               members={sortMembersByName(goalkeepers)}
-              color={palette.secondary.main}
+              finances={finances}
+              babas={babas}
+              color="secondary.main"
               handleClick={handleMemberClick}
             />
           )}
           {nonMembers.length !== 0 && (
-            <>
-              <MembersList
+            <div data-testid="teste-123">
+              <List
                 title="Membros Avulsos"
-                members={limitedNonMembers}
-                color={palette.secondary.light}
+                members={limited}
+                finances={finances}
+                babas={babas}
+                color="secondary.light"
                 handleClick={handleMemberClick}
               />
               {nonMembers.length > min && (
-                <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
+                <ToggleExpandButton
+                  isExpanded={isFull}
+                  handleClick={handleLimit}
+                />
               )}
-            </>
+            </div>
           )}
         </>
       ) : (
         <Typography>Não há membros cadastrados</Typography>
       )}
-      <MemberModal {...memberStatsProps} />
-      {user && (
+      {member && (
+        <MemberStatsModal
+          isOpened={isStatsModalOpen}
+          member={member}
+          finances={finances}
+          handleClose={() => setIsStatsModalOpen(false)}
+          stats={getMemberStats(babas, member.id)}
+        />
+      )}
+      {isAuthenticatedInTheSelectedBaba && (
         <>
           <Button
             sx={{ my: 2 }}
             variant="outlined"
-            onClick={handleOpenMemberForm}
+            onClick={() => setIsFormModalOpen(true)}
           >
             Cadastrar Membros
           </Button>
-          <MembersForm {...membersFormProps} />
-          <Dialog {...dialogProps} />
+          <Form {...formProps} />
         </>
       )}
     </Layout>

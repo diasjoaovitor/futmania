@@ -1,385 +1,401 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { User } from 'firebase/auth'
-import { AuthProvider, ThemeProvider } from '@/contexts'
-import { useAuth as useAuthContext } from '@/contexts/AuthContext/useAuth'
+import { useMediaQuery } from '@mui/material'
 import {
-  useMutationCreateMember,
-  useMutationDeleteMember,
-  useMutationUpdateMember,
-  useQueriesMembersAndBabasAndFinances
-} from '@/react-query'
-import { TBaba, TBabaUser, TFinance, TMember } from '@/types'
-import { mockedBabas, mockedMember, mockedMembers } from '@/tests'
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within
+} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Link } from 'react-router-dom'
+
+import { Explorer, SignIn } from '@/pages'
+import {
+  BabaService,
+  FinanceService,
+  MemberService,
+  UserService
+} from '@/services'
+import {
+  memoryRouter,
+  mockedBabas,
+  mockedFinances,
+  mockedMember,
+  mockedMembers,
+  mockedUsers
+} from '@/tests'
+
 import { Members } from '.'
 
-jest.mock('../../shared/contexts/AuthContext/useAuth')
-jest.mock(
-  '../../shared/react-query/queries/useQueriesMembersAndBabasAndFinances'
-)
-jest.mock('../../shared/react-query/mutations/useMutationCreateMember')
-jest.mock('../../shared/react-query/mutations/useMutationUpdateMember')
-jest.mock('../../shared/react-query/mutations/useMutationDeleteMember')
+jest.mock('@/services/member')
+jest.mock('@/services/baba')
+jest.mock('@/services/finance')
 
-type TUseAuthContext = {
-  user: User | null
-  babaUser: TBabaUser
-  isLoading: boolean
-}
+let user: {
+  emailVerified: boolean
+  uid: string
+} | null = null
 
-const mockedUseAuthContext =
-  useAuthContext as unknown as jest.Mock<TUseAuthContext>
+jest.mock('firebase/auth', () => ({
+  getAuth: jest.fn(() => ({
+    onAuthStateChanged: jest.fn((callback) => {
+      callback(user)
+    })
+  }))
+}))
 
-function mockedUseAuthContextSetup(args: TUseAuthContext | object) {
-  const state: TUseAuthContext = {
-    isLoading: false,
-    user: { uid: '123' } as User,
-    babaUser: {
-      id: '123',
-      name: 'Baba'
+jest.mock('@mui/material', () => ({
+  ...jest.requireActual('@mui/material'),
+  useMediaQuery: jest.fn()
+}))
+
+const mockedUseMediaQuery = useMediaQuery as jest.Mock<boolean>
+
+const mockedFindAllMembers = jest.spyOn(MemberService.prototype, 'findAll')
+const mockedCreateMember = jest.spyOn(MemberService.prototype, 'create')
+const mockedUpdateMember = jest.spyOn(MemberService.prototype, 'update')
+const mockedDeleteMember = jest.spyOn(MemberService.prototype, 'delete')
+
+const mockedFindAllBabas = jest.spyOn(BabaService.prototype, 'findAll')
+const mockedFindAllFinances = jest.spyOn(FinanceService.prototype, 'findAll')
+const mockedFindAllUsers = jest.spyOn(UserService.prototype, 'findAll')
+
+const setup = () =>
+  memoryRouter(
+    [
+      {
+        path: '/members',
+        element: <Members />
+      },
+      {
+        path: '/signin',
+        element: <SignIn />
+      },
+      {
+        path: '/explorer',
+        element: <Explorer />
+      },
+      {
+        path: '/',
+        element: <Link to="/members">Navigate to members page</Link>
+      }
+    ],
+    {
+      initialEntries: ['/members']
     }
-  }
-  mockedUseAuthContext.mockImplementation(() => ({
-    ...state,
-    ...args
-  }))
-}
-
-type TUseQueriesMembersAndBabasAndFinances = {
-  membersData: TMember[] | undefined
-  membersIsPending: boolean
-  isMembersError: boolean
-  babasData: TBaba[] | undefined
-  babasIsPending: boolean
-  isBabasError: boolean
-  financesData: TFinance[] | undefined
-  financesIsPending: boolean
-  isFinancesError: boolean
-}
-
-const mockedUseQueriesMembersAndBabasAndFinances =
-  useQueriesMembersAndBabasAndFinances as unknown as jest.Mock<TUseQueriesMembersAndBabasAndFinances>
-
-function mockedUseQueriesMembersAndBabasAndFinancesSetup(
-  args: TUseQueriesMembersAndBabasAndFinances | object
-) {
-  const state: TUseQueriesMembersAndBabasAndFinances = {
-    membersData: mockedMembers,
-    membersIsPending: false,
-    isMembersError: false,
-    babasData: mockedBabas,
-    babasIsPending: false,
-    isBabasError: false,
-    financesData: [],
-    financesIsPending: false,
-    isFinancesError: false
-  }
-  mockedUseQueriesMembersAndBabasAndFinances.mockImplementation(() => ({
-    ...state,
-    ...args
-  }))
-}
-
-type TUseMutation = {
-  mutate: any
-  data: TMember | string | undefined
-  isError: boolean
-  isPending: boolean
-}
-
-function mockedUseMutationSetup(
-  useMutation: () => TUseMutation,
-  args: TUseMutation | object
-) {
-  const mockedUseMutation = useMutation as unknown as jest.Mock<TUseMutation>
-  const state: TUseMutation = {
-    mutate: jest.fn(),
-    data: undefined,
-    isError: false,
-    isPending: false
-  }
-  mockedUseMutation.mockImplementation(() => ({
-    ...state,
-    ...args
-  }))
-}
-
-const client = new QueryClient()
-
-function Page() {
-  return (
-    <QueryClientProvider client={client}>
-      <ThemeProvider>
-        <AuthProvider>
-          <Members />
-        </AuthProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
   )
-}
 
 describe('<Members />', () => {
-  beforeEach(() => {
-    mockedUseAuthContextSetup({})
-    mockedUseQueriesMembersAndBabasAndFinancesSetup({})
-    mockedUseMutationSetup(useMutationCreateMember, {})
-    mockedUseMutationSetup(useMutationUpdateMember, {})
-    mockedUseMutationSetup(useMutationDeleteMember, {})
+  beforeAll(() => {
+    mockedFindAllUsers.mockResolvedValue(mockedUsers)
   })
 
-  it('should render empty list', () => {
-    mockedUseQueriesMembersAndBabasAndFinancesSetup({
-      membersData: [],
-      babasData: []
+  it('should redirect to the signin page when there is no authentication and show all the following pages in the initial state', async () => {
+    const { Component } = setup()
+    render(<Component />)
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: 'Sign In' })
+      ).toBeInTheDocument()
     })
-    render(<Page />)
+    fireEvent.click(screen.getByRole('link', { name: 'Entrar como visitante' }))
+    expect(
+      screen.getByRole('heading', { name: 'Explorar Babas' })
+    ).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Baba Test'))
+    fireEvent.click(screen.getByText('Navigate to members page'))
     expect(screen.getByText('Não há membros cadastrados')).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /Cadastrar Membros/i })
+    ).not.toBeInTheDocument()
   })
 
-  it('should render ordered members list', () => {
-    render(<Page />)
-    expect(
-      screen.getByRole('heading', { name: /Membros Fixos/i })
-    ).toBeInTheDocument()
+  it('should render ordered and pending payment styled member list', async () => {
+    user = { emailVerified: true, uid: '1' }
+    mockedFindAllMembers.mockResolvedValue(mockedMembers)
+    mockedFindAllBabas.mockResolvedValue(mockedBabas)
+    const { Component } = setup()
+    render(<Component />)
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: /Membros Fixos/i })
+      ).toBeInTheDocument()
+    })
     expect(
       screen.getByRole('heading', { name: /Goleiros/i })
     ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: /Membros Avulsos/i })
     ).toBeInTheDocument()
+
+    // fixed members
     expect(screen.getByText('1 - Abel')).toBeInTheDocument()
     expect(screen.getByText('2 - Endrick')).toBeInTheDocument()
-    expect(screen.getByText('3 - João')).toBeInTheDocument()
+    const joao = screen.getByText('3 - João')
+    expect(joao).toBeInTheDocument()
+    expect(joao.parentElement?.parentElement?.parentElement).toHaveStyle(
+      'border-color: #f44336'
+    )
+
+    // goalkeepers
     expect(screen.getByText('1 - Vitor')).toBeInTheDocument()
-    expect(screen.getByText('2 - Weverton')).toBeInTheDocument()
+    const weverton = screen.getByText('2 - Weverton')
+    expect(weverton).toBeInTheDocument() // exempt payment because 0 babas
+    expect(weverton.parentElement?.parentElement?.parentElement).toHaveStyle(
+      'border-color: #ce93d8'
+    )
+
+    // non-members
     expect(screen.getByText('1 - Dudu')).toBeInTheDocument()
-    expect(screen.getByText('2 - Pedro')).toBeInTheDocument()
+    const pedro = screen.getByText('2 - Pedro')
+    expect(pedro).toBeInTheDocument()
+    expect(pedro.parentElement?.parentElement?.parentElement).toHaveStyle(
+      'border-color: #f44336'
+    )
+
+    expect(screen.getAllByText('Pagamento pendente')).toHaveLength(6)
   })
 
-  it('should render the list of non-members compactly and completely', () => {
-    const { rerender } = render(<Page />)
+  it('should render paid member list', async () => {
+    mockedFindAllFinances.mockResolvedValue(mockedFinances)
+
+    const { Component } = setup()
+    render(<Component />)
+    await waitFor(() => {
+      const joao = screen.getByText('3 - João')
+      expect(joao).toBeInTheDocument()
+      expect(joao.parentElement?.parentElement?.parentElement).toHaveStyle(
+        'border-color: #90caf9'
+      )
+    })
+  })
+
+  it('should render the list of non-members compactly', async () => {
+    const { Component } = setup()
+    render(<Component />)
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: /Membros Avulsos/i })
+      ).toBeInTheDocument()
+    })
     expect(
       screen.queryByRole('button', { name: /Ver mais/i })
     ).not.toBeInTheDocument()
-    mockedUseQueriesMembersAndBabasAndFinancesSetup({
-      membersData: mockedMembers.map((member) => ({
+  })
+
+  it('should render the list of non-members completely', async () => {
+    mockedFindAllMembers.mockResolvedValue(
+      mockedMembers.map((member) => ({
         ...member,
         isFixedMember: false
       }))
+    )
+    const { Component } = setup()
+    render(<Component />)
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: /Membros Avulsos/i })
+      ).toBeInTheDocument()
+      const more = screen.getByRole('button', { name: /Ver mais/i })
+      expect(more).toBeInTheDocument()
+      fireEvent.click(more)
     })
-    rerender(<Page />)
-    const more = screen.getByRole('button', { name: /Ver mais/i })
-    expect(more).toBeInTheDocument()
-    fireEvent.click(more)
     expect(screen.getByText('7 - Weverton')).toBeInTheDocument()
     const less = screen.getByRole('button', { name: /Ver menos/i })
     fireEvent.click(less)
     expect(screen.queryByText('7 - Weverton')).not.toBeInTheDocument()
   })
 
-  it('should not render the button to add new members when it does not have authentication', () => {
-    mockedUseAuthContextSetup({ user: null })
-    render(<Page />)
-    expect(
-      screen.queryByRole('button', { name: /Cadastrar Membros/i })
-    ).not.toBeInTheDocument()
-  })
-
-  it('should create a new member successfully', () => {
-    const { rerender } = render(<Page />)
+  it('should create a new member successfully', async () => {
+    mockedCreateMember.mockResolvedValue({
+      ...mockedMember,
+      name: 'Gustavo Gomes',
+      id: '9'
+    })
+    const { Component } = setup()
+    render(<Component />)
     const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
     fireEvent.click(button)
-    const name = screen.getByLabelText('Nome *') as HTMLInputElement
+    const name = screen.getByLabelText('Nome') as HTMLInputElement
     expect(name.value).toBe('')
-    mockedUseMutationSetup(useMutationCreateMember, {
-      data: {
-        ...mockedMember,
-        name: 'Gustavo Gomes',
-        id: '8'
-      }
-    })
-    rerender(<Page />)
-    expect(screen.getByText('Membro criado com sucesso!')).toBeInTheDocument()
-    expect(screen.getByText('3 - Gustavo Gomes')).toBeInTheDocument()
+    const save = screen.getByRole('button', { name: 'Salvar' })
+    await userEvent.click(save)
+    expect(screen.getByText('Nome é obrigatório')).toBeInTheDocument()
+    await userEvent.type(name, 'Gustavo Gomes')
+    await userEvent.click(save)
+    expect(
+      screen.getByText('Membro cadastrado com sucesso!')
+    ).toBeInTheDocument()
+    expect(screen.getByText('1 - Gustavo Gomes')).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
   })
 
-  it('should render an alert message when create a new member fails', () => {
-    const { rerender } = render(<Page />)
+  it('should render an alert message when create a new member fails', async () => {
+    mockedCreateMember.mockRejectedValue(new Error('error'))
+    const { Component } = setup()
+    render(<Component />)
     const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
     fireEvent.click(button)
-    expect(screen.getByRole('heading', { name: 'Cadastrar Membros' }))
-    mockedUseMutationSetup(useMutationCreateMember, {
-      isError: true
-    })
-    rerender(<Page />)
+    const name = screen.getByLabelText('Nome') as HTMLInputElement
+    const save = screen.getByRole('button', { name: 'Salvar' })
+    await userEvent.type(name, 'João')
+    await userEvent.click(save)
     expect(
-      screen.getByText('Não foi possível criar o membro')
+      screen.getByText('Um membro de nome João já existe')
     ).toBeInTheDocument()
+    await userEvent.type(name, '2')
+    await userEvent.click(save)
+    expect(screen.getByText('Erro ao cadastrar membro')).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
   })
 
-  it('should update a member successfully', () => {
-    const { rerender } = render(<Page />)
+  it('should render member stats', async () => {
+    const { Component } = setup()
+    render(<Component />)
     const button = screen.getByRole('button', { name: /João/i })
     fireEvent.click(button)
     expect(screen.getByRole('heading', { name: 'Editar Membro' }))
-    const name = screen.getByLabelText('Nome *') as HTMLInputElement
+    fireEvent.click(screen.getByRole('button', { name: 'Ver Estatísticas' }))
+    const modal = screen.getByTestId('member-stats-modal')
+    expect(
+      screen.getByRole('heading', { name: 'João', level: 2 })
+    ).toBeInTheDocument()
+    expect(
+      within(modal).getByText('Estatísticas').parentElement?.textContent
+    ).toBe('EstatísticasBabas3Capas0Pontos24Gols6')
+  })
+
+  it('should update a member successfully', async () => {
+    mockedUpdateMember.mockImplementation(() => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            ...mockedMember,
+            name: 'João Dias'
+          })
+        }, 100)
+      })
+    })
+    const { Component } = setup()
+    render(<Component />)
+    const button = screen.getByRole('button', { name: /João/i })
+    fireEvent.click(button)
+    expect(screen.getByRole('heading', { name: 'Editar Membro' }))
+    const name = screen.getByLabelText('Nome') as HTMLInputElement
     expect(name.value).toBe('João')
     const isFixedMember = screen.getByLabelText('Fixo') as HTMLInputElement
-    expect(isFixedMember.checked).toBe(true)
-    mockedUseMutationSetup(useMutationUpdateMember, {
-      data: {
-        ...mockedMember,
-        name: 'João Dias',
-        isFixedMember: false
-      }
+    expect(isFixedMember.checked).toBe(false)
+    const isGoalkeeper = screen.getByLabelText('Goleiro') as HTMLInputElement
+    expect(isGoalkeeper.checked).toBe(false)
+    const save = screen.getByRole('button', { name: 'Salvar' })
+    await userEvent.click(save)
+    await waitFor(() => {
+      expect(
+        screen.getByText('Membro atualizado com sucesso!')
+      ).toBeInTheDocument()
     })
-    rerender(<Page />)
-    expect(screen.getByText('Membro editado com sucesso!')).toBeInTheDocument()
-    expect(screen.getByText('2 - João Dias')).toBeInTheDocument()
+    expect(screen.getByText('1 - João Dias')).toBeInTheDocument()
     expect(screen.queryByRole('form')).not.toBeInTheDocument()
   })
 
-  it('should render an alert message when update a member fails', () => {
-    const { rerender } = render(<Page />)
-    const button = screen.getByRole('button', { name: /João/i })
-    fireEvent.click(button)
-    mockedUseMutationSetup(useMutationUpdateMember, {
-      isError: true
-    })
-    rerender(<Page />)
-    expect(
-      screen.getByText('Não foi possível atualizar os dados de João')
-    ).toBeInTheDocument()
-    expect(screen.getByRole('form')).toBeInTheDocument()
-  })
-
-  it('should create a new member successfully', () => {
-    const { rerender } = render(<Page />)
-    const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
-    fireEvent.click(button)
-    const name = screen.getByLabelText('Nome *') as HTMLInputElement
-    expect(name.value).toBe('')
-    mockedUseMutationSetup(useMutationCreateMember, {
-      data: {
-        ...mockedMember,
-        name: 'Gustavo Gomes',
-        id: '8'
-      }
-    })
-    rerender(<Page />)
-    expect(screen.getByText('Membro criado com sucesso!')).toBeInTheDocument()
-    expect(screen.getByText('3 - Gustavo Gomes')).toBeInTheDocument()
-    expect(screen.getByRole('form')).toBeInTheDocument()
-  })
-
-  it('should render an alert message when creating a member fails because it already exists', async () => {
-    render(<Page />)
-    await userEvent.click(
-      screen.getByRole('button', { name: /Cadastrar Membros/i })
-    )
-    await userEvent.type(screen.getByRole('textbox', { name: 'Nome' }), 'João')
-    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }))
-    await waitFor(() => {
-      expect(
-        screen.getByText('Não possível realizar a ação!')
-      ).toBeInTheDocument()
-      expect(
-        screen.getByText('Um membro de nome João já existe')
-      ).toBeInTheDocument()
-    })
-    expect(screen.getByRole('form')).toBeInTheDocument()
-  })
-
-  it('should render an alert message when updating a member fails because it already exists', async () => {
-    render(<Page />)
-    await userEvent.click(screen.getByRole('button', { name: /João/i }))
-    const name = screen.getByRole('textbox', { name: 'Nome' })
+  it('should render an alert message when update a member fails', async () => {
+    mockedUpdateMember.mockRejectedValue(new Error('error'))
+    const { Component } = setup()
+    render(<Component />)
+    fireEvent.click(screen.getByRole('button', { name: /João/i }))
+    const name = screen.getByLabelText('Nome') as HTMLInputElement
+    const save = screen.getByRole('button', { name: 'Salvar' })
     await userEvent.clear(name)
-    await userEvent.type(name, 'Vitor')
-    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }))
+    await userEvent.type(name, 'Dudu')
+    await userEvent.click(save)
+    expect(
+      screen.getByText('Um membro de nome Dudu já existe')
+    ).toBeInTheDocument()
+    await userEvent.type(name, '2')
+    await userEvent.click(save)
+    expect(screen.getByText('Erro ao atualizar membro')).toBeInTheDocument()
+    expect(screen.getByRole('form')).toBeInTheDocument()
+  })
+
+  it('should delete a member successfully', async () => {
+    mockedDeleteMember.mockResolvedValue('7')
+    const { Component } = setup()
+    render(<Component />)
+    fireEvent.click(screen.getByRole('button', { name: /Ver mais/i }))
+    fireEvent.click(screen.getByRole('button', { name: /Weverton/i }))
+    fireEvent.click(screen.getByRole('button', { name: /Excluir Membro/i }))
+    expect(screen.getByText('Deseja realmente excluir Weverton?'))
+    fireEvent.click(screen.getByRole('button', { name: /Sim/i }))
     await waitFor(() => {
       expect(
-        screen.getByText('Um membro de nome Vitor já existe')
+        screen.getByText('Membro excluído com sucesso!')
       ).toBeInTheDocument()
     })
-  })
-
-  it('should not render an alert message when updating a another value it member already exists', async () => {
-    render(<Page />)
-    await userEvent.click(screen.getByRole('button', { name: /João/i }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Goleiro' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }))
-    expect(
-      screen.queryByText('Um membro de nome Vitor já existe')
-    ).not.toBeInTheDocument()
-  })
-
-  it('should delete a member successfully', () => {
-    const { rerender } = render(<Page />)
-    const button = screen.getByRole('button', { name: /João/i })
-    fireEvent.click(button)
-    expect(screen.getByRole('heading', { name: 'Editar Membro' }))
-    const deleteButton = screen.getByRole('button', { name: /Excluir Membro/i })
-    fireEvent.click(deleteButton)
-    expect(screen.getByText('Deseja realmente excluir João?'))
-    mockedUseMutationSetup(useMutationDeleteMember, {
-      data: '1'
-    })
-    rerender(<Page />)
-    expect(screen.getByText('Membro excluído com sucesso!')).toBeInTheDocument()
-    expect(screen.queryByText('3 - João')).not.toBeInTheDocument()
+    expect(screen.queryByText(/Weverton/i)).not.toBeInTheDocument()
     expect(screen.queryByRole('form')).not.toBeInTheDocument()
+    expect(screen.getByText(/Ver menos/i)).toBeInTheDocument()
   })
 
-  it('should render an alert message when deleting a member fails because the member has already participated in a baba', async () => {
-    render(<Page />)
-    const button = screen.getByRole('button', { name: /João/i })
-    fireEvent.click(button)
-    const deleteButton = screen.getByRole('button', { name: /Excluir Membro/i })
-    fireEvent.click(deleteButton)
+  it('should render an alert message when deleting a member fails', async () => {
+    mockedDeleteMember.mockRejectedValue(new Error('error'))
+    const { Component } = setup()
+    render(<Component />)
+    fireEvent.click(screen.getByRole('button', { name: /João/i }))
+    fireEvent.click(screen.getByRole('button', { name: /Excluir Membro/i }))
     expect(screen.getByText('Deseja realmente excluir João?'))
     fireEvent.click(screen.getByRole('button', { name: /Sim/i }))
     expect(
       screen.getByText('João já está vinculado a um baba')
     ).toBeInTheDocument()
-    expect(screen.getByText('3 - João')).toBeInTheDocument()
     await waitFor(() => {
-      expect(screen.getByRole('form')).toBeInTheDocument()
+      expect(screen.getByText('4 - João')).toBeInTheDocument()
     })
-  })
-
-  it('should render an alert message when delete a member fails', () => {
-    const { rerender } = render(<Page />)
-    const button = screen.getByRole('button', { name: /João/i })
-    fireEvent.click(button)
-    mockedUseMutationSetup(useMutationDeleteMember, {
-      isError: true
+    fireEvent.click(screen.getByTestId('close-editar-membro'))
+    fireEvent.click(screen.getByText(/Ver mais/i))
+    fireEvent.click(screen.getByText(/Zidane/i))
+    fireEvent.click(screen.getByRole('button', { name: /Excluir Membro/i }))
+    expect(screen.getByText('Deseja realmente excluir Zidane?'))
+    fireEvent.click(screen.getByText(/Sim/i))
+    await waitFor(() => {
+      expect(screen.getByText('Erro ao excluir membro')).toBeInTheDocument()
     })
-    rerender(<Page />)
-    expect(
-      screen.getByText('Não foi possível excluir João')
-    ).toBeInTheDocument()
+    expect(screen.getByText('8 - Zidane')).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
-    expect(screen.getByText('3 - João')).toBeInTheDocument()
   })
 
-  it('should render an alert message when there is an error getting the data', async () => {
-    mockedUseQueriesMembersAndBabasAndFinancesSetup({
-      membersData: undefined,
-      isMembersError: true,
-      babasData: undefined,
-      isBabasError: true,
-      financesData: undefined,
-      isFinancesError: true
-    })
-    render(<Page />)
-    await waitFor(() => {
-      expect(
-        screen.getByText('Não foi possível buscar os dados')
-      ).toBeInTheDocument()
-    })
+  it('should not render action buttons in another baba', () => {
+    mockedFindAllBabas.mockResolvedValue(
+      mockedBabas.map((baba) => ({
+        ...baba,
+        userId: '2',
+        teams: [
+          ...baba.teams.map((team) => ({
+            ...team,
+            members: team.members.map((member) => ({
+              ...member,
+              memberId: member.memberId + '1'
+            }))
+          }))
+        ]
+      }))
+    )
+    mockedFindAllMembers.mockResolvedValue(
+      mockedMembers.map((member) => ({
+        ...member,
+        userId: '2'
+      }))
+    )
+    mockedUseMediaQuery.mockReturnValue(true)
+    const { Component, router } = setup()
+    render(<Component />)
+    fireEvent.click(screen.getByText(/Explorar Babas/i))
+    expect(router.state.location.pathname).toBe('/explorer')
+    fireEvent.click(screen.getByText('Other Baba'))
+    fireEvent.click(screen.getByText('Navigate to members page'))
+    fireEvent.click(screen.getByRole('button', { name: '4 - João' }))
+    expect(screen.getByTestId('member-stats-modal')).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /Cadastrar Membros/i })
+    ).not.toBeInTheDocument()
   })
 })
