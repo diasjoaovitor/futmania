@@ -1,9 +1,18 @@
-export type TAuthParams = {
+export type TSignUpParams = {
+  name: string
+  email: string
+  password: string
+}
+
+export type TSignInParams = {
   email: string
   password: string
 }
 
 export interface IAuth {
-  signIn(params: TAuthParams): Promise<void>
+  signUp(params: TSignUpParams): Promise<void>
+  signIn(params: TSignInParams): Promise<void>
   signOut(): Promise<void>
+  resendEmailVerification(): Promise<void>
+  resetPassword(email: string): Promise<void>
 }

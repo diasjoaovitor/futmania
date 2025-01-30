@@ -1,4 +1,3 @@
-export * from './auth'
 export * from './baba'
 export * from './finance'
 export * from './member'
