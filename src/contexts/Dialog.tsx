@@ -1,10 +1,10 @@
-import { createContext, useCallback, useContext, useState } from 'react'
 import {
   Button,
+  Dialog as _Dialog,
   DialogActions,
-  DialogTitle,
-  Dialog as _Dialog
+  DialogTitle
 } from '@mui/material'
+import { createContext, useCallback, useContext, useState } from 'react'
 
 type TDialogParams = {
   title: string
@@ -30,7 +30,7 @@ const Dialog = ({ open, title, handleClose, handleAccept }: TDialogProps) => {
   )
 }
 
-type TDialogContext = {
+export type TDialogContext = {
   show: (params: TDialogParams) => void
   close: () => void
 }

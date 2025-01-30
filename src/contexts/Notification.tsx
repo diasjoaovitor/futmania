@@ -1,18 +1,17 @@
-import { createContext, useCallback, useContext, useState } from 'react'
+import { Close } from '@mui/icons-material'
 import {
+  Alert,
+  AlertProps,
   AlertTitle,
   IconButton,
-  Alert,
-  Snackbar,
-  AlertProps
-} from '@mui/material'
-import { Close } from '@mui/icons-material'
+  Snackbar} from '@mui/material'
+import { createContext, useCallback, useContext, useState } from 'react'
 
 type TNotificationParams = {
   severity: AlertProps['severity']
   title: string
   description?: string
-  autoHideDuration?: number
+  autoHideDuration?: number | null
 }
 
 type TNotificationProps = {
