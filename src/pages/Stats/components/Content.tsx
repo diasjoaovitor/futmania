@@ -1,17 +1,84 @@
-import { TableCell, TableRow } from '@mui/material'
-import { TStats, sortByGoals, sortMembersByRanking } from '@/functions'
-import { useLimit } from '@/hooks'
-import { TMember } from '@/types'
-import { MembersRankingTable } from '..'
+import {
+  Paper,
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material'
+import { ReactNode } from 'react'
 
-type Props = {
+import { ToggleExpandButton } from '@/components'
+import { useLimit } from '@/hooks'
+import { TMemberModel } from '@/models'
+import * as GS from '@/styles'
+import { sortByGoals, sortMembersByRanking, TStats } from '@/utils'
+
+type TTableProps = {
+  title: string
+  cols: string[]
+  children: ReactNode
+  isFull: boolean
+  showToggleExpandButton: boolean
+  handleLimit(): void
+}
+
+export const Table = ({
+  title,
+  cols,
+  children,
+  isFull,
+  showToggleExpandButton,
+  handleLimit
+}: TTableProps) => {
+  return (
+    <>
+      <Typography sx={GS.Title} component="h2" variant="h6" pt={3} pb={2}>
+        {title}
+      </Typography>
+      <TableContainer component={Paper}>
+        <MuiTable>
+          <TableHead>
+            <TableRow>
+              {cols.map((col, index) => (
+                <TableCell
+                  key={index}
+                  align={`${index !== 1 ? 'center' : 'left'}`}
+                >
+                  {col}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {children}
+            {showToggleExpandButton && (
+              <TableRow>
+                <TableCell colSpan={cols.length}>
+                  <ToggleExpandButton
+                    isExpanded={isFull}
+                    handleClick={handleLimit}
+                  />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </MuiTable>
+      </TableContainer>
+    </>
+  )
+}
+
+type TContentProps = {
   stats: TStats[]
-  handleClick(member: TMember): void
+  handleClick(member: TMemberModel): void
 }
 
 const min = 5
 
-export function MembersRanking({ stats, handleClick }: Props) {
+export const Content = ({ stats, handleClick }: TContentProps) => {
   const {
     limited: limitedScoreRanking,
     isFull: scoreRankingIsFull,
@@ -24,10 +91,11 @@ export function MembersRanking({ stats, handleClick }: Props) {
   } = useLimit(sortByGoals(stats), min)
   return (
     <>
-      <MembersRankingTable
+      <Table
         title="Ranking"
         cols={['Posição', 'Nome', 'Score', 'Babas']}
         isFull={scoreRankingIsFull}
+        showToggleExpandButton={stats.length > min}
         handleLimit={handleLimitScoreRanking}
       >
         <>
@@ -48,11 +116,12 @@ export function MembersRanking({ stats, handleClick }: Props) {
             )
           })}
         </>
-      </MembersRankingTable>
-      <MembersRankingTable
+      </Table>
+      <Table
         title="Artilharia"
         cols={['Posição', 'Nome', 'Gols', 'Babas', 'Média']}
         isFull={goalsRankingIsFull}
+        showToggleExpandButton={stats.length > min}
         handleLimit={handleLimitGoalsRanking}
       >
         <>
@@ -74,7 +143,7 @@ export function MembersRanking({ stats, handleClick }: Props) {
             )
           })}
         </>
-      </MembersRankingTable>
+      </Table>
     </>
   )
 }

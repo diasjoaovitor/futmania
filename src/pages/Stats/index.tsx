@@ -1,46 +1,51 @@
-import { Box, Typography } from '@mui/material'
-import { Layout, MemberModal, MembersRanking, SelectSeason } from '@/components'
-import { useStats } from './useStats'
-import * as S from './style'
+import { Typography } from '@mui/material'
 
-export function Stats() {
+import { Layout, MemberStatsModal } from '@/components'
+
+import { Content, SelectSeason } from './components'
+import { useComponentHandler } from './use-component-handler'
+
+export const Stats = () => {
   const {
+    finances,
     season,
     year,
     years,
     statsInSeason,
-    handleOpenMemberModal,
-    memberModalProps,
-    handlePeriodChange,
-    alertProps,
-    isPending
-  } = useStats()
+    member,
+    memberStats,
+    isStatsModalOpen,
+    handleMemberClick,
+    handleYearChange,
+    handleSeasonChange,
+    setIsStatsModalOpen
+  } = useComponentHandler()
 
   return (
-    <Box sx={S.Wrapper}>
-      <Layout
-        title="Estatísticas"
-        isPending={isPending}
-        alertProps={alertProps}
-      >
-        <SelectSeason
-          season={season}
-          year={year}
-          years={years}
-          handleChange={handlePeriodChange}
-        />
-        {statsInSeason.length > 0 ? (
-          <>
-            <MembersRanking
-              stats={statsInSeason}
-              handleClick={handleOpenMemberModal}
+    <Layout title="Estatísticas">
+      <SelectSeason
+        season={season}
+        year={year}
+        years={years}
+        handleYearChange={handleYearChange}
+        handleSeasonChange={handleSeasonChange}
+      />
+      {statsInSeason.length > 0 ? (
+        <>
+          <Content stats={statsInSeason} handleClick={handleMemberClick} />
+          {member && (
+            <MemberStatsModal
+              isOpened={isStatsModalOpen}
+              member={member}
+              finances={finances}
+              handleClose={() => setIsStatsModalOpen(false)}
+              stats={memberStats}
             />
-            <MemberModal {...memberModalProps} />
-          </>
-        ) : (
-          <Typography my={2}>Não há babas nessa temporada</Typography>
-        )}
-      </Layout>
-    </Box>
+          )}
+        </>
+      ) : (
+        <Typography my={2}>Não há babas nessa temporada</Typography>
+      )}
+    </Layout>
   )
 }
