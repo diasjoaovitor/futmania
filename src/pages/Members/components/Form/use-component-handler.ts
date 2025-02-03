@@ -25,7 +25,7 @@ export const useComponentHandler = ({
   const {
     babas,
     members,
-    babaUser,
+    userId,
     memberMutationCreateMutate,
     memberMutationUpdateMutate,
     memberMutationDeleteMutate
@@ -86,7 +86,7 @@ export const useComponentHandler = ({
       return
     }
     if (!member) {
-      memberMutationCreateMutate({ ...data, userId: babaUser!.id })
+      memberMutationCreateMutate({ ...data, userId: userId as string })
     } else {
       setSuccessCallbacks([handleClose])
       memberMutationUpdateMutate({ ...member, ...data })

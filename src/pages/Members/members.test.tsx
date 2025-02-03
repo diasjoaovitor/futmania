@@ -60,6 +60,8 @@ const mockedFindAllBabas = jest.spyOn(BabaService.prototype, 'findAll')
 const mockedFindAllFinances = jest.spyOn(FinanceService.prototype, 'findAll')
 const mockedFindAllUsers = jest.spyOn(UserService.prototype, 'findAll')
 
+const original = console.error
+
 const setup = () =>
   memoryRouter(
     [
@@ -87,6 +89,9 @@ const setup = () =>
 
 describe('<Members />', () => {
   beforeAll(() => {
+    mockedFindAllBabas.mockResolvedValue(mockedBabas)
+    mockedFindAllMembers.mockResolvedValue(mockedMembers)
+    mockedFindAllFinances.mockResolvedValue(mockedFinances)
     mockedFindAllUsers.mockResolvedValue(mockedUsers)
   })
 
@@ -112,8 +117,6 @@ describe('<Members />', () => {
 
   it('should render ordered and pending payment styled member list', async () => {
     user = { emailVerified: true, uid: '1' }
-    mockedFindAllMembers.mockResolvedValue(mockedMembers)
-    mockedFindAllBabas.mockResolvedValue(mockedBabas)
     const { Component } = setup()
     render(<Component />)
     await waitFor(() => {
@@ -134,7 +137,7 @@ describe('<Members />', () => {
     const joao = screen.getByText('3 - João')
     expect(joao).toBeInTheDocument()
     expect(joao.parentElement?.parentElement?.parentElement).toHaveStyle(
-      'border-color: #f44336'
+      'border-color: #90caf9;'
     )
 
     // goalkeepers
@@ -153,21 +156,7 @@ describe('<Members />', () => {
       'border-color: #f44336'
     )
 
-    expect(screen.getAllByText('Pagamento pendente')).toHaveLength(6)
-  })
-
-  it('should render paid member list', async () => {
-    mockedFindAllFinances.mockResolvedValue(mockedFinances)
-
-    const { Component } = setup()
-    render(<Component />)
-    await waitFor(() => {
-      const joao = screen.getByText('3 - João')
-      expect(joao).toBeInTheDocument()
-      expect(joao.parentElement?.parentElement?.parentElement).toHaveStyle(
-        'border-color: #90caf9'
-      )
-    })
+    expect(screen.getAllByText('Pagamento pendente')).toHaveLength(5)
   })
 
   it('should render the list of non-members compactly', async () => {
@@ -214,15 +203,18 @@ describe('<Members />', () => {
     })
     const { Component } = setup()
     render(<Component />)
-    const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
-    fireEvent.click(button)
+    fireEvent.click(screen.getByRole('button', { name: /Cadastrar Membros/i }))
     const name = screen.getByLabelText('Nome') as HTMLInputElement
     expect(name.value).toBe('')
     const save = screen.getByRole('button', { name: 'Salvar' })
-    await userEvent.click(save)
+    await waitFor(async () => {
+      await userEvent.click(save)
+    })
     expect(screen.getByText('Nome é obrigatório')).toBeInTheDocument()
-    await userEvent.type(name, 'Gustavo Gomes')
-    await userEvent.click(save)
+    fireEvent.change(name, { target: { value: 'Gustavo Gomes' } })
+    await waitFor(async () => {
+      await userEvent.click(save)
+    })
     expect(
       screen.getByText('Membro cadastrado com sucesso!')
     ).toBeInTheDocument()
@@ -231,37 +223,41 @@ describe('<Members />', () => {
   })
 
   it('should render an alert message when create a new member fails', async () => {
+    console.error = jest.fn()
     mockedCreateMember.mockRejectedValue(new Error('error'))
     const { Component } = setup()
     render(<Component />)
-    const button = screen.getByRole('button', { name: /Cadastrar Membros/i })
-    fireEvent.click(button)
+    fireEvent.click(screen.getByRole('button', { name: /Cadastrar Membros/i }))
     const name = screen.getByLabelText('Nome') as HTMLInputElement
     const save = screen.getByRole('button', { name: 'Salvar' })
-    await userEvent.type(name, 'João')
-    await userEvent.click(save)
+    await waitFor(async () => {
+      await userEvent.type(name, 'João')
+      await userEvent.click(save)
+    })
     expect(
       screen.getByText('Um membro de nome João já existe')
     ).toBeInTheDocument()
-    await userEvent.type(name, '2')
-    await userEvent.click(save)
+    await waitFor(async () => {
+      await userEvent.type(name, '2')
+      await userEvent.click(save)
+    })
     expect(screen.getByText('Erro ao cadastrar membro')).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
+    console.error = original
   })
 
   it('should render member stats', async () => {
     const { Component } = setup()
     render(<Component />)
-    const button = screen.getByRole('button', { name: /João/i })
-    fireEvent.click(button)
+    fireEvent.click(screen.getByRole('button', { name: /João/i }))
     expect(screen.getByRole('heading', { name: 'Editar Membro' }))
     fireEvent.click(screen.getByRole('button', { name: 'Ver Estatísticas' }))
-    const modal = screen.getByTestId('member-stats-modal')
     expect(
       screen.getByRole('heading', { name: 'João', level: 2 })
     ).toBeInTheDocument()
     expect(
-      within(modal).getByText('Estatísticas').parentElement?.textContent
+      within(screen.getByTestId('member-stats-modal')).getByText('Estatísticas')
+        .parentElement?.textContent
     ).toBe('EstatísticasBabas3Capas0Pontos24Gols6')
   })
 
@@ -278,8 +274,7 @@ describe('<Members />', () => {
     })
     const { Component } = setup()
     render(<Component />)
-    const button = screen.getByRole('button', { name: /João/i })
-    fireEvent.click(button)
+    fireEvent.click(screen.getByRole('button', { name: /João/i }))
     expect(screen.getByRole('heading', { name: 'Editar Membro' }))
     const name = screen.getByLabelText('Nome') as HTMLInputElement
     expect(name.value).toBe('João')
@@ -287,8 +282,10 @@ describe('<Members />', () => {
     expect(isFixedMember.checked).toBe(false)
     const isGoalkeeper = screen.getByLabelText('Goleiro') as HTMLInputElement
     expect(isGoalkeeper.checked).toBe(false)
-    const save = screen.getByRole('button', { name: 'Salvar' })
-    await userEvent.click(save)
+    fireEvent.change(name, { target: { value: 'João Dias' } })
+    await waitFor(async () => {
+      await userEvent.click(screen.getByRole('button', { name: 'Salvar' }))
+    })
     await waitFor(() => {
       expect(
         screen.getByText('Membro atualizado com sucesso!')
@@ -299,22 +296,28 @@ describe('<Members />', () => {
   })
 
   it('should render an alert message when update a member fails', async () => {
+    console.error = jest.fn()
     mockedUpdateMember.mockRejectedValue(new Error('error'))
     const { Component } = setup()
     render(<Component />)
     fireEvent.click(screen.getByRole('button', { name: /João/i }))
     const name = screen.getByLabelText('Nome') as HTMLInputElement
     const save = screen.getByRole('button', { name: 'Salvar' })
-    await userEvent.clear(name)
-    await userEvent.type(name, 'Dudu')
-    await userEvent.click(save)
+    await waitFor(async () => {
+      await userEvent.clear(name)
+      await userEvent.type(name, 'Dudu')
+      await userEvent.click(save)
+    })
     expect(
       screen.getByText('Um membro de nome Dudu já existe')
     ).toBeInTheDocument()
-    await userEvent.type(name, '2')
-    await userEvent.click(save)
+    await waitFor(async () => {
+      await userEvent.type(name, '2')
+      await userEvent.click(save)
+    })
     expect(screen.getByText('Erro ao atualizar membro')).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
+    console.error = original
   })
 
   it('should delete a member successfully', async () => {
@@ -337,6 +340,7 @@ describe('<Members />', () => {
   })
 
   it('should render an alert message when deleting a member fails', async () => {
+    console.error = jest.fn()
     mockedDeleteMember.mockRejectedValue(new Error('error'))
     const { Component } = setup()
     render(<Component />)
@@ -361,30 +365,10 @@ describe('<Members />', () => {
     })
     expect(screen.getByText('8 - Zidane')).toBeInTheDocument()
     expect(screen.getByRole('form')).toBeInTheDocument()
+    console.error = original
   })
 
   it('should not render action buttons in another baba', () => {
-    mockedFindAllBabas.mockResolvedValue(
-      mockedBabas.map((baba) => ({
-        ...baba,
-        userId: '2',
-        teams: [
-          ...baba.teams.map((team) => ({
-            ...team,
-            members: team.members.map((member) => ({
-              ...member,
-              memberId: member.memberId + '1'
-            }))
-          }))
-        ]
-      }))
-    )
-    mockedFindAllMembers.mockResolvedValue(
-      mockedMembers.map((member) => ({
-        ...member,
-        userId: '2'
-      }))
-    )
     mockedUseMediaQuery.mockReturnValue(true)
     const { Component, router } = setup()
     render(<Component />)
