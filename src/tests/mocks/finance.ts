@@ -11,37 +11,38 @@ export const mockedFinance: TFinanceModel = {
   id: '1'
 }
 
-const mockedPayments: TFinanceModel[] = [
+export const mockedPayments: TFinanceModel[] = [
   {
     ...mockedFinance,
     description: 'Pagamento de João',
-    memberId: '1'
+    memberId: '1',
+    id: '2'
   },
   {
     ...mockedFinance,
     description: 'Pagamento de João',
-    id: '2',
+    id: '3',
     memberId: '1',
     date: '2023-12-05'
   },
   {
     ...mockedFinance,
     description: 'Pagamento de Vitor',
-    id: '3',
+    id: '4',
     memberId: '2'
   },
   {
     ...mockedFinance,
     description: 'Pagamento de João',
     date: '2024-01-05',
-    id: '4',
+    id: '5',
     memberId: '1'
   },
   {
     ...mockedFinance,
     description: 'Pagamento de João',
     date: '2024-04-05',
-    id: '5',
+    id: '6',
     memberId: '1'
   }
 ]
@@ -54,13 +55,13 @@ export const mockedFinances: TFinanceModel[] = [
     description: 'First Expense',
     date: '2023-12-11',
     type: '-',
-    id: '20'
+    id: '7'
   },
   {
     ...mockedFinance,
     description: 'Second Expense',
     type: '-',
     date: '2023-12-26',
-    id: '21'
+    id: '8'
   }
 ]
