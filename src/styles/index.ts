@@ -18,13 +18,12 @@ export const FlexRow: SxProps<Theme> = {
 
 export const FlexColumn: SxProps<Theme> = {
   display: 'flex',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  gap: 2
 }
 
-export function Li(borderColor?: string): SxProps<Theme> {
-  return {
-    borderLeft: '.5em solid',
-    borderColor: borderColor || 'primary.dark',
-    mb: 2
-  }
-}
+export const Li = (borderColor?: string): SxProps<Theme> => ({
+  borderLeft: '.5em solid',
+  borderColor: borderColor || 'primary.dark',
+  mb: 2
+})
