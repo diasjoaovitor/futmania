@@ -8,6 +8,7 @@ import { useComponentHandler } from './use-component-handler'
 
 type TAppContext = {
   isAuthenticatedInTheSelectedBaba: boolean
+  userId: string | undefined
   babaUser: TUserModel | null
   setBabaUser(user: TUserModel | null): void
 

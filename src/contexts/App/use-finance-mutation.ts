@@ -45,7 +45,7 @@ export const useFinanceMutation = (
     onSuccess: (data) => {
       notification({
         severity: 'success',
-        title: 'Finança criada com sucesso!'
+        title: 'Finanças criadas com sucesso!'
       })
       handleSuccessCallbacks()
       setData((old) => [...old, ...data])

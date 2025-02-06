@@ -27,20 +27,13 @@ export const useComponentHandler = () => {
 
   const babaId = babaUser?.id || userId
 
-  const {
-    isFetching,
-    usersData,
-    babasData,
-    financesData,
-    membersData,
-    refetchBabas,
-    refetchFinances
-  } = useDataFetch(babaId)
+  const { isFetching, usersData, babasData, financesData, membersData } =
+    useDataFetch(babaId)
 
   const { babaMutationIsPending, ...babaMutationRest } =
-    useBabaMutation(refetchBabas)
+    useBabaMutation(setBabas)
   const { financeMutationIsPending, ...financeMutationRest } =
-    useFinanceMutation(refetchFinances)
+    useFinanceMutation(setFinances)
   const { memberMutationIsPending, ...memberMutationRest } =
     useMemberMutation(setMembers)
   const { userMutationIsPending, ...userMutationRest } = useUserMutation()
@@ -75,11 +68,12 @@ export const useComponentHandler = () => {
     memberMutationIsPending ||
     userMutationIsPending
 
-  const isAuthenticatedInTheSelectedBaba = !!user && user.uid === babaUser?.id
+  const isAuthenticatedInTheSelectedBaba = !!userId && userId === babaUser?.id
 
   return {
     isLoading,
     isAuthenticatedInTheSelectedBaba,
+    userId,
     babaUser,
     setBabaUser,
     users,

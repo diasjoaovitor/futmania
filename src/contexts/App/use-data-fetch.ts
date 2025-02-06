@@ -55,9 +55,9 @@ export const useDataFetch = (userId: string | undefined) => {
 
   const [
     { data: usersData, error: usersError },
-    { data: babasData, error: babasError, refetch: refetchBabas },
-    { data: financesData, error: financesError, refetch: refetchFinances },
-    { data: membersData, error: membersError, refetch: refetchMembers }
+    { data: babasData, error: babasError },
+    { data: financesData, error: financesError },
+    { data: membersData, error: membersError }
   ] = queries
 
   useEffect(() => {
@@ -91,9 +91,6 @@ export const useDataFetch = (userId: string | undefined) => {
     usersData,
     babasData,
     financesData,
-    membersData,
-    refetchBabas,
-    refetchFinances,
-    refetchMembers
+    membersData
   }
 }
