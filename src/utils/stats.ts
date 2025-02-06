@@ -1,5 +1,6 @@
-import { TBaba, TMember } from '@/types'
-import { sortByDate } from '..'
+import { TBabaModel, TMemberModel } from '@/models'
+
+import { sortByDate } from './sort'
 
 export type TFrequency = {
   date: string
@@ -17,13 +18,16 @@ export type TMemberStats = {
   frequency: TFrequency[]
 }
 
-export type TStats = TMemberStats & TMember
+export type TStats = TMemberStats & TMemberModel
 
-export function getMemberStats(babas: TBaba[], id: string): TMemberStats {
+export const getMemberStats = (
+  babas: TBabaModel[],
+  id: string
+): TMemberStats => {
   const frequency: TFrequency[] = []
-  const bs = (sortByDate(babas) as TBaba[]).filter(({ date, teams }) => {
+  const bs = (sortByDate(babas) as TBabaModel[]).filter(({ date, teams }) => {
     const team = teams.find(({ members }) =>
-      members.find(({ id: _id }) => _id === id)
+      members.find(({ memberId }) => memberId === id)
     )
     team
       ? frequency.push({ date, showedUp: true })
@@ -40,15 +44,15 @@ export function getMemberStats(babas: TBaba[], id: string): TMemberStats {
     })
     teams.forEach(({ members, draws, wins }) => {
       const _score = wins * 3 + draws
-      members.forEach(({ id: _id, goals: _goals }) => {
-        if (id === _id) {
+      members.forEach(({ memberId, goals: _goals }) => {
+        if (id === memberId) {
           goals += _goals
           score += _score
         }
       })
     })
     const hasMember = orderedByRanking[0].members.find(
-      ({ id: _id }) => _id === id
+      ({ memberId }) => memberId === id
     )
     return hasMember
   })
@@ -64,7 +68,10 @@ export function getMemberStats(babas: TBaba[], id: string): TMemberStats {
   }
 }
 
-export function getMembersStats(babas: TBaba[], members: TMember[]): TStats[] {
+export const getMembersStats = (
+  babas: TBabaModel[],
+  members: TMemberModel[]
+): TStats[] => {
   const stats = members
     .map((member) => {
       const stats = getMemberStats(babas, member.id as string)

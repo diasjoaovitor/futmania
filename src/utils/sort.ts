@@ -1,6 +1,8 @@
-import { TMember } from '@/types'
 import dayjs from 'dayjs'
-import { TMemberStats } from '..'
+
+import { TMemberModel } from '@/models'
+
+import { TMemberStats } from '.'
 
 export function sortNumberDesc(values: number[]) {
   return values.sort((a, b) => b - a)
@@ -10,7 +12,7 @@ export function sortStringDesc(values: string[]) {
   return values.sort((a, b) => b.localeCompare(a))
 }
 
-export function sortMembersByName(members: TMember[]) {
+export function sortMembersByName(members: TMemberModel[]) {
   return members.sort((a, b) => a.name.localeCompare(b.name))
 }
 
