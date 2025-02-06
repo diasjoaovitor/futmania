@@ -88,6 +88,10 @@ const setup = () =>
   )
 
 describe('<Members />', () => {
+  beforeEach(() => {
+    user = { emailVerified: true, uid: '1' }
+  })
+
   beforeAll(() => {
     mockedFindAllBabas.mockResolvedValue(mockedBabas)
     mockedFindAllMembers.mockResolvedValue(mockedMembers)
@@ -96,6 +100,7 @@ describe('<Members />', () => {
   })
 
   it('should redirect to the signin page when there is no authentication and show all the following pages in the initial state', async () => {
+    user = null
     const { Component } = setup()
     render(<Component />)
     await waitFor(() => {
@@ -116,7 +121,6 @@ describe('<Members />', () => {
   })
 
   it('should render ordered and pending payment styled member list', async () => {
-    user = { emailVerified: true, uid: '1' }
     const { Component } = setup()
     render(<Component />)
     await waitFor(() => {
