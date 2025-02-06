@@ -1,30 +1,42 @@
-import { Box, IconButton, Modal as MUIModal, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
+import { Box, IconButton, Modal as MuiModal, Typography } from '@mui/material'
+
 import * as S from './style'
 
-type Props = {
+type TModalProps = {
+  dataTestId?: string
   isOpened: boolean
   title: string
   children: React.ReactElement
-  color?: string
+  color?: 'primary' | 'error'
   handleClose(): void
 }
 
-export function Modal({
+export const Modal = ({
+  dataTestId,
   isOpened,
   title,
   children,
   color,
   handleClose
-}: Props) {
+}: TModalProps) => {
   return (
-    <MUIModal open={isOpened} onClose={handleClose} sx={S.Wrapper}>
+    <MuiModal
+      data-testid={dataTestId}
+      open={isOpened}
+      onClose={handleClose}
+      sx={S.Wrapper}
+    >
       <Box sx={S.Content}>
         <Box sx={S.Header}>
           <Typography
             component="h2"
             variant="h6"
-            sx={{ '&::after': { backgroundColor: `${color} !important` } }}
+            sx={{
+              '&::after': {
+                backgroundColor: `${color === 'error' ? '#f44336' : '#90caf9'} !important`
+              }
+            }}
           >
             {title}
           </Typography>
@@ -39,6 +51,6 @@ export function Modal({
         </Box>
         {children}
       </Box>
-    </MUIModal>
+    </MuiModal>
   )
 }

@@ -1,6 +1,8 @@
 import { render, screen, within } from '@testing-library/react'
-import { MembersCheckboxListModal } from '.'
+
 import { mockedMembers } from '@/tests'
+
+import { MembersCheckboxListModal } from '.'
 
 describe('<Members Checkbox List Modal />', () => {
   it('should render the heading', () => {

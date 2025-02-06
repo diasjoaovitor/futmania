@@ -1,7 +1,8 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import { palette } from '@/themes'
-import { MembersCheckboxList } from '.'
+
 import { mockedMembers, mockedPayments } from '@/tests'
+
+import { MembersCheckboxList } from '.'
 
 describe('<MembersCheckboxList />', () => {
   it('should render the checked members and also assign the blue color to the paid members and the red color to the unpaid member', () => {
@@ -21,10 +22,10 @@ describe('<MembersCheckboxList />', () => {
 
     const [abel, , , joao] = screen.getAllByRole('listitem')
 
-    expect(abel).toHaveStyle(`border-color: ${palette.red}`)
+    expect(abel).toHaveStyle('border-color: #f44336}')
     expect(within(abel).getByRole('checkbox')).not.toHaveAttribute('checked')
 
-    expect(joao).toHaveStyle(`border-color: ${palette.blue}`)
+    expect(joao).toHaveStyle('border-color: #1976d2')
     expect(within(joao).getByRole('checkbox')).toHaveAttribute('checked')
 
     fireEvent.click(joao.querySelector('label') as HTMLElement)

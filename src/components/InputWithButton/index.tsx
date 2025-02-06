@@ -5,14 +5,18 @@ import {
   TextField,
   TextFieldProps
 } from '@mui/material'
-import * as S from './style'
 
-type Props = {
+import * as S from './styles'
+
+type TInputWithButtonProps = {
   inputProps: TextFieldProps
   buttonProps: ButtonProps
 }
 
-export function InputWithButton({ inputProps, buttonProps }: Props) {
+export const InputWithButton = ({
+  inputProps,
+  buttonProps
+}: TInputWithButtonProps) => {
   return (
     <FormControl sx={S.Wrapper}>
       <TextField {...inputProps} />

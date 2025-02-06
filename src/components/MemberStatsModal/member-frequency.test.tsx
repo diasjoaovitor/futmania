@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
+
 import { mockedFrequency } from '@/tests'
-import { MemberFrequency } from '.'
+
+import { MemberFrequency } from './Frequency'
 
 describe('<MemberFrequency />', () => {
   it('should render empty frequency correctly', () => {

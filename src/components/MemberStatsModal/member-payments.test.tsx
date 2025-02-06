@@ -1,5 +1,7 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
+
 import { mockedFinance, mockedFinances, mockedFrequency } from '@/tests'
+
 import { MemberPayments } from '.'
 
 describe('<MemberPayments />', () => {

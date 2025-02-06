@@ -1,9 +1,10 @@
 import { render } from '@testing-library/react'
+
 import { Loader } from '.'
 
 describe('<Loader />', () => {
   it('should render the loading spinner', () => {
-    const { container } = render(<Loader open={true} />)
+    const { container } = render(<Loader />)
     expect(container.querySelector('.MuiBackdrop-root')).not.toHaveStyle(
       'visibility: hidden'
     )

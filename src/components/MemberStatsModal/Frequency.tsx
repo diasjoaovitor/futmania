@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Check, Close } from '@mui/icons-material'
 import {
   Box,
   List,
@@ -7,25 +7,23 @@ import {
   ListItemText,
   ListSubheader
 } from '@mui/material'
-import { Check, Close } from '@mui/icons-material'
-import {
-  TFrequency,
-  getDayNumMonthExtensiveYearNum,
-  sortByDate
-} from '@/functions'
-import { ExpandButton } from '..'
-import * as GS from '@/styles'
+import { useState } from 'react'
 
-type Props = {
+import * as GS from '@/styles'
+import {
+  formatDayNumMonthExtensiveYearNum,
+  sortByDate,
+  TFrequency
+} from '@/utils'
+
+import { ToggleExpandButton } from '..'
+
+type TFrequencyProps = {
   frequency: TFrequency[]
 }
 
-export function MemberFrequency({ frequency }: Props) {
+export const Frequency = ({ frequency }: TFrequencyProps) => {
   const [open, setOpen] = useState(false)
-
-  const handleOpen = () => setOpen(true)
-
-  const handleClose = () => setOpen(false)
 
   const sortedFrequency = sortByDate(frequency) as TFrequency[]
 
@@ -43,7 +41,7 @@ export function MemberFrequency({ frequency }: Props) {
                     key={date}
                     sx={{ p: 0, pt: 1 }}
                     data-testid="frequency-item"
-                    onClick={handleOpen}
+                    onClick={() => setOpen(true)}
                   >
                     <ListItemButton sx={{ p: 0, textAlign: 'center' }}>
                       <ListItemText
@@ -56,7 +54,7 @@ export function MemberFrequency({ frequency }: Props) {
           ) : (
             <>
               {[...sortedFrequency].reverse().map(({ date, showedUp }) => {
-                const d = getDayNumMonthExtensiveYearNum(date)
+                const d = formatDayNumMonthExtensiveYearNum(date)
                 return (
                   <ListItem
                     key={date}
@@ -72,7 +70,10 @@ export function MemberFrequency({ frequency }: Props) {
           )}
           {open && (
             <ListItem disablePadding>
-              <ExpandButton isExpanded={true} handleClick={handleClose} />
+              <ToggleExpandButton
+                isExpanded={true}
+                handleClick={() => setOpen(false)}
+              />
             </ListItem>
           )}
         </>

@@ -1,23 +1,32 @@
+import { Menu, MenuOpen } from '@mui/icons-material'
 import {
   AppBar as MUIAppBar,
-  Typography,
-  Toolbar,
-  IconButton,
   CSSObject,
-  Divider
+  Divider,
+  IconButton,
+  Toolbar,
+  Typography
 } from '@mui/material'
-import { Menu, MenuOpen } from '@mui/icons-material'
-import { Logo, Nav } from '..'
-import { useAppBar } from './useAppBar'
-import * as S from './style'
+import { useEffect, useState } from 'react'
 
-type Props = {
+import { Logo } from '..'
+import { Nav } from './Nav'
+import * as S from './styles'
+
+type TAppBarProps = {
   title: string
   md: boolean
 }
 
-export function AppBar({ title, md }: Props) {
-  const { isOpened, handleOpen } = useAppBar(md)
+export const AppBar = ({ title, md }: TAppBarProps) => {
+  const [isOpened, setIsOpened] = useState(md)
+
+  useEffect(() => {
+    setIsOpened(md)
+  }, [md])
+
+  const handleOpen = () => setIsOpened((IsOpened) => !IsOpened)
+
   const MenuIcon = !isOpened ? Menu : MenuOpen
   return (
     <>
@@ -29,7 +38,9 @@ export function AppBar({ title, md }: Props) {
       )}
       <MUIAppBar
         sx={
-          !isOpened ? S.Wrapper : ({ ...S.Wrapper, ...S.Opened } as CSSObject)
+          !isOpened
+            ? S.AppBarWrapper
+            : ({ ...S.AppBarWrapper, ...S.Opened } as CSSObject)
         }
       >
         <Toolbar>

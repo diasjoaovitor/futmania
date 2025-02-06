@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Check, Close } from '@mui/icons-material'
 import {
   List,
   ListItem,
@@ -7,31 +7,32 @@ import {
   ListSubheader,
   Typography
 } from '@mui/material'
-import { Check, Close } from '@mui/icons-material'
-import { TFinance } from '@/types'
-import {
-  TFrequency,
-  formatCurrency,
-  getMonthExtensiveYearNum
-} from '@/functions'
-import { getPayments, getPaymentsData } from './functions'
-import { palette } from '@/themes'
-import { ExpandButton } from '..'
-import * as S from './style'
+import { useState } from 'react'
 
-type Props = {
+import { TFinanceModel } from '@/models'
+import {
+  formatCurrency,
+  formatMonthExtensiveYearNum,
+  getMemberPayments,
+  getPaymentsData,
+  isNotPaid,
+  TFrequency
+} from '@/utils'
+
+import { ToggleExpandButton } from '..'
+import * as S from './styles'
+
+type TPaymentProps = {
   memberId: string
   frequency: TFrequency[]
-  finances: TFinance[]
+  finances: TFinanceModel[]
 }
 
-export function MemberPayments({ memberId, frequency, finances }: Props) {
-  const payments = getPayments(finances, memberId)
+export const Payments = ({ memberId, frequency, finances }: TPaymentProps) => {
+  const payments = getMemberPayments(finances, memberId)
   const data = getPaymentsData(frequency, payments)
 
-  const isNotPaid = data.some(
-    ({ exemptPayment, payment }) => !exemptPayment && !payment
-  )
+  const isPaid = !isNotPaid(data)
 
   const [open, setOpen] = useState(false)
 
@@ -50,7 +51,7 @@ export function MemberPayments({ memberId, frequency, finances }: Props) {
                 onClick={handleOpen}
                 sx={{ p: 0, textAlign: 'center', gap: 1, alignItems: 'center' }}
               >
-                {!isNotPaid ? (
+                {isPaid ? (
                   <>
                     <Check />
                     <Typography sx={{ position: 'relative', top: 2 }}>
@@ -73,13 +74,13 @@ export function MemberPayments({ memberId, frequency, finances }: Props) {
                 return (
                   <ListItem
                     key={yearMonth}
-                    sx={{ ...S.PaymentItem, borderColor: palette.gray }}
+                    sx={{ ...S.PaymentItem, borderColor: 'text.secondary' }}
                     data-testid="payment-item"
                   >
                     {payment > 0 || exemptPayment ? <Check /> : <Close />}
                     <div>
-                      <Typography variant="caption" color={palette.gray}>
-                        {getMonthExtensiveYearNum(yearMonth)}
+                      <Typography variant="caption" color="text.secondary">
+                        {formatMonthExtensiveYearNum(yearMonth)}
                       </Typography>
                       <Typography>Babas: {babas}</Typography>
                       <Typography>
@@ -94,7 +95,7 @@ export function MemberPayments({ memberId, frequency, finances }: Props) {
           )}
           {open && (
             <ListItem disablePadding>
-              <ExpandButton isExpanded={true} handleClick={handleClose} />
+              <ToggleExpandButton isExpanded={true} handleClick={handleClose} />
             </ListItem>
           )}
         </>

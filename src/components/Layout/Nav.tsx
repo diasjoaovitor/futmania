@@ -1,14 +1,16 @@
-import { Link, useLocation } from 'react-router-dom'
-import { Box, Divider, Link as MUILink, ListItemButton } from '@mui/material'
 import { GitHub } from '@mui/icons-material'
-import { Auth, ToggleTheme } from '..'
-import { navItems } from './nav-items'
-import * as S from './style'
+import { Box, Divider, Link as MUILink, ListItemButton } from '@mui/material'
+import { Link, useLocation } from 'react-router-dom'
 
-export function Nav() {
+import { AuthButton } from './AuthButton'
+import { navItems } from './nav-items'
+import * as S from './styles'
+import { ToggleTheme } from './ToggleTheme'
+
+export const Nav = () => {
   const { pathname } = useLocation()
   return (
-    <Box sx={S.Wrapper} component="nav">
+    <Box sx={S.NavWrapper} component="nav">
       <div>
         {navItems.map(({ label, to, icon: Icon }) => (
           <Link key={to} to={to}>
@@ -23,7 +25,7 @@ export function Nav() {
         <Divider />
         <ToggleTheme />
         <Divider />
-        <Auth />
+        <AuthButton />
         <Divider />
         <MUILink href="https://github.com/diasjoaovitor" target="_blank">
           <ListItemButton>

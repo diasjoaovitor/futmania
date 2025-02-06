@@ -1,4 +1,3 @@
-import { ChangeEvent } from 'react'
 import {
   Checkbox,
   FormControlLabel,
@@ -7,29 +6,31 @@ import {
   ListItemButton,
   Typography
 } from '@mui/material'
-import { palette } from '@/themes'
-import { TFinance, TMember } from '@/types'
-import { someFinanceIncludesMember, sortMembersByName } from '@/functions'
-import { memberIsChecked } from './functions'
-import * as GS from '@/styles'
+import { ChangeEvent } from 'react'
 
-type Props = {
+import { TFinanceModel, TMemberModel } from '@/models'
+import * as GS from '@/styles'
+import { someFinanceIncludesMember, sortMembersByName } from '@/utils'
+
+import { memberIsChecked } from './utils'
+
+type TMembersCheckboxListProps = {
   title: string
-  members: TMember[]
+  members: TMemberModel[]
   checkedMembers: string[]
   disabledMembers?: string[]
-  finances: TFinance[]
+  finances: TFinanceModel[]
   handleChange(e: ChangeEvent<HTMLInputElement>): void
 }
 
-export function MembersCheckboxList({
+export const MembersCheckboxList = ({
   title,
   members,
   checkedMembers,
   disabledMembers,
   finances,
   handleChange
-}: Props) {
+}: TMembersCheckboxListProps) => {
   return (
     <List>
       <Typography component="h3" variant="h6" mb={2}>
@@ -40,8 +41,8 @@ export function MembersCheckboxList({
           key={member.id}
           sx={GS.Li(
             !someFinanceIncludesMember(finances, member.id as string)
-              ? palette.red
-              : palette.blue
+              ? 'error.main'
+              : 'primary.main'
           )}
         >
           <ListItemButton>

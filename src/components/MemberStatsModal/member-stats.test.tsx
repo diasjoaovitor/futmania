@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react'
+
 import { mockedMemberStats } from '@/tests'
+
 import { MemberStats } from '.'
 
 describe('<MemberStats />', () => {

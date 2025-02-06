@@ -1,13 +1,12 @@
-import { FormControl, Theme, ThemeProvider, createTheme } from '@mui/material'
-import dayjs, { Dayjs } from 'dayjs'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { createTheme, Theme, ThemeProvider } from '@mui/material'
+import {
+  DatePicker,
+  DatePickerProps,
+  LocalizationProvider
+} from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-
-type Props = {
-  date: string
-  color?: 'error' | 'primary'
-  handleChange(e: Dayjs | null): void
-}
+import { Dayjs } from 'dayjs'
+import { forwardRef } from 'react'
 
 const theme = (theme: Theme, color: 'error' | 'primary') =>
   createTheme({
@@ -26,18 +25,21 @@ const theme = (theme: Theme, color: 'error' | 'primary') =>
     }
   })
 
-export function InputDate({ date, color, handleChange }: Props) {
-  return (
-    <ThemeProvider theme={(t: Theme) => theme(t, color || 'primary')}>
-      <FormControl fullWidth className="InputDate">
+export const InputDate = forwardRef(
+  (
+    props: DatePickerProps<Dayjs> & {
+      color?: 'error' | 'primary'
+      label: string
+    },
+    ref?: any
+  ) => {
+    const { label, color, ...rest } = props
+    return (
+      <ThemeProvider theme={(t: Theme) => theme(t, color || 'primary')}>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-          <DatePicker
-            label="Data"
-            value={dayjs(date)}
-            onChange={handleChange}
-          />
+          <DatePicker label={label} {...rest} ref={ref} />
         </LocalizationProvider>
-      </FormControl>
-    </ThemeProvider>
-  )
-}
+      </ThemeProvider>
+    )
+  }
+)
