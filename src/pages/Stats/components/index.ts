@@ -1,2 +1,2 @@
 export * from './Content'
-export * from './SelectSeason'
+export * from './SeasonSelect'

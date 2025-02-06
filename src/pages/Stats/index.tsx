@@ -2,7 +2,7 @@ import { Typography } from '@mui/material'
 
 import { Layout, MemberStatsModal } from '@/components'
 
-import { Content, SelectSeason } from './components'
+import { Content, SeasonSelect } from './components'
 import { useComponentHandler } from './use-component-handler'
 
 export const Stats = () => {
@@ -23,7 +23,7 @@ export const Stats = () => {
 
   return (
     <Layout title="Estatísticas">
-      <SelectSeason
+      <SeasonSelect
         season={season}
         year={year}
         years={years}

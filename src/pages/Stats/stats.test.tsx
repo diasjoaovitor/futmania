@@ -49,7 +49,7 @@ const currentSeason = `${formatMonthExtensive(Number(monthFrom))} - ${formatMont
 const currentYear = getYear(currentDate)
 
 const selectSeason = ({ year, season }: { year: string; season: string }) => {
-  const container = within(screen.getByTestId('select-season'))
+  const container = within(screen.getByTestId('season-select'))
 
   const seasonEl = container.getByText(currentSeason)
   fireEvent.mouseDown(seasonEl)
