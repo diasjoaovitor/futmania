@@ -6,10 +6,10 @@ export const getDatesInYearMonth = (
   month: number,
   dates: string[]
 ) => {
-  const result = getDistinctValues(
+  const result = getDistinctValues<string>(
     dates.filter((d) => getYear(d) === year && getMonth(d) === month)
   )
-  return result.length > 0 ? (result as string[]) : null
+  return result.length > 0 ? result : null
 }
 
 export const getBaba = (babas: TBabaModel[], date: string) =>
