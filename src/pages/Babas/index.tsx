@@ -41,7 +41,9 @@ export const Babas = () => {
           <MemberStatsModal {...memberStatsModalProps} />
         </>
       ) : (
-        <Typography my={2}>Ainda não existe nenhum Baba criado</Typography>
+        <Typography sx={{ my: 4 }}>
+          Não existe nenhum Baba nesta data
+        </Typography>
       )}
       {isAuthenticatedInTheSelectedBaba && (
         <>

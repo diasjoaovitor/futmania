@@ -15,7 +15,9 @@ export type TYearMonthDaySelectProps = {
   month: number
   date: string
   dates: string[]
-  handleChange(e: SelectChangeEvent): void
+  handleYearChange(e: SelectChangeEvent): void
+  handleMonthChange(e: SelectChangeEvent): void
+  handleDateChange(e: SelectChangeEvent): void
 }
 
 export const YearMonthDaySelect = ({
@@ -24,25 +26,27 @@ export const YearMonthDaySelect = ({
   month,
   date,
   dates,
-  handleChange
+  handleYearChange,
+  handleMonthChange,
+  handleDateChange
 }: TYearMonthDaySelectProps) => {
   return (
     <Box sx={S.YearMonthDaySelectWrapper} data-testid="select-year-month-day">
-      <Select name="date" value={date} onChange={handleChange}>
+      <Select name="date" value={date} onChange={handleDateChange}>
         {dates.map((date) => (
           <MenuItem key={date} value={date}>
             {formatStringWeekDayNumberMonthDay(date)}
           </MenuItem>
         ))}
       </Select>
-      <Select name="month" value={String(month)} onChange={handleChange}>
+      <Select name="month" value={String(month)} onChange={handleMonthChange}>
         {months.map((month) => (
           <MenuItem key={month} value={month}>
             {formatMonthExtensive(month)}
           </MenuItem>
         ))}
       </Select>
-      <YearSelect year={year} years={years} handleChange={handleChange} />
+      <YearSelect year={year} years={years} handleChange={handleYearChange} />
     </Box>
   )
 }

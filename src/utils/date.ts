@@ -13,6 +13,8 @@ export const getTimestamp = () => dayjs().utc().format('YYYY-MM-DDTHH:mm:ss')
 
 export const getCurrentDate = () => dayjs().format('YYYY-MM-DD')
 
+export const formatDate = (date: string) => dayjs(date).format('YYYY-MM-DD')
+
 export const getCurrentSeason = (seasons: string[], currentDate: string) =>
   seasons.find((season) => {
     const [monthFrom] = season.split('-')
@@ -37,6 +39,8 @@ export const formatMonthExtensive = (month: number) =>
 
 export const formatStringWeekDayNumberMonthDay = (date: string) =>
   capitalize(dayjs(date).format('dddd D').split(' ').join(' dia '))
+
+export const getMonthDay = (date: string) => dayjs(date).date()
 
 export const getYear = (date: string) => dayjs(date).year()
 

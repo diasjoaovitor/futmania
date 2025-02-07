@@ -10,6 +10,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import dayjs from 'dayjs'
 
 import { InputDate, MembersCheckboxListModal, Modal } from '@/components'
 import { useAppContext } from '@/contexts'
@@ -57,7 +58,11 @@ export const BabaForm = ({
   return (
     <Modal title="Editar Baba" isOpened={isOpened} handleClose={handleClose}>
       <Box sx={S.Wrapper}>
-        <InputDate date={date} handleChange={handleDateChange} />
+        <InputDate
+          label="Data"
+          value={dayjs(date)}
+          onChange={handleDateChange}
+        />
         {teams.map(({ name, members: mbs, draws, wins }, teamIndex) => (
           <List key={teamIndex}>
             <ListSubheader sx={S.SubHeader}>

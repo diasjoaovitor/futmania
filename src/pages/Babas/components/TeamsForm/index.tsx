@@ -7,6 +7,7 @@ import {
   Switch,
   Typography
 } from '@mui/material'
+import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 
 import {
@@ -73,7 +74,11 @@ export const TeamsForm = ({
         {members.length !== 0 ? (
           <>
             <Box mt={4}>
-              <InputDate date={date} handleChange={handleDateChange} />
+              <InputDate
+                label="Data"
+                value={dayjs(date)}
+                onChange={handleDateChange}
+              />
               <FormControlLabel
                 control={
                   <Switch

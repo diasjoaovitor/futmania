@@ -59,7 +59,8 @@ export const BabaLeaderboardRow = ({
               <TableBody>
                 {(sortByGoals([...members]) as TTeamMember[]).map((member) => {
                   const { memberId, goals } = member
-                  const m = getMemberById(allMembers, memberId) as TMemberModel
+                  const m = getMemberById(allMembers, memberId)
+                  if (!m) return null
                   return (
                     <TableRow
                       key={memberId}

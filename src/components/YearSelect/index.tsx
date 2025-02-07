@@ -1,7 +1,5 @@
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
-import { sortNumberDesc } from '@/utils'
-
 type TYearSelectProps = {
   year: number
   years: number[]
@@ -11,13 +9,13 @@ type TYearSelectProps = {
 export const YearSelect = ({ year, years, handleChange }: TYearSelectProps) => {
   return (
     <Select name="year" value={String(year)} onChange={handleChange}>
-      {sortNumberDesc(years.includes(year) ? years : [...years, year]).map(
-        (year) => (
+      {[...years]
+        .sort((a, b) => a - b)
+        .map((year) => (
           <MenuItem key={year} value={year}>
             {year}
           </MenuItem>
-        )
-      )}
+        ))}
     </Select>
   )
 }
