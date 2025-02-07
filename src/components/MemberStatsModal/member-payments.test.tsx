@@ -2,12 +2,12 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 
 import { mockedFinance, mockedFinances, mockedFrequency } from '@/tests'
 
-import { MemberPayments } from '.'
+import { Payments } from './Payments'
 
-describe('<MemberPayments />', () => {
+describe('<Payments />', () => {
   it("should render the member's payment status", () => {
     const { rerender } = render(
-      <MemberPayments
+      <Payments
         finances={mockedFinances}
         frequency={mockedFrequency}
         memberId="1"
@@ -17,7 +17,7 @@ describe('<MemberPayments />', () => {
     expect(screen.getByTestId('CheckIcon')).toBeInTheDocument()
 
     rerender(
-      <MemberPayments
+      <Payments
         finances={mockedFinances}
         frequency={[
           ...mockedFrequency,
@@ -35,7 +35,7 @@ describe('<MemberPayments />', () => {
 
   it('should render all member payments', () => {
     render(
-      <MemberPayments
+      <Payments
         finances={[
           ...mockedFinances,
           {

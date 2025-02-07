@@ -2,18 +2,18 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 
 import { mockedFrequency } from '@/tests'
 
-import { MemberFrequency } from './Frequency'
+import { Frequency } from './Frequency'
 
-describe('<MemberFrequency />', () => {
+describe('<Frequency />', () => {
   it('should render empty frequency correctly', () => {
-    render(<MemberFrequency frequency={[]} />)
+    render(<Frequency frequency={[]} />)
     expect(screen.getByText('Frequência'))
     expect(screen.queryAllByTestId('CheckIcon').length).toBe(0)
     expect(screen.getAllByTestId('CloseIcon').length).toBe(1)
   })
 
   it('should render ordered frequency icons', () => {
-    render(<MemberFrequency frequency={mockedFrequency} />)
+    render(<Frequency frequency={mockedFrequency} />)
 
     const items = screen.getAllByTestId('frequency-item')
     expect(items.length).toBe(5)
@@ -27,7 +27,7 @@ describe('<MemberFrequency />', () => {
   })
 
   it('should render expanded list after click', () => {
-    render(<MemberFrequency frequency={mockedFrequency} />)
+    render(<Frequency frequency={mockedFrequency} />)
 
     const compactItems = screen.getAllByTestId('frequency-item')
     expect(compactItems.length).toBe(5)

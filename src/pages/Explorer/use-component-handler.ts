@@ -1,6 +1,6 @@
 import { useAppContext } from '@/contexts'
 
 export const useComponentHandler = () => {
-  const { users, babaId } = useAppContext()
-  return { users, babaId }
+  const { users, babaUser } = useAppContext()
+  return { users, babaId: babaUser?.id }
 }

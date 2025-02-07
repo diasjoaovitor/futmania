@@ -1,6 +1,6 @@
 import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
-import { SelectYear } from '@/components'
+import { YearSelect } from '@/components'
 import { seasons } from '@/constants'
 import { formatMonthExtensive } from '@/utils'
 
@@ -38,7 +38,7 @@ export const SelectSeason = ({
           )
         })}
       </Select>
-      <SelectYear year={year} years={years} handleChange={handleYearChange} />
+      <YearSelect year={year} years={years} handleChange={handleYearChange} />
     </Box>
   )
 }
