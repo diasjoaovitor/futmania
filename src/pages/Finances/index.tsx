@@ -1,66 +1,52 @@
-import { Box, Button, Divider } from '@mui/material'
-import {
-  Dialog,
-  ExpandButton,
-  FinancesForm,
-  FinancesList,
-  Layout,
-  SelectYearMonth,
-  Wallet
-} from '@/shared/components'
-import { useLimit } from '@/shared/hooks'
-import { useFinances } from './useFinances'
-import { sortFinances } from './functions'
+import { Button, Divider } from '@mui/material'
 
-export function Finances() {
+import { Layout, ToggleExpandButton } from '@/components'
+import { useLimit } from '@/hooks'
+
+import { Form, List, Wallet, YearMonthSelect } from './components'
+import { useComponentHandler } from './use-component-handler'
+import { sortFinances } from './utils'
+
+export const Finances = () => {
   const {
-    user,
-    year,
-    month,
+    isAuthenticatedInTheSelectedBaba,
     wallet,
-    handlePeriodChange,
-    years,
-    finances,
-    financesFormProps,
-    handleOpenModal,
-    handleOpenModalUpdate,
-    alertProps,
-    dialogProps,
-    isPending
-  } = useFinances()
+    formProps,
+    yearMonthSelectProps,
+    setIsFormModalOpen,
+    handleFinanceClick
+  } = useComponentHandler()
+
+  const finances = [...wallet.expensesInMonth, ...wallet.incomesInMonth]
 
   const { limited, isFull, handleLimit } = useLimit(sortFinances(finances), 10)
 
   return (
-    <Layout title="Finanças" alertProps={alertProps} isPending={isPending}>
-      <Box maxWidth={900}>
-        <SelectYearMonth
-          year={year}
-          month={month}
-          years={years}
-          handleChange={handlePeriodChange}
-        />
-        <Divider sx={{ my: 2 }} />
-        <Wallet
-          balance={wallet.balance}
-          expenses={wallet.totalExpensesInMonth}
-          incomes={wallet.totalIncomesInMonth}
-        />
-        <Divider sx={{ my: 2 }} />
-        <FinancesList finances={limited} handleClick={handleOpenModalUpdate} />
-        {finances.length > 10 && (
-          <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
-        )}
-        {user && (
-          <>
-            <Button sx={{ my: 2 }} variant="outlined" onClick={handleOpenModal}>
-              Adicionar Finanças
-            </Button>
-            <FinancesForm {...financesFormProps} />
-            <Dialog {...dialogProps} />
-          </>
-        )}
-      </Box>
+    <Layout title="Finanças">
+      <YearMonthSelect {...yearMonthSelectProps} />
+      <Divider sx={{ my: 2 }} />
+      <Wallet
+        balance={wallet.balance}
+        expenses={wallet.totalExpensesInMonth}
+        incomes={wallet.totalIncomesInMonth}
+      />
+      <Divider sx={{ my: 2 }} />
+      <List finances={limited} handleClick={handleFinanceClick} />
+      {finances.length > 10 && (
+        <ToggleExpandButton isExpanded={isFull} handleClick={handleLimit} />
+      )}
+      {isAuthenticatedInTheSelectedBaba && (
+        <>
+          <Button
+            sx={{ my: 2 }}
+            variant="outlined"
+            onClick={() => setIsFormModalOpen(true)}
+          >
+            Adicionar Finanças
+          </Button>
+          <Form {...formProps} />
+        </>
+      )}
     </Layout>
   )
 }

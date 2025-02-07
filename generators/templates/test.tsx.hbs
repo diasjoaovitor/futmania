@@ -3,7 +3,7 @@ import { {{pascalCase name}} } from '.'
 
 describe('<{{pascalCase name}} />', () => {
   it('should render the heading', () => {
-    render(<{{pascalCase name}} />)
-    expect(screen.getByRole('heading', { name: /{{pascalCase name}}/i })).toBeInTheDocument()
+    render(<AuthForm>{{pascalCase name}}</AuthForm>)
+    expect(screen.getByText('{{pascalCase name}}')).toBeInTheDocument()
   })
 })

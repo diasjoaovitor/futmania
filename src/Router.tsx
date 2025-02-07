@@ -1,16 +1,31 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Babas, Finances, Login, Members, Stats } from './pages'
+import { Route, Routes } from 'react-router-dom'
 
-export function Router() {
+import {
+  Babas,
+  EmailVerification,
+  Explorer,
+  Finances,
+  ForgotPassword,
+  Members,
+  NotFound,
+  SignIn,
+  SignUp,
+  Stats
+} from './pages'
+
+export const Router = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/entrar" element={<Login />} />
-        <Route path="/" element={<Babas />} />
-        <Route path="/estatisticas" element={<Stats />} />
-        <Route path="/membros" element={<Members />} />
-        <Route path="/financas" element={<Finances />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/email-verification" element={<EmailVerification />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/explorer" element={<Explorer />} />
+      <Route path="/" element={<Babas />} />
+      <Route path="/stats" element={<Stats />} />
+      <Route path="/members" element={<Members />} />
+      <Route path="/finances" element={<Finances />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }
