@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { db } from '.'
+import { db } from '@/config'
 import { TBaba, TBabaUser, TFinance, TMember } from '@/types'
 
 async function get(collectionName: string, userId: string) {
