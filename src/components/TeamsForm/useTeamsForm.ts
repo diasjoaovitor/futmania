@@ -3,7 +3,7 @@ import { TTeam } from '@/types'
 import { ChangeEvent, useState } from 'react'
 import { assignTeams, drawTeams } from './functions'
 import { Dayjs } from 'dayjs'
-import { currentDate } from '@/states'
+import { currentDate } from '@/constants'
 
 export function useTeamsForm() {
   const [date, setDate] = useState(currentDate)

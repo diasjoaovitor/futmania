@@ -4,7 +4,7 @@ import {
   getStringWeekDayNumberMonthDay,
   sortNumberDesc
 } from '@/utils'
-import { months } from '@/states'
+import { months } from '@/constants'
 import { SelectYear } from '../SelectYear'
 
 type Props = {

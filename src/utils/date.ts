@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { currentDate } from '@/states'
+import { currentDate } from '@/constants'
 import { getDistinctValues } from './getters'
 import 'dayjs/locale/pt-br'
 

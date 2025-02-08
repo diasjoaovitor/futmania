@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { seasons } from '@/states'
+import { seasons } from '@/constants'
 import { SelectSeason } from '.'
 
 describe('<SelectSeason />', () => {

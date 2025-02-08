@@ -1,4 +1,4 @@
-import { currentDate } from '@/states'
+import { currentDate } from '@/constants'
 import { TFinance } from '@/types'
 
 export const defaultFinanceState = {

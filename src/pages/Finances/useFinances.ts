@@ -14,7 +14,7 @@ import { useAuthContext } from '@/contexts'
 import { getMemberById, getMonth, getYear } from '@/utils'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import { TFinance, TMember } from '@/types'
-import { currentDate } from '@/states'
+import { currentDate } from '@/constants'
 import { defaultFinanceState } from './states'
 import { getPayments, getWallet } from './functions'
 

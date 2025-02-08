@@ -1,6 +1,6 @@
 import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { getMonthExtensive, sortStringDesc } from '@/utils'
-import { seasons } from '@/states'
+import { seasons } from '@/constants'
 import { SelectYear } from '../SelectYear'
 
 type Props = {

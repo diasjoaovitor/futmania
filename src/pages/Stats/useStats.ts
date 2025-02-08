@@ -12,7 +12,7 @@ import {
 } from '@/utils'
 import { useAlert, useModal } from '@/hooks'
 import { TBaba, TFinance, TMember } from '@/types'
-import { currentDate, currentSeason } from '@/states'
+import { currentDate, currentSeason } from '@/constants'
 
 export function useStats() {
   const { user, babaUser } = useAuthContext()
