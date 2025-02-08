@@ -9,7 +9,7 @@ import {
 } from '@/components'
 import { useThemeContext } from '@/contexts'
 import { useLimit } from '@/hooks'
-import { separateMembers, sortMembersByName } from '@/functions'
+import { separateMembers, sortMembersByName } from '@/utils'
 import { useMembers } from './useMembers'
 
 const min = 5

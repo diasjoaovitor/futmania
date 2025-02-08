@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { TFinance, TMember } from '@/types'
 import { useModal } from '@/hooks'
-import { sortMembersByName } from '@/functions'
+import { sortMembersByName } from '@/utils'
 import { palette } from '@/themes'
 import { InputAdornment, InputDate, MembersCheckboxListModal, Modal } from '..'
 import * as S from './style'

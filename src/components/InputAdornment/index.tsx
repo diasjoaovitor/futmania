@@ -5,7 +5,7 @@ import {
   InputLabel,
   OutlinedInput
 } from '@mui/material'
-import { handleFocus } from '@/functions'
+import { handleFocus } from '@/utils'
 
 type Props = {
   name: string

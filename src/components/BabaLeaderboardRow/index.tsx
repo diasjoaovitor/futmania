@@ -9,7 +9,7 @@ import {
   TableRow
 } from '@mui/material'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
-import { getMemberById, sortByGoals } from '@/functions'
+import { getMemberById, sortByGoals } from '@/utils'
 import { TMember, TTeam } from '@/types'
 
 type Props = {

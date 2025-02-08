@@ -9,7 +9,7 @@ import {
   getMembersStats,
   getYear,
   getYears
-} from '@/functions'
+} from '@/utils'
 import { useAlert, useModal } from '@/hooks'
 import { TBaba, TFinance, TMember } from '@/types'
 import { currentDate, currentSeason } from '@/states'

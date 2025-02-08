@@ -1,4 +1,4 @@
-import { TFrequency, getDistinctValues, getYearMonth } from '@/functions'
+import { TFrequency, getDistinctValues, getYearMonth } from '@/utils'
 import { TFinance } from '@/types'
 
 type TPaymentData = {

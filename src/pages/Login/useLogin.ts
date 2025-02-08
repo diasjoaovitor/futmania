@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { AuthError } from 'firebase/auth'
 import { AlertProps } from '@/components'
 import { getErrorMessage } from '@/errors'
-import { getElementValues } from '@/functions'
+import { getElementValues } from '@/utils'
 import { login } from '@/firebase'
 import { useAlert } from '@/hooks'
 

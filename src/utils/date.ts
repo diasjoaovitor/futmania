@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { currentDate } from '@/states'
-import { getDistinctValues } from '..'
+import { getDistinctValues } from './getters'
 import 'dayjs/locale/pt-br'
 
 dayjs.locale('pt-br')

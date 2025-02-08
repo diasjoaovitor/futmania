@@ -24,7 +24,7 @@ import {
   updateFinance
 } from '@/firebase'
 import { Finances } from '.'
-import { getMonth, getMonthExtensive, getYear } from '@/functions'
+import { getMonth, getMonthExtensive, getYear } from '@/utils'
 import { currentDate } from '@/states'
 import { mockedFinances, mockedMembers } from '@/tests'
 import { AlertProps } from '@/components'

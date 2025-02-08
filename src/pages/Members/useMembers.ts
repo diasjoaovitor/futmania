@@ -19,7 +19,7 @@ import {
   getElementValues,
   getElementsCheckedValues,
   getMemberStats
-} from '@/functions'
+} from '@/utils'
 import { someBabaIncludesMember } from './functions'
 
 export function useMembers() {

@@ -1,5 +1,5 @@
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import { sortNumberDesc } from '@/functions'
+import { sortNumberDesc } from '@/utils'
 
 type Props = {
   year: number

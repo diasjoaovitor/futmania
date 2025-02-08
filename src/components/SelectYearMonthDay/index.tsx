@@ -3,7 +3,7 @@ import {
   getMonthExtensive,
   getStringWeekDayNumberMonthDay,
   sortNumberDesc
-} from '@/functions'
+} from '@/utils'
 import { months } from '@/states'
 import { SelectYear } from '../SelectYear'
 

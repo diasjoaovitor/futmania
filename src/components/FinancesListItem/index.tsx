@@ -1,5 +1,5 @@
 import { Box, ListItem, Typography } from '@mui/material'
-import { formatCurrency, getDayNumMonthExtensive } from '@/functions'
+import { formatCurrency, getDayNumMonthExtensive } from '@/utils'
 import { TFinance } from '@/types'
 import { palette } from '@/themes'
 import * as GS from '@/styles'

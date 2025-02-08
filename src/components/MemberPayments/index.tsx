@@ -13,7 +13,7 @@ import {
   TFrequency,
   formatCurrency,
   getMonthExtensiveYearNum
-} from '@/functions'
+} from '@/utils'
 import { getPayments, getPaymentsData } from './functions'
 import { palette } from '@/themes'
 import { ExpandButton } from '..'

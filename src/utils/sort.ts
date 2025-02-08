@@ -1,6 +1,6 @@
 import { TMember } from '@/types'
 import dayjs from 'dayjs'
-import { TMemberStats } from '..'
+import { TMemberStats } from './stats'
 
 export function sortNumberDesc(values: number[]) {
   return values.sort((a, b) => b - a)

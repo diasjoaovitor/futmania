@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { SvgIconComponent } from '@mui/icons-material'
-import { formatCurrency } from '@/functions'
+import { formatCurrency } from '@/utils'
 import { palette } from '@/themes'
 import * as S from './style'
 

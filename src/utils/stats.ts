@@ -1,5 +1,5 @@
 import { TBaba, TMember } from '@/types'
-import { sortByDate } from '..'
+import { sortByDate } from './sort'
 
 export type TFrequency = {
   date: string

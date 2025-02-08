@@ -1,5 +1,5 @@
 import { Divider } from '@mui/material'
-import { TMemberStats } from '@/functions'
+import { TMemberStats } from '@/utils'
 import { TFinance, TMember } from '@/types'
 import { MemberFrequency, MemberPayments, MemberStats, Modal } from '..'
 

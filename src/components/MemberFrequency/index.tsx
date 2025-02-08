@@ -12,7 +12,7 @@ import {
   TFrequency,
   getDayNumMonthExtensiveYearNum,
   sortByDate
-} from '@/functions'
+} from '@/utils'
 import { ExpandButton } from '..'
 import * as GS from '@/styles'
 

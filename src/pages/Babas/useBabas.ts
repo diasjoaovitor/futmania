@@ -20,7 +20,7 @@ import {
   getYear,
   getYears,
   sortByDate
-} from '@/functions'
+} from '@/utils'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import { TBaba, TFinance, TMember, TTeam } from '@/types'
 import { createdAt, currentDate } from '@/states'

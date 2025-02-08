@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '@mui/material'
-import { TStats, sortByGoals, sortMembersByRanking } from '@/functions'
+import { TStats, sortByGoals, sortMembersByRanking } from '@/utils'
 import { useLimit } from '@/hooks'
 import { TMember } from '@/types'
 import { MembersRankingTable } from '..'

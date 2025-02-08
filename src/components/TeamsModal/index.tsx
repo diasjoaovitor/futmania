@@ -7,7 +7,7 @@ import {
   ListSubheader
 } from '@mui/material'
 import { TMember, TTeam } from '@/types'
-import { getMemberById } from '@/functions'
+import { getMemberById } from '@/utils'
 import { Modal } from '..'
 
 type Props = {

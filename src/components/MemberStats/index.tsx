@@ -12,7 +12,7 @@ import {
   StarRate,
   SvgIconComponent
 } from '@mui/icons-material'
-import { TMemberStats } from '@/functions'
+import { TMemberStats } from '@/utils'
 import * as S from './style'
 
 type TListItems = {

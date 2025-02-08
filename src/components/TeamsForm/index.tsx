@@ -20,7 +20,7 @@ import {
   handleFocus,
   separateMembers,
   sortMembersByName
-} from '@/functions'
+} from '@/utils'
 import { TFinance, TMember, TTeam } from '@/types'
 import { useLimit } from '@/hooks'
 import { useTeamsForm } from './useTeamsForm'

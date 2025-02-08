@@ -12,7 +12,7 @@ import {
   Typography
 } from '@mui/material'
 import { TBaba, TMember } from '@/types'
-import { getMemberById, handleFocus } from '@/functions'
+import { getMemberById, handleFocus } from '@/utils'
 import { InputDate, MembersCheckboxListModal, Modal } from '..'
 import * as S from './style'
 

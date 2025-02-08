@@ -12,7 +12,7 @@ import { TFinance, TMember } from '@/types'
 import {
   someFinanceIncludesMember,
   sortMembersByName
-} from '@/functions'
+} from '@/utils'
 import { memberIsChecked } from './functions'
 import * as GS from '@/styles'
 

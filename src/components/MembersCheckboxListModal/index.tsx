@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { TFinance, TMember } from '@/types'
-import { separateMembers } from '@/functions'
+import { separateMembers } from '@/utils'
 import { MembersCheckboxList, Modal } from '..'
 import { Button } from '@mui/material'
 

@@ -1,4 +1,4 @@
-import { getYear, getYearMonth } from '@/functions'
+import { getYear, getYearMonth } from '@/utils'
 import { TFinance } from '@/types'
 
 export function getWallet(finances: TFinance[], date: string) {
