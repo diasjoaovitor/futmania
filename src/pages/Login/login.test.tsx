@@ -2,10 +2,10 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { login } from '@/shared/firebase'
+import { login } from '@/firebase'
 import { Login } from '.'
 
-jest.mock('../../shared/firebase/auth')
+jest.mock('@/firebase/auth')
 
 const mockedLogin = login as jest.Mock
 

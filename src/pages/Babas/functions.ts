@@ -1,4 +1,4 @@
-import { getDistinctValues, getMonth, getYear } from '@/shared/functions'
+import { getDistinctValues, getMonth, getYear } from '@/functions'
 
 export function getBabaDatesInYearMonth(
   year: number,

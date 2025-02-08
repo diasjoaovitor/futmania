@@ -4,7 +4,7 @@ import {
   MemberModal,
   MembersRanking,
   SelectSeason
-} from '@/shared/components'
+} from '@/components'
 import { useStats } from './useStats'
 import * as S from './style'
 

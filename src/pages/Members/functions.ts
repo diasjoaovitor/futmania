@@ -1,4 +1,4 @@
-import { TBaba } from '@/shared/types'
+import { TBaba } from '@/types'
 
 export function someBabaIncludesMember(id: string, babas: TBaba[]) {
   return babas.some(({ teams }) =>

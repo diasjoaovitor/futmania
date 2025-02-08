@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { TBaba, TBabaUser, TFinance, TMember } from '@/shared/types'
-import { useAuth as useAuthContext } from '@/shared/contexts/AuthContext/useAuth'
-import { AuthProvider } from '@/shared/contexts'
-import { getBabas, getFinances, getMembers } from '@/shared/firebase'
+import { TBaba, TBabaUser, TFinance, TMember } from '@/types'
+import { useAuth as useAuthContext } from '@/contexts/AuthContext/useAuth'
+import { AuthProvider } from '@/contexts'
+import { getBabas, getFinances, getMembers } from '@/firebase'
 import { Babas } from '.'
 
-jest.mock('../../shared/contexts/AuthContext/useAuth')
-jest.mock('../../shared/firebase')
+jest.mock('@/contexts/AuthContext/useAuth')
+jest.mock('@/firebase')
 
 const mockedGetMembers = getMembers as jest.Mock<Promise<TMember[]>>
 const mockedGetBabas = getBabas as jest.Mock<Promise<TBaba[]>>

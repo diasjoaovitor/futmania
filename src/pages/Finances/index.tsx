@@ -7,8 +7,8 @@ import {
   Layout,
   SelectYearMonth,
   Wallet
-} from '@/shared/components'
-import { useLimit } from '@/shared/hooks'
+} from '@/components'
+import { useLimit } from '@/hooks'
 import { useFinances } from './useFinances'
 import { sortFinances } from './functions'
 

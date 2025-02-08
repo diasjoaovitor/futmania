@@ -1,5 +1,5 @@
-import { currentDate } from '@/shared/states'
-import { TFinance } from '@/shared/types'
+import { currentDate } from '@/states'
+import { TFinance } from '@/types'
 
 export const defaultFinanceState = {
   date: currentDate,

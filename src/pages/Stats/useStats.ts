@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { SelectChangeEvent } from '@mui/material'
-import { AlertProps, MemberModalProps } from '@/shared/components'
-import { useQueriesMembersAndBabasAndFinances } from '@/shared/react-query'
-import { useAuthContext } from '@/shared/contexts'
+import { AlertProps, MemberModalProps } from '@/components'
+import { useQueriesMembersAndBabasAndFinances } from '@/react-query'
+import { useAuthContext } from '@/contexts'
 import {
   getBabasInSeason,
   getMemberStats,
   getMembersStats,
   getYear,
   getYears
-} from '@/shared/functions'
-import { useAlert, useModal } from '@/shared/hooks'
-import { TBaba, TFinance, TMember } from '@/shared/types'
-import { currentDate, currentSeason } from '@/shared/states'
+} from '@/functions'
+import { useAlert, useModal } from '@/hooks'
+import { TBaba, TFinance, TMember } from '@/types'
+import { currentDate, currentSeason } from '@/states'
 
 export function useStats() {
   const { user, babaUser } = useAuthContext()

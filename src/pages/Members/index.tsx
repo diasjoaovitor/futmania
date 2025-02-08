@@ -6,10 +6,10 @@ import {
   MemberModal,
   MembersForm,
   MembersList
-} from '@/shared/components'
-import { useThemeContext } from '@/shared/contexts'
-import { useLimit } from '@/shared/hooks'
-import { separateMembers, sortMembersByName } from '@/shared/functions'
+} from '@/components'
+import { useThemeContext } from '@/contexts'
+import { useLimit } from '@/hooks'
+import { separateMembers, sortMembersByName } from '@/functions'
 import { useMembers } from './useMembers'
 
 const min = 5

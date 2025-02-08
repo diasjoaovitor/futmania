@@ -8,7 +8,7 @@ import {
   MemberModal,
   SelectYearMonthDay,
   TeamsForm
-} from '@/shared/components'
+} from '@/components'
 import { useBabas } from './useBabas'
 import * as S from './style'
 

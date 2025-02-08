@@ -6,24 +6,24 @@ import {
   DialogProps,
   MemberModalProps,
   TeamsFormProps
-} from '@/shared/components'
+} from '@/components'
 import {
   useMutationCreateBaba,
   useMutationDeleteBaba,
   useMutationUpdateBaba,
   useQueriesMembersAndBabasAndFinances
-} from '@/shared/react-query'
-import { useAuthContext } from '@/shared/contexts'
+} from '@/react-query'
+import { useAuthContext } from '@/contexts'
 import {
   getMemberStats,
   getMonth,
   getYear,
   getYears,
   sortByDate
-} from '@/shared/functions'
-import { useAlert, useDialog, useModal } from '@/shared/hooks'
-import { TBaba, TFinance, TMember, TTeam } from '@/shared/types'
-import { createdAt, currentDate } from '@/shared/states'
+} from '@/functions'
+import { useAlert, useDialog, useModal } from '@/hooks'
+import { TBaba, TFinance, TMember, TTeam } from '@/types'
+import { createdAt, currentDate } from '@/states'
 import { getBabaDatesInYearMonth } from './functions'
 
 export function useBabas() {

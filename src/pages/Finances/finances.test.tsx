@@ -9,12 +9,12 @@ import userEvent from '@testing-library/user-event'
 import dayjs from 'dayjs'
 import { User } from 'firebase/auth'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { TFinance, TMember } from '@/shared/types'
+import { TFinance, TMember } from '@/types'
 import {
   TUseAuthContext,
   useAuth as useAuthContext
-} from '@/shared/contexts/AuthContext/useAuth'
-import { AuthProvider, ThemeProvider } from '@/shared/contexts'
+} from '@/contexts/AuthContext/useAuth'
+import { AuthProvider, ThemeProvider } from '@/contexts'
 import {
   createFinance,
   createFinances,
@@ -22,15 +22,15 @@ import {
   getFinances,
   getMembers,
   updateFinance
-} from '@/shared/firebase'
+} from '@/firebase'
 import { Finances } from '.'
-import { getMonth, getMonthExtensive, getYear } from '@/shared/functions'
-import { currentDate } from '@/shared/states'
-import { mockedFinances, mockedMembers } from '@/shared/tests'
-import { AlertProps } from '@/shared/components'
+import { getMonth, getMonthExtensive, getYear } from '@/functions'
+import { currentDate } from '@/states'
+import { mockedFinances, mockedMembers } from '@/tests'
+import { AlertProps } from '@/components'
 
-jest.mock('../../shared/contexts/AuthContext/useAuth')
-jest.mock('../../shared/firebase')
+jest.mock('@/contexts/AuthContext/useAuth')
+jest.mock('@/firebase')
 
 jest.setTimeout(20000)
 
