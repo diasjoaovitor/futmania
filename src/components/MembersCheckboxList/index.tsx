@@ -7,12 +7,8 @@ import {
   ListItemButton,
   Typography
 } from '@mui/material'
-import { palette } from '@/themes'
 import { TFinance, TMember } from '@/types'
-import {
-  someFinanceIncludesMember,
-  sortMembersByName
-} from '@/utils'
+import { someFinanceIncludesMember, sortMembersByName } from '@/utils'
 import { memberIsChecked } from './functions'
 import * as GS from '@/styles'
 
@@ -43,8 +39,8 @@ export function MembersCheckboxList({
           key={member.id}
           sx={GS.Li(
             !someFinanceIncludesMember(finances, member.id as string)
-              ? palette.red
-              : palette.blue
+              ? 'error.main'
+              : 'primary.main'
           )}
         >
           <ListItemButton>

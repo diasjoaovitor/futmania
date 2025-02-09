@@ -1,7 +1,6 @@
 import { Box, ListItem, Typography } from '@mui/material'
 import { formatCurrency, getDayNumMonthExtensive } from '@/utils'
 import { TFinance } from '@/types'
-import { palette } from '@/themes'
 import * as GS from '@/styles'
 
 type Props = {
@@ -15,11 +14,11 @@ export function FinancesListItem({ finance, handleClick }: Props) {
     type === '-'
       ? {
           caption: 'Despesa',
-          color: palette.red
+          color: 'error.main'
         }
       : {
           caption: 'Receita',
-          color: palette.blue
+          color: 'primary.main'
         }
   const { caption, color } = state
   return (
@@ -33,13 +32,13 @@ export function FinancesListItem({ finance, handleClick }: Props) {
       onClick={() => handleClick(finance)}
     >
       <div>
-        <Typography variant="caption" color={palette.gray}>
+        <Typography variant="caption" color="text.secondary">
           {caption}
         </Typography>
         <Typography>{description}</Typography>
       </div>
       <Box textAlign="right">
-        <Typography variant="caption" color={palette.gray}>
+        <Typography variant="caption" color="text.secondary">
           {getDayNumMonthExtensive(date)}
         </Typography>
         <Typography variant="h6">{formatCurrency(Number(value))}</Typography>

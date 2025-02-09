@@ -1,7 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { SvgIconComponent } from '@mui/icons-material'
 import { formatCurrency } from '@/utils'
-import { palette } from '@/themes'
 import * as S from './style'
 
 type Props = {
@@ -15,7 +14,7 @@ export function WalletCard({ caption, color, icon: Icon, value }: Props) {
   return (
     <Box sx={{ ...S.Wrapper, borderColor: color }}>
       <div>
-        <Typography variant="caption" color={palette.gray}>
+        <Typography variant="caption" color="text.secondary">
           {caption}
         </Typography>
         <Typography variant="h5">{formatCurrency(value)}</Typography>

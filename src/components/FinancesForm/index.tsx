@@ -12,7 +12,6 @@ import {
 import { TFinance, TMember } from '@/types'
 import { useModal } from '@/hooks'
 import { sortMembersByName } from '@/utils'
-import { palette } from '@/themes'
 import { InputAdornment, InputDate, MembersCheckboxListModal, Modal } from '..'
 import * as S from './style'
 
@@ -56,11 +55,11 @@ export function FinancesForm({
     type === '-'
       ? {
           mui: 'error',
-          hex: palette.red
+          hex: 'error.main'
         }
       : {
           mui: 'primary',
-          hex: palette.blue
+          hex: 'primary.main'
         }
 
   return (

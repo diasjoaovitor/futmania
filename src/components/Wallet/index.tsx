@@ -1,6 +1,5 @@
 import { Box } from '@mui/material'
 import { ArrowDownward, ArrowUpward, AttachMoney } from '@mui/icons-material'
-import { palette } from '@/themes'
 import { WalletCard } from '..'
 import * as S from './style'
 
@@ -16,19 +15,19 @@ export function Wallet({ incomes, expenses, balance }: Props) {
       <WalletCard
         caption="Saldo em caixa"
         value={balance}
-        color={palette.green}
+        color={balance >= 0 ? 'success.main' : 'warning.main'}
         icon={AttachMoney}
       />
       <WalletCard
         caption="Receitas do mês"
         value={incomes}
-        color={palette.blue}
+        color="primary.main"
         icon={ArrowUpward}
       />
       <WalletCard
         caption="Despesas do mês"
         value={expenses}
-        color={palette.red}
+        color="error.main"
         icon={ArrowDownward}
       />
     </Box>

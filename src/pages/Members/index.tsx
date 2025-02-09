@@ -7,7 +7,6 @@ import {
   MembersForm,
   MembersList
 } from '@/components'
-import { useThemeContext } from '@/contexts'
 import { useLimit } from '@/hooks'
 import { separateMembers, sortMembersByName } from '@/utils'
 import { useMembers } from './useMembers'
@@ -15,10 +14,6 @@ import { useMembers } from './useMembers'
 const min = 5
 
 export function Members() {
-  const {
-    theme: { palette }
-  } = useThemeContext()
-
   const {
     user,
     members,
@@ -47,7 +42,7 @@ export function Members() {
             <MembersList
               title="Membros Fixos"
               members={sortMembersByName(fixedMembers)}
-              color={palette.primary.main}
+              color="primary.main"
               handleClick={handleMemberClick}
             />
           )}
@@ -55,7 +50,7 @@ export function Members() {
             <MembersList
               title="Goleiros"
               members={sortMembersByName(goalkeepers)}
-              color={palette.secondary.main}
+              color="secondary.main"
               handleClick={handleMemberClick}
             />
           )}
@@ -64,7 +59,7 @@ export function Members() {
               <MembersList
                 title="Membros Avulsos"
                 members={limitedNonMembers}
-                color={palette.secondary.light}
+                color="secondary.light"
                 handleClick={handleMemberClick}
               />
               {nonMembers.length > min && (

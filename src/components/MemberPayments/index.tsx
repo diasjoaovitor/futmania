@@ -9,13 +9,8 @@ import {
 } from '@mui/material'
 import { Check, Close } from '@mui/icons-material'
 import { TFinance } from '@/types'
-import {
-  TFrequency,
-  formatCurrency,
-  getMonthExtensiveYearNum
-} from '@/utils'
+import { TFrequency, formatCurrency, getMonthExtensiveYearNum } from '@/utils'
 import { getPayments, getPaymentsData } from './functions'
-import { palette } from '@/themes'
 import { ExpandButton } from '..'
 import * as S from './style'
 
@@ -73,12 +68,12 @@ export function MemberPayments({ memberId, frequency, finances }: Props) {
                 return (
                   <ListItem
                     key={yearMonth}
-                    sx={{ ...S.PaymentItem, borderColor: palette.gray }}
+                    sx={{ ...S.PaymentItem, borderColor: 'text.secondary' }}
                     data-testid="payment-item"
                   >
                     {payment > 0 || exemptPayment ? <Check /> : <Close />}
                     <div>
-                      <Typography variant="caption" color={palette.gray}>
+                      <Typography variant="caption" color="text.secondary">
                         {getMonthExtensiveYearNum(yearMonth)}
                       </Typography>
                       <Typography>Babas: {babas}</Typography>

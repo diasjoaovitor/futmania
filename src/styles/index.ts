@@ -1,5 +1,4 @@
 import { SxProps, Theme } from '@mui/material'
-import { palette } from '../themes'
 
 export const Title: SxProps<Theme> = {
   '&::after': {
@@ -7,7 +6,7 @@ export const Title: SxProps<Theme> = {
     width: 60,
     height: 8,
     display: 'block',
-    backgroundColor: palette.darkBlue
+    backgroundColor: 'primary.dark'
   }
 }
 
@@ -25,7 +24,7 @@ export const FlexColumn: SxProps<Theme> = {
 export function Li(borderColor?: string): SxProps<Theme> {
   return {
     borderLeft: '.5em solid',
-    borderColor: borderColor || palette.darkBlue,
+    borderColor: borderColor || 'primary.dark',
     mb: 2
   }
 }
