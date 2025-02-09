@@ -5,45 +5,32 @@ import 'dayjs/locale/pt-br'
 
 dayjs.locale('pt-br')
 
-function capitalize(sentence: string) {
-  return sentence.charAt(0).toUpperCase() + sentence.slice(1)
-}
+const capitalize = (sentence: string) =>
+  sentence.charAt(0).toUpperCase() + sentence.slice(1)
 
-export function getDayNumMonthExtensive(date: string) {
-  return dayjs(date).format('D MMMM').split(' ').join(' de ')
-}
+export const getDayNumMonthExtensive = (date: string) =>
+  dayjs(date).format('D MMMM').split(' ').join(' de ')
 
-export function getDayNumMonthExtensiveYearNum(date: string) {
-  return dayjs(date).format('D MMMM YYYY').split(' ').join(' de ')
-}
+export const getDayNumMonthExtensiveYearNum = (date: string) =>
+  dayjs(date).format('D MMMM YYYY').split(' ').join(' de ')
 
-export function getMonthExtensive(month: number) {
-  return capitalize(dayjs(`2023/${month + 1}`).format('MMMM'))
-}
+export const getMonthExtensive = (month: number) =>
+  capitalize(dayjs(`2023/${month + 1}`).format('MMMM'))
 
-export function getMonthExtensiveYearNum(date: string) {
-  return capitalize(dayjs(date).format('MMMM YYYY')).split(' ').join(' de ')
-}
+export const getMonthExtensiveYearNum = (date: string) =>
+  capitalize(dayjs(date).format('MMMM YYYY')).split(' ').join(' de ')
 
-export function getStringWeekDayNumberMonthDay(date: string) {
-  return capitalize(dayjs(date).format('dddd D').split(' ').join(' dia '))
-}
+export const getStringWeekDayNumberMonthDay = (date: string) =>
+  capitalize(dayjs(date).format('dddd D').split(' ').join(' dia '))
 
-export function getYear(date: string) {
-  return dayjs(date).year()
-}
+export const getYear = (date: string) => dayjs(date).year()
 
-export function getMonth(date: string) {
-  return dayjs(date).month()
-}
+export const getMonth = (date: string) => dayjs(date).month()
 
-export function getYearMonth(date: string) {
-  return dayjs(date).format('YYYY/MM')
-}
+export const getYearMonth = (date: string) => dayjs(date).format('YYYY/MM')
 
-export function getYears(dates: string[]) {
-  return getDistinctValues([
+export const getYears = (dates: string[]) =>
+  getDistinctValues([
     ...dates.map((date) => getYear(date)),
     getYear(currentDate)
   ])
-}
