@@ -1,9 +1,9 @@
 import { FormEvent, useEffect, useState } from 'react'
 import {
-  AlertProps,
-  DialogProps,
-  MemberModalProps,
-  MembersFormProps
+  TAlertProps,
+  TDialogProps,
+  TMemberModalProps,
+  TMembersFormProps
 } from '@/components'
 import { useAuthContext } from '@/contexts'
 import {
@@ -20,9 +20,9 @@ import {
   getElementsCheckedValues,
   getMemberStats
 } from '@/utils'
-import { someBabaIncludesMember } from './functions'
+import { someBabaIncludesMember } from './utils'
 
-export function useMembers() {
+export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()
   const [finances, setFinances] = useState<TFinance[]>([])
   const [babas, setBabas] = useState<TBaba[]>([])
@@ -233,7 +233,7 @@ export function useMembers() {
     !member.id ? mutateCreate(data) : mutateUpdate({ ...data, id: member.id })
   }
 
-  const membersFormProps: MembersFormProps = {
+  const membersFormProps: TMembersFormProps = {
     isOpened: memberFormIsOpened,
     title: !member.id ? 'Cadastrar Membros' : 'Editar Membro',
     member,
@@ -243,7 +243,7 @@ export function useMembers() {
     handleSubmit
   }
 
-  const memberStatsProps: MemberModalProps = {
+  const memberStatsProps: TMemberModalProps = {
     isOpened: memberStatsIsOpened,
     finances,
     member,
@@ -251,13 +251,13 @@ export function useMembers() {
     handleClose: handleCloseMemberStats
   }
 
-  const alertProps: AlertProps = {
+  const alertProps: TAlertProps = {
     ...alert,
     isOpened: alertIsOpened,
     handleClose: handleCloseAlert
   }
 
-  const dialogProps: DialogProps = {
+  const dialogProps: TDialogProps = {
     isOpened: dialogIsOpened,
     title: dialog,
     handleAccept: handleDelete,

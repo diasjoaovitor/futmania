@@ -9,11 +9,11 @@ import {
 } from '@/components'
 import { useLimit } from '@/hooks'
 import { separateMembers, sortMembersByName } from '@/utils'
-import { useMembers } from './useMembers'
+import { useComponentHandler } from './use-component-handler'
 
 const min = 5
 
-export function Members() {
+export const Members = () => {
   const {
     user,
     members,
@@ -24,7 +24,7 @@ export function Members() {
     alertProps,
     dialogProps,
     isPending
-  } = useMembers()
+  } = useComponentHandler()
 
   const { fixedMembers, goalkeepers, nonMembers } = separateMembers(members)
 

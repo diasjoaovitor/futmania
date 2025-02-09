@@ -8,16 +8,16 @@ import {
 } from '@mui/material'
 import { Menu, MenuOpen } from '@mui/icons-material'
 import { Logo, Nav } from '..'
-import { useAppBar } from './useAppBar'
-import * as S from './style'
+import { useComponentHandler } from './use-component-handler'
+import * as S from './styles'
 
-type Props = {
+type TAppBarProps = {
   title: string
   md: boolean
 }
 
-export function AppBar({ title, md }: Props) {
-  const { isOpened, handleOpen } = useAppBar(md)
+export const AppBar = ({ title, md }: TAppBarProps) => {
+  const { isOpened, handleOpen } = useComponentHandler(md)
   const MenuIcon = !isOpened ? Menu : MenuOpen
   return (
     <>

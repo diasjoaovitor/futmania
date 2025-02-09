@@ -3,13 +3,13 @@ import { Dayjs } from 'dayjs'
 import { useModal } from '@/hooks'
 import { TBaba } from '@/types'
 
-export function useBabaForm({
+export const useComponentHandler = ({
   baba: b,
   isOpened
 }: {
   baba: TBaba
   isOpened: boolean
-}) {
+}) => {
   const [member, setMember] = useState<[string, string | undefined]>(['', ''])
   const [baba, setBaba] = useState<TBaba>(b)
   const [teamIndex, setTeamIndex] = useState(0)

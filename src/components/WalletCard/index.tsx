@@ -1,16 +1,21 @@
 import { Box, Typography } from '@mui/material'
 import { SvgIconComponent } from '@mui/icons-material'
 import { formatCurrency } from '@/utils'
-import * as S from './style'
+import * as S from './styles'
 
-type Props = {
+type TWalletCardProps = {
   caption: string
   value: number
   color: string
   icon: SvgIconComponent
 }
 
-export function WalletCard({ caption, color, icon: Icon, value }: Props) {
+export const WalletCard = ({
+  caption,
+  color,
+  icon: Icon,
+  value
+}: TWalletCardProps) => {
   return (
     <Box sx={{ ...S.Wrapper, borderColor: color }}>
       <div>

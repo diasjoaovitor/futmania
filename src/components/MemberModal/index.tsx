@@ -3,7 +3,7 @@ import { TMemberStats } from '@/utils'
 import { TFinance, TMember } from '@/types'
 import { MemberFrequency, MemberPayments, MemberStats, Modal } from '..'
 
-export type MemberModalProps = {
+export type TMemberModalProps = {
   isOpened: boolean
   member: TMember | undefined
   stats: TMemberStats | null
@@ -11,14 +11,14 @@ export type MemberModalProps = {
   handleClose(): void
 }
 
-export function MemberModal({
+export const MemberModal = ({
   isOpened,
   member,
   stats,
   finances,
   handleClose
-}: MemberModalProps) {
-  if (!member || !stats) return <></>
+}: TMemberModalProps) => {
+  if (!member || !stats) return null
 
   const { name } = member
   const { frequency } = stats

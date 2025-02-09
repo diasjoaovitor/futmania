@@ -8,11 +8,13 @@ type TPaymentData = {
   exemptPayment?: boolean
 }
 
-export function getPayments(finances: TFinance[], memberId: string) {
-  return finances.filter(({ memberId: mId }) => mId === memberId)
-}
+export const getPayments = (finances: TFinance[], memberId: string) =>
+  finances.filter(({ memberId: mId }) => mId === memberId)
 
-export function getPaymentsData(frequency: TFrequency[], payments: TFinance[]) {
+export const getPaymentsData = (
+  frequency: TFrequency[],
+  payments: TFinance[]
+) => {
   const yearMonths = getDistinctValues(
     frequency.map(({ date }) => getYearMonth(date))
   ) as string[]

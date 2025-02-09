@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { handleFocus } from '@/utils'
 
-type Props = {
+type TInputAdornmentProps = {
   name: string
   label: string
   value: number
@@ -15,13 +15,13 @@ type Props = {
   handleChange(e: ChangeEvent<HTMLInputElement>): void
 }
 
-export function InputAdornment({
+export const InputAdornment = ({
   name,
   label,
   value,
   color,
   handleChange
-}: Props) {
+}: TInputAdornmentProps) => {
   return (
     <FormControl fullWidth color={color}>
       <InputLabel htmlFor={name}>{label} *</InputLabel>

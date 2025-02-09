@@ -16,14 +16,10 @@ import {
   Modal,
   TeamsModal
 } from '@/components'
-import {
-  handleFocus,
-  separateMembers,
-  sortMembersByName
-} from '@/utils'
+import { handleFocus, separateMembers, sortMembersByName } from '@/utils'
 import { TFinance, TMember, TTeam } from '@/types'
 import { useLimit } from '@/hooks'
-import { useTeamsForm } from './useTeamsForm'
+import { useComponentHandler } from './use-component-handler'
 
 export type TeamsFormProps = {
   isOpened: boolean
@@ -58,7 +54,7 @@ export function TeamsForm({
     modalIsOpened,
     handleOpenModal,
     handleCloseModal
-  } = useTeamsForm()
+  } = useComponentHandler()
 
   const min = 10
   const { fixedMembers, goalkeepers, nonMembers } = separateMembers(members)

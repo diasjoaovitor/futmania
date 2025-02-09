@@ -1,4 +1,4 @@
-export function getErrorMessage(error: string) {
+export const getErrorMessage = (error: string) => {
   switch (error) {
     case 'auth/invalid-login-credentials':
       return 'Email ou senha inválidos!'

@@ -1,14 +1,14 @@
 import { Box, List, ListItem, Typography } from '@mui/material'
 import { TFinance } from '@/types'
 import { FinancesListItem } from '..'
-import * as S from './style'
+import * as S from './styles'
 
-type Props = {
+type TFinancesListProps = {
   finances: TFinance[]
   handleClick(finance: TFinance): void
 }
 
-export function FinancesList({ finances, handleClick }: Props) {
+export const FinancesList = ({ finances, handleClick }: TFinancesListProps) => {
   return (
     <Box sx={S.Wrapper}>
       <Typography component="h2" variant="h6">

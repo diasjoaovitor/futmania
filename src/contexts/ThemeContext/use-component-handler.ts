@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { darkTheme, lightTheme } from '@/themes'
 
-export function useTheme() {
+export const useComponentHandler = () => {
   const [themeName, setThemeName] = useState<'light' | 'dark'>('dark')
 
   const theme = useMemo(() => {

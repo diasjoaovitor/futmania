@@ -1,10 +1,6 @@
-import { useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-export function useLayout() {
-  const theme = useTheme()
-  const md = useMediaQuery(theme.breakpoints.up('md'))
-
+export const useComponentHandler = (md: boolean) => {
   const [isOpened, setIsOpened] = useState(md)
 
   useEffect(() => {

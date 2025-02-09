@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
 import { SelectChangeEvent } from '@mui/material'
-import { AlertProps, DialogProps, FinancesFormProps } from '@/components'
+import { TAlertProps, TDialogProps, TFinancesFormProps } from '@/components'
 import {
   useMutationCreateFinance,
   useMutationCreateFinances,
@@ -15,10 +15,10 @@ import { getMemberById, getMonth, getYear } from '@/utils'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import { TFinance, TMember } from '@/types'
 import { currentDate } from '@/constants'
-import { defaultFinanceState } from './states'
-import { getPayments, getWallet } from './functions'
+import { defaultFinanceState } from './constants'
+import { getPayments, getWallet } from './utils'
 
-export function useFinances() {
+export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()
   const [period, setPeriod] = useState({
     year: getYear(currentDate),
@@ -255,13 +255,13 @@ export function useFinances() {
         case 1:
           return `Pagamento de ${getMemberById(members, id)?.name}`
         case 2:
-          return `Pagamento de ${getMemberById(members, id)
-            ?.name} e um outro membro`
+          return `Pagamento de ${
+            getMemberById(members, id)?.name
+          } e um outro membro`
         default:
-          return `Pagamento de ${getMemberById(
-            members,
-            finance.memberId || checked[0]
-          )?.name} e outros ${checked.length - 1} membros`
+          return `Pagamento de ${
+            getMemberById(members, finance.memberId || checked[0])?.name
+          } e outros ${checked.length - 1} membros`
       }
     }
     setFinance((finance) => ({
@@ -333,7 +333,7 @@ export function useFinances() {
     )
   }
 
-  const financesFormProps: FinancesFormProps = {
+  const financesFormProps: TFinancesFormProps = {
     isOpened: modalIsOpened,
     title: !finance.id ? 'Adicionar Finança' : 'Editar Finança',
     finance,
@@ -348,13 +348,13 @@ export function useFinances() {
     handleSubmit
   }
 
-  const alertProps: AlertProps = {
+  const alertProps: TAlertProps = {
     ...alert,
     isOpened: alertIsOpened,
     handleClose: handleCloseAlert
   }
 
-  const dialogProps: DialogProps = {
+  const dialogProps: TDialogProps = {
     isOpened: dialogIsOpened,
     title: dialog,
     handleAccept: handleDelete,

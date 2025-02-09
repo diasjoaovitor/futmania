@@ -8,19 +8,15 @@ import {
   ListSubheader
 } from '@mui/material'
 import { Check, Close } from '@mui/icons-material'
-import {
-  TFrequency,
-  getDayNumMonthExtensiveYearNum,
-  sortByDate
-} from '@/utils'
+import { TFrequency, getDayNumMonthExtensiveYearNum, sortByDate } from '@/utils'
 import { ExpandButton } from '..'
 import * as GS from '@/styles'
 
-type Props = {
+type TMemberFrequencyProps = {
   frequency: TFrequency[]
 }
 
-export function MemberFrequency({ frequency }: Props) {
+export const MemberFrequency = ({ frequency }: TMemberFrequencyProps) => {
   const [open, setOpen] = useState(false)
 
   const handleOpen = () => setOpen(true)

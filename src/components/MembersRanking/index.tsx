@@ -4,14 +4,17 @@ import { useLimit } from '@/hooks'
 import { TMember } from '@/types'
 import { MembersRankingTable } from '..'
 
-type Props = {
+type TMembersRankingProps = {
   stats: TStats[]
   handleClick(member: TMember): void
 }
 
 const min = 5
 
-export function MembersRanking({ stats, handleClick }: Props) {
+export const MembersRanking = ({
+  stats,
+  handleClick
+}: TMembersRankingProps) => {
   const {
     limited: limitedScoreRanking,
     isFull: scoreRankingIsFull,

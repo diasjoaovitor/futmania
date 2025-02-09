@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useLimit(data: any[], min: number) {
+export const useLimit = (data: any[], min: number) => {
   const [limit, setLimit] = useState(min)
 
   const limited = data.slice(0, limit)

@@ -1,11 +1,11 @@
 import { useModal } from '@/hooks'
 import { TTeam } from '@/types'
 import { ChangeEvent, useState } from 'react'
-import { assignTeams, drawTeams } from './functions'
+import { assignTeams, drawTeams } from './utils'
 import { Dayjs } from 'dayjs'
 import { currentDate } from '@/constants'
 
-export function useTeamsForm() {
+export const useComponentHandler = () => {
   const [date, setDate] = useState(currentDate)
   const [isPrizeDraw, setIsPrizeDraw] = useState(true)
   const [checkedMembers, setCheckedMembers] = useState<string[]>([])

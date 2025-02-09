@@ -4,7 +4,7 @@ import { separateMembers } from '@/utils'
 import { MembersCheckboxList, Modal } from '..'
 import { Button } from '@mui/material'
 
-type Props = {
+type TMembersCheckboxListModalProps = {
   isOpened: boolean
   title: string
   members: TMember[]
@@ -15,7 +15,7 @@ type Props = {
   handleClose(): void
 }
 
-export function MembersCheckboxListModal({
+export const MembersCheckboxListModal = ({
   isOpened,
   title,
   members,
@@ -24,7 +24,7 @@ export function MembersCheckboxListModal({
   finances,
   handleChange,
   handleClose
-}: Props) {
+}: TMembersCheckboxListModalProps) => {
   const { fixedMembers, goalkeepers, nonMembers } = separateMembers(members)
   return (
     <Modal isOpened={isOpened} title={title} handleClose={handleClose}>

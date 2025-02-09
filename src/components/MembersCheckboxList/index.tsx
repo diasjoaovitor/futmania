@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { TFinance, TMember } from '@/types'
 import { someFinanceIncludesMember, sortMembersByName } from '@/utils'
-import { memberIsChecked } from './functions'
+import { memberIsChecked } from './utils'
 import * as GS from '@/styles'
 
 type Props = {

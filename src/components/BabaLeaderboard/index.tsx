@@ -8,22 +8,22 @@ import {
   TableRow
 } from '@mui/material'
 import { TBaba, TMember } from '@/types'
-import { sortTeamsByScore } from './functions'
+import { sortTeamsByScore } from './utils'
 import { BabaLeaderboardRow } from '..'
 
 const cols = ['Classificação', 'PTS', 'V', 'E']
 
-type Props = {
+type TBabaLeaderboardProps = {
   baba: TBaba
   members: TMember[]
   handleClick(member: TMember): void
 }
 
-export function BabaLeaderboard({
+export const BabaLeaderboard = ({
   baba,
   members: allMembers,
   handleClick
-}: Props) {
+}: TBabaLeaderboardProps) => {
   const { teams } = baba
   return (
     <TableContainer component={Paper} sx={{ my: 3 }}>

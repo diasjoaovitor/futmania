@@ -3,9 +3,9 @@ import { Box, Divider, Link as MUILink, ListItemButton } from '@mui/material'
 import { GitHub } from '@mui/icons-material'
 import { Auth, ToggleTheme } from '..'
 import { navItems } from './nav-items'
-import * as S from './style'
+import * as S from './styles'
 
-export function Nav() {
+export const Nav = () => {
   const { pathname } = useLocation()
   return (
     <Box sx={S.Wrapper} component="nav">

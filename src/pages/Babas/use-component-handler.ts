@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { SelectChangeEvent } from '@mui/material'
 import {
-  AlertProps,
-  BabaFormProps,
-  DialogProps,
-  MemberModalProps,
+  TAlertProps,
+  TBabaFormProps,
+  TDialogProps,
+  TMemberModalProps,
   TeamsFormProps
 } from '@/components'
 import {
@@ -24,9 +24,9 @@ import {
 import { useAlert, useDialog, useModal } from '@/hooks'
 import { TBaba, TFinance, TMember, TTeam } from '@/types'
 import { createdAt, currentDate } from '@/constants'
-import { getBabaDatesInYearMonth } from './functions'
+import { getBabaDatesInYearMonth } from './utils'
 
-export function useBabas() {
+export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()
   const [period, setPeriod] = useState({
     year: getYear(currentDate),
@@ -272,7 +272,7 @@ export function useBabas() {
     mutateCreate(data)
   }
 
-  const babaFormProps: BabaFormProps = {
+  const babaFormProps: TBabaFormProps = {
     isOpened: babaModalIsOpened,
     baba: baba as TBaba,
     members,
@@ -288,7 +288,7 @@ export function useBabas() {
     handleSubmit: handleCreate
   }
 
-  const memberModalProps: MemberModalProps = {
+  const memberModalProps: TMemberModalProps = {
     isOpened: memberModalIsOpened,
     member,
     stats,
@@ -296,13 +296,13 @@ export function useBabas() {
     handleClose: handleCloseMemberModal
   }
 
-  const alertProps: AlertProps = {
+  const alertProps: TAlertProps = {
     ...alert,
     isOpened: alertIsOpened,
     handleClose: handleCloseAlert
   }
 
-  const dialogProps: DialogProps = {
+  const dialogProps: TDialogProps = {
     isOpened: dialogIsOpened,
     title: dialog,
     handleAccept: handleDelete,

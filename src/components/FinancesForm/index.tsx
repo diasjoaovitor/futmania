@@ -13,14 +13,14 @@ import { TFinance, TMember } from '@/types'
 import { useModal } from '@/hooks'
 import { sortMembersByName } from '@/utils'
 import { InputAdornment, InputDate, MembersCheckboxListModal, Modal } from '..'
-import * as S from './style'
+import * as S from './styles'
 
 type TColor = {
   mui: 'error' | 'primary'
   hex: string
 }
 
-export type FinancesFormProps = {
+export type TFinancesFormProps = {
   isOpened: boolean
   title: string
   finance: TFinance
@@ -35,7 +35,7 @@ export type FinancesFormProps = {
   handleDelete(): void
 }
 
-export function FinancesForm({
+export const FinancesForm = ({
   isOpened,
   title,
   finance: { date, description, type, value, id, memberId },
@@ -48,7 +48,7 @@ export function FinancesForm({
   handleClose,
   handleSubmit,
   handleDelete
-}: FinancesFormProps) {
+}: TFinancesFormProps) => {
   const { modalIsOpened, handleOpenModal, handleCloseModal } = useModal()
 
   const color: TColor =

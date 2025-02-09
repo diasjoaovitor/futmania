@@ -10,7 +10,7 @@ import { TMember, TTeam } from '@/types'
 import { getMemberById } from '@/utils'
 import { Modal } from '..'
 
-type Props = {
+type TTeamsModalProps = {
   date: string
   members: TMember[]
   teams: TTeam[]
@@ -19,14 +19,14 @@ type Props = {
   handleSubmit(teams: TTeam[], date: string): void
 }
 
-export function TeamsModal({
+export const TeamsModal = ({
   date,
   members,
   teams,
   isOpened,
   handleClose,
   handleSubmit
-}: Props) {
+}: TTeamsModalProps) => {
   return (
     <Modal title="Times" isOpened={isOpened} handleClose={handleClose}>
       <>
@@ -37,8 +37,9 @@ export function TeamsModal({
               mbs.map(({ id }, index) => (
                 <ListItem key={id}>
                   <ListItemText
-                    primary={`${index + 1} - ${getMemberById(members, id)
-                      ?.name}`}
+                    primary={`${index + 1} - ${
+                      getMemberById(members, id)?.name
+                    }`}
                   />
                 </ListItem>
               ))

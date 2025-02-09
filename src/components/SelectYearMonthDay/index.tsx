@@ -7,7 +7,7 @@ import {
 import { months } from '@/constants'
 import { SelectYear } from '../SelectYear'
 
-type Props = {
+type TSelectYearMonthDayProps = {
   year: number
   years: number[]
   month: number
@@ -16,14 +16,14 @@ type Props = {
   handleChange(e: SelectChangeEvent): void
 }
 
-export function SelectYearMonthDay({
+export const SelectYearMonthDay = ({
   year,
   years,
   month,
   date,
   dates,
   handleChange
-}: Props) {
+}: TSelectYearMonthDayProps) => {
   return (
     <Box data-testid="select-year-month-day">
       <Select name="date" value={date} onChange={handleChange}>

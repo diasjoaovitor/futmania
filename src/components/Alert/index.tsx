@@ -6,7 +6,7 @@ import {
 } from '@mui/material'
 import { Close } from '@mui/icons-material'
 
-export type AlertProps = {
+export type TAlertProps = {
   isOpened: boolean
   severity: 'error' | 'info' | 'success' | 'warning'
   title: string
@@ -15,14 +15,14 @@ export type AlertProps = {
   handleClose: () => void
 }
 
-export function Alert({
+export const Alert = ({
   isOpened,
   severity,
   title,
   description,
   autoHide,
   handleClose
-}: AlertProps) {
+}: TAlertProps) => {
   return (
     <Snackbar
       open={isOpened}

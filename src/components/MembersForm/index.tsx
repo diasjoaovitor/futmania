@@ -10,7 +10,7 @@ import { TMember } from '@/types'
 import { InputWithButton, Modal } from '..'
 import * as GS from '@/styles'
 
-export type MembersFormProps = {
+export type TMembersFormProps = {
   isOpened: boolean
   title: string
   member: TMember
@@ -20,7 +20,7 @@ export type MembersFormProps = {
   handleDelete(): void
 }
 
-export function MembersForm({
+export const MembersForm = ({
   isOpened,
   title,
   member: { id, name, isFixedMember, isGoalkeeper },
@@ -28,7 +28,7 @@ export function MembersForm({
   handleOpenMemberStats,
   handleSubmit,
   handleDelete
-}: MembersFormProps) {
+}: TMembersFormProps) => {
   return (
     <Modal title={title} isOpened={isOpened} handleClose={handleClose}>
       <form onSubmit={handleSubmit} role="form">

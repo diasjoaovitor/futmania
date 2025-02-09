@@ -12,7 +12,7 @@ import {
 import { ExpandButton } from '..'
 import * as GS from '@/styles'
 
-type Props = {
+type TMembersRankingTableProps = {
   title: string
   cols: string[]
   children: ReactNode
@@ -20,13 +20,13 @@ type Props = {
   handleLimit(): void
 }
 
-export function MembersRankingTable({
+export const MembersRankingTable = ({
   title,
   cols,
   children,
   isFull,
   handleLimit
-}: Props) {
+}: TMembersRankingTableProps) => {
   return (
     <>
       <Typography sx={GS.Title} component="h2" variant="h6" pt={3} pb={2}>

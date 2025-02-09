@@ -1,16 +1,21 @@
 import { ReactNode } from 'react'
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { Alert, AlertProps, AppBar, Loader } from '..'
-import * as S from './style'
+import { Alert, TAlertProps, AppBar, Loader } from '..'
+import * as S from './styles'
 
-type Props = {
+type TLayoutProps = {
   title: string
   children: ReactNode
   isPending: boolean
-  alertProps: AlertProps
+  alertProps: TAlertProps
 }
 
-export function Layout({ title, children, isPending, alertProps }: Props) {
+export const Layout = ({
+  title,
+  children,
+  isPending,
+  alertProps
+}: TLayoutProps) => {
   const theme = useTheme()
   const md = useMediaQuery(theme.breakpoints.up('md'))
   return (

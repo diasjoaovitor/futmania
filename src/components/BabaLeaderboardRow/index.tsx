@@ -12,7 +12,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { getMemberById, sortByGoals } from '@/utils'
 import { TMember, TTeam } from '@/types'
 
-type Props = {
+type TBabaLeaderboardRowProps = {
   team: TTeam
   members: TMember[]
   handleClick(member: TMember): void
@@ -23,11 +23,11 @@ type TTeamMember = {
   id: string
 }
 
-export function BabaLeaderboardRow({
+export const BabaLeaderboardRow = ({
   team,
   members: allMembers,
   handleClick
-}: Props) {
+}: TBabaLeaderboardRowProps) => {
   const [open, setOpen] = useState(false)
 
   const { name, draws, wins, members } = team

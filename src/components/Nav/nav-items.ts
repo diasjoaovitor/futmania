@@ -6,13 +6,13 @@ import {
   SvgIconComponent
 } from '@mui/icons-material'
 
-type NavItem = {
+type TNavItem = {
   label: string
   to: string
   icon: SvgIconComponent
 }
 
-export const navItems: NavItem[] = [
+export const navItems: TNavItem[] = [
   {
     label: 'Babas',
     to: '/',

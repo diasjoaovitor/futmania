@@ -4,7 +4,7 @@ import { AuthProvider, ThemeProvider } from './contexts'
 
 const queryClient = new QueryClient()
 
-function App() {
+const App = () => {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>

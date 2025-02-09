@@ -9,14 +9,19 @@ import {
 import { TMember } from '@/types'
 import * as GS from '@/styles'
 
-type Props = {
+type TMembersListProps = {
   title: string
   members: TMember[]
   color: string
   handleClick(member: TMember): void
 }
 
-export function MembersList({ title, members, color, handleClick }: Props) {
+export const MembersList = ({
+  title,
+  members,
+  color,
+  handleClick
+}: TMembersListProps) => {
   return (
     <Box>
       <Typography component="h2" variant="h6">

@@ -1,4 +1,4 @@
-import { useBabaForm } from './useBabaForm'
+import { useComponentHandler } from './use-component-handler'
 import {
   Box,
   Button,
@@ -14,9 +14,9 @@ import {
 import { TBaba, TMember } from '@/types'
 import { getMemberById, handleFocus } from '@/utils'
 import { InputDate, MembersCheckboxListModal, Modal } from '..'
-import * as S from './style'
+import * as S from './styles'
 
-export type BabaFormProps = {
+export type TBabaFormProps = {
   isOpened: boolean
   baba: TBaba
   members: TMember[]
@@ -24,13 +24,13 @@ export type BabaFormProps = {
   handleUpdate(baba: TBaba): void
 }
 
-export function BabaForm({
+export const BabaForm = ({
   isOpened,
   baba: b,
   members,
   handleClose,
   handleUpdate
-}: BabaFormProps) {
+}: TBabaFormProps) => {
   const {
     baba,
     member,
@@ -41,7 +41,7 @@ export function BabaForm({
     handleChange,
     modalIsOpened: membersModalIsOpened,
     handleCloseMembersModal
-  } = useBabaForm({ baba: b, isOpened })
+  } = useComponentHandler({ baba: b, isOpened })
 
   const { teams, date } = baba
 

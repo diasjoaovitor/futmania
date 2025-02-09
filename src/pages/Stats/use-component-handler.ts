@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { SelectChangeEvent } from '@mui/material'
-import { AlertProps, MemberModalProps } from '@/components'
+import { TAlertProps, TMemberModalProps } from '@/components'
 import { useQueriesMembersAndBabasAndFinances } from '@/react-query'
 import { useAuthContext } from '@/contexts'
 import {
@@ -14,7 +14,7 @@ import { useAlert, useModal } from '@/hooks'
 import { TBaba, TFinance, TMember } from '@/types'
 import { currentDate, currentSeason } from '@/constants'
 
-export function useStats() {
+export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()
   const [period, setPeriod] = useState({
     year: getYear(currentDate),
@@ -81,7 +81,7 @@ export function useStats() {
     handleOpenModal()
   }
 
-  const memberModalProps: MemberModalProps = {
+  const memberModalProps: TMemberModalProps = {
     isOpened: modalIsOpened,
     finances,
     member,
@@ -89,7 +89,7 @@ export function useStats() {
     handleClose: handleCloseModal
   }
 
-  const alertProps: AlertProps = {
+  const alertProps: TAlertProps = {
     ...alert,
     isOpened: alertIsOpened,
     handleClose: handleCloseAlert

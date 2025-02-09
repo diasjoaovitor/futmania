@@ -13,7 +13,7 @@ import {
   SvgIconComponent
 } from '@mui/icons-material'
 import { TMemberStats } from '@/utils'
-import * as S from './style'
+import * as S from './styles'
 
 type TListItems = {
   title: string
@@ -21,11 +21,11 @@ type TListItems = {
   icon: SvgIconComponent
 }
 
-type Props = {
+type TMemberStatsProps = {
   stats: TMemberStats
 }
 
-export function MemberStats({ stats }: Props) {
+export const MemberStats = ({ stats }: TMemberStatsProps) => {
   const { numberOfBabas, numberOfMostScore, score, goals } = stats
 
   const listItems: TListItems[] = [

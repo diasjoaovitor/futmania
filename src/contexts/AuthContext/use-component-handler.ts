@@ -4,16 +4,16 @@ import { authConfig } from '@/config'
 import { TBabaUser } from '@/types'
 import { useQueryUser } from '@/react-query'
 import { useAlert } from '@/hooks'
-import { AlertProps } from '@/components'
+import { TAlertProps } from '@/components'
 
 export type TUseAuthContext = {
   user: User | null
   babaUser: TBabaUser
   isLoading: boolean
-  alertProps: AlertProps
+  alertProps: TAlertProps
 }
 
-export function useAuth(): TUseAuthContext {
+export const useComponentHandler = (): TUseAuthContext => {
   const [user, setUser] = useState<User | null>(null)
   const [babaUser, setBabaUser] = useState<TBabaUser>({
     name: 'Baba do Iecem',
@@ -45,7 +45,7 @@ export function useAuth(): TUseAuthContext {
     })
   }, [isError])
 
-  const alertProps: AlertProps = {
+  const alertProps: TAlertProps = {
     ...alert,
     isOpened: alertIsOpened,
     handleClose: handleCloseAlert

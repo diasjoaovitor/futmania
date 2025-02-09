@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useContext } from 'react'
 import { User } from 'firebase/auth'
 import { Alert, Loader } from '@/components'
 import { TBabaUser } from '@/types'
-import { useAuth } from './useAuth'
+import { useComponentHandler } from './use-component-handler'
 
 type TAuthContext = {
   user: User | null
@@ -13,8 +13,8 @@ const AuthContext = createContext({} as TAuthContext)
 
 export const useAuthContext = () => useContext(AuthContext)
 
-export function AuthProvider({ children }: PropsWithChildren) {
-  const { user, babaUser, isLoading, alertProps } = useAuth()
+export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const { user, babaUser, isLoading, alertProps } = useComponentHandler()
   return !isLoading ? (
     <AuthContext.Provider value={{ user, babaUser }}>
       {children}

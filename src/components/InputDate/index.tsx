@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
-type Props = {
+type TInputDateProps = {
   date: string
   color?: 'error' | 'primary'
   handleChange(e: Dayjs | null): void
@@ -26,7 +26,7 @@ const theme = (theme: Theme, color: 'error' | 'primary') =>
     }
   })
 
-export function InputDate({ date, color, handleChange }: Props) {
+export const InputDate = ({ date, color, handleChange }: TInputDateProps) => {
   return (
     <ThemeProvider theme={(t: Theme) => theme(t, color || 'primary')}>
       <FormControl fullWidth className="InputDate">

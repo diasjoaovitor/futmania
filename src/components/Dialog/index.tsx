@@ -5,19 +5,19 @@ import {
   Dialog as MUIDialog
 } from '@mui/material'
 
-export type DialogProps = {
+export type TDialogProps = {
   isOpened: boolean
   title: string
   handleClose(): void
   handleAccept(): void
 }
 
-export function Dialog({
+export const Dialog = ({
   isOpened,
   title,
   handleClose,
   handleAccept
-}: DialogProps) {
+}: TDialogProps) => {
   return (
     <MUIDialog open={isOpened} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>

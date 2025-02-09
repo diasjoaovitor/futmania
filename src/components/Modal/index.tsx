@@ -1,8 +1,8 @@
 import { Box, IconButton, Modal as MUIModal, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
-import * as S from './style'
+import * as S from './styles'
 
-type Props = {
+type TModalProps = {
   isOpened: boolean
   title: string
   children: React.ReactElement
@@ -10,13 +10,13 @@ type Props = {
   handleClose(): void
 }
 
-export function Modal({
+export const Modal = ({
   isOpened,
   title,
   children,
   color,
   handleClose
-}: Props) {
+}: TModalProps) => {
   return (
     <MUIModal open={isOpened} onClose={handleClose} sx={S.Wrapper}>
       <Box sx={S.Content}>

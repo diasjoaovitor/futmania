@@ -10,17 +10,21 @@ import {
 import { Check, Close } from '@mui/icons-material'
 import { TFinance } from '@/types'
 import { TFrequency, formatCurrency, getMonthExtensiveYearNum } from '@/utils'
-import { getPayments, getPaymentsData } from './functions'
+import { getPayments, getPaymentsData } from './utils'
 import { ExpandButton } from '..'
-import * as S from './style'
+import * as S from './styles'
 
-type Props = {
+type TMemberPaymentsProps = {
   memberId: string
   frequency: TFrequency[]
   finances: TFinance[]
 }
 
-export function MemberPayments({ memberId, frequency, finances }: Props) {
+export const MemberPayments = ({
+  memberId,
+  frequency,
+  finances
+}: TMemberPaymentsProps) => {
   const payments = getPayments(finances, memberId)
   const data = getPaymentsData(frequency, payments)
 

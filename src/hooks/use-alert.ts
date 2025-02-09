@@ -7,7 +7,7 @@ type TAlert = {
   autoHide?: boolean
 }
 
-export function useAlert() {
+export const useAlert = () => {
   const [alert, setAlert] = useState({} as TAlert)
 
   const alertIsOpened = Boolean(alert.title)

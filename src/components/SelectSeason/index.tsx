@@ -3,14 +3,19 @@ import { getMonthExtensive, sortStringDesc } from '@/utils'
 import { seasons } from '@/constants'
 import { SelectYear } from '../SelectYear'
 
-type Props = {
+type TSelectSeasonProps = {
   year: number
   years: number[]
   season: string
   handleChange(e: SelectChangeEvent): void
 }
 
-export function SelectSeason({ year, years, season, handleChange }: Props) {
+export const SelectSeason = ({
+  year,
+  years,
+  season,
+  handleChange
+}: TSelectSeasonProps) => {
   return (
     <Box data-testid="select-season">
       <Select

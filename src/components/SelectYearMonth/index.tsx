@@ -3,14 +3,19 @@ import { getMonthExtensive, sortNumberDesc } from '@/utils'
 import { SelectYear } from '../SelectYear'
 import { months } from '@/constants'
 
-type Props = {
+type TSelectYearMonthProps = {
   year: number
   years: number[]
   month: number
   handleChange(e: SelectChangeEvent): void
 }
 
-export function SelectYearMonth({ year, years, month, handleChange }: Props) {
+export const SelectYearMonth = ({
+  year,
+  years,
+  month,
+  handleChange
+}: TSelectYearMonthProps) => {
   return (
     <Box data-testid="select-year-month">
       <Select

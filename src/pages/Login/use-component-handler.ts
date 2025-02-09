@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { AuthError } from 'firebase/auth'
-import { AlertProps } from '@/components'
+import { TAlertProps } from '@/components'
 import { getErrorMessage } from '@/errors'
 import { getElementValues } from '@/utils'
 import { login } from '@/firebase'
 import { useAlert } from '@/hooks'
 
-export function useLogin() {
+export const useComponentHandler = () => {
   const navigate = useNavigate()
 
   const { alert, setAlert, alertIsOpened, handleCloseAlert } = useAlert()
@@ -37,7 +37,7 @@ export function useLogin() {
     mutate({ email, password })
   }
 
-  const alertProps: AlertProps = {
+  const alertProps: TAlertProps = {
     ...alert,
     isOpened: alertIsOpened,
     handleClose: handleCloseAlert

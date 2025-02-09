@@ -1,14 +1,9 @@
 import { Box, Typography } from '@mui/material'
-import {
-  Layout,
-  MemberModal,
-  MembersRanking,
-  SelectSeason
-} from '@/components'
-import { useStats } from './useStats'
-import * as S from './style'
+import { Layout, MemberModal, MembersRanking, SelectSeason } from '@/components'
+import { useComponentHandler } from './use-component-handler'
+import * as S from './styles'
 
-export function Stats() {
+export const Stats = () => {
   const {
     season,
     year,
@@ -19,7 +14,7 @@ export function Stats() {
     handlePeriodChange,
     alertProps,
     isPending
-  } = useStats()
+  } = useComponentHandler()
 
   return (
     <Box sx={S.Wrapper}>

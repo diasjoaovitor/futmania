@@ -1,6 +1,6 @@
 import { Backdrop, CircularProgress } from '@mui/material'
 
-export function Loader({ open }: { open: boolean }) {
+export const Loader = ({ open }: { open: boolean }) => {
   return (
     <Backdrop
       sx={{

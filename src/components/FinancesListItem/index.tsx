@@ -3,12 +3,15 @@ import { formatCurrency, getDayNumMonthExtensive } from '@/utils'
 import { TFinance } from '@/types'
 import * as GS from '@/styles'
 
-type Props = {
+type FinancesListItemProps = {
   finance: TFinance
   handleClick(finance: TFinance): void
 }
 
-export function FinancesListItem({ finance, handleClick }: Props) {
+export const FinancesListItem = ({
+  finance,
+  handleClick
+}: FinancesListItemProps) => {
   const { description, value, date, type } = finance
   const state =
     type === '-'

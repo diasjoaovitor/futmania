@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { logout } from '@/firebase'
 
-export function useAuth() {
+export function useComponentHandler() {
   const navigate = useNavigate()
 
   const handleLogin = () => {

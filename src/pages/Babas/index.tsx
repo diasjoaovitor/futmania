@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import {
-  AlertProps,
+  TAlertProps,
   BabaForm,
   BabaLeaderboard,
   Dialog,
@@ -9,10 +9,10 @@ import {
   SelectYearMonthDay,
   TeamsForm
 } from '@/components'
-import { useBabas } from './useBabas'
-import * as S from './style'
+import { useComponentHandler } from './use-component-handler'
+import * as S from './styles'
 
-export function Babas() {
+export const Babas = () => {
   const {
     user,
     period,
@@ -31,11 +31,11 @@ export function Babas() {
     alertProps,
     dialogProps,
     isPending
-  } = useBabas()
+  } = useComponentHandler()
   return (
     <Layout
       title="Babas"
-      alertProps={alertProps as AlertProps}
+      alertProps={alertProps as TAlertProps}
       isPending={isPending}
     >
       <Box sx={S.Wrapper}>

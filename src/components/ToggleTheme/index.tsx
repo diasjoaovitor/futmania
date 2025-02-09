@@ -2,7 +2,7 @@ import { ListItemButton } from '@mui/material'
 import { Lightbulb } from '@mui/icons-material'
 import { useThemeContext } from '@/contexts'
 
-export function ToggleTheme() {
+export const ToggleTheme = () => {
   const { toggleTheme } = useThemeContext()
   return (
     <ListItemButton onClick={toggleTheme}>

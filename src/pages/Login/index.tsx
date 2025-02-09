@@ -9,12 +9,12 @@ import {
   Typography
 } from '@mui/material'
 import { Alert, Loader, Logo } from '@/components'
-import { useLogin } from './useLogin'
+import { useComponentHandler } from './use-component-handler'
 import { inputs } from './inputs'
-import * as S from './style'
+import * as S from './styles'
 
-export function Login() {
-  const { isPending, alertProps, handleSubmit } = useLogin()
+export const Login = () => {
+  const { isPending, alertProps, handleSubmit } = useComponentHandler()
 
   return (
     <Box sx={S.Wrapper}>

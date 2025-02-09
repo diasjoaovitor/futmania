@@ -9,10 +9,10 @@ import {
   Wallet
 } from '@/components'
 import { useLimit } from '@/hooks'
-import { useFinances } from './useFinances'
-import { sortFinances } from './functions'
+import { useComponentHandler } from './use-component-handler'
+import { sortFinances } from './utils'
 
-export function Finances() {
+export const Finances = () => {
   const {
     user,
     year,
@@ -27,7 +27,7 @@ export function Finances() {
     alertProps,
     dialogProps,
     isPending
-  } = useFinances()
+  } = useComponentHandler()
 
   const { limited, isFull, handleLimit } = useLimit(sortFinances(finances), 10)
 

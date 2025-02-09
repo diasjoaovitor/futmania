@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useDialog() {
+export const useDialog = () => {
   const [dialog, setDialog] = useState('')
 
   const dialogIsOpened = Boolean(dialog)

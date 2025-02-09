@@ -4,7 +4,7 @@ import {
   ThemeProvider as MUIThemeProvider,
   CssBaseline
 } from '@mui/material'
-import { useTheme } from './useTheme'
+import { useComponentHandler } from './use-component-handler'
 
 type TThemeContext = {
   theme: Theme
@@ -13,12 +13,10 @@ type TThemeContext = {
 
 const ThemeContext = createContext({} as TThemeContext)
 
-export function useThemeContext() {
-  return useContext(ThemeContext)
-}
+export const useThemeContext = () => useContext(ThemeContext)
 
-export function ThemeProvider({ children }: PropsWithChildren) {
-  const provider = useTheme()
+export const ThemeProvider = ({ children }: PropsWithChildren) => {
+  const provider = useComponentHandler()
   return (
     <ThemeContext.Provider value={provider}>
       <MUIThemeProvider theme={provider.theme}>

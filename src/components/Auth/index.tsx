@@ -1,11 +1,11 @@
 import { Login, Logout } from '@mui/icons-material'
 import { ListItemButton } from '@mui/material'
 import { useAuthContext } from '@/contexts'
-import { useAuth } from './useAuth'
+import { useComponentHandler } from './use-component-handler'
 
-export function Auth() {
+export const Auth = () => {
   const { user } = useAuthContext()
-  const { handleLogin, handleLogout } = useAuth()
+  const { handleLogin, handleLogout } = useComponentHandler()
 
   return !user?.uid ? (
     <ListItemButton onClick={handleLogin}>
