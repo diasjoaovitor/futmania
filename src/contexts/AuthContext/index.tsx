@@ -1,7 +1,9 @@
-import { createContext, PropsWithChildren, useContext } from 'react'
 import { User } from 'firebase/auth'
+import { createContext, PropsWithChildren, useContext } from 'react'
+
 import { Alert, Loader } from '@/components'
 import { TBabaUser } from '@/types'
+
 import { useComponentHandler } from './use-component-handler'
 
 type TAuthContext = {

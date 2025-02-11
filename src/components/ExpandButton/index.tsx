@@ -1,5 +1,5 @@
-import { IconButton, Typography } from '@mui/material'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import { IconButton, Typography } from '@mui/material'
 
 type TExpandButtonProps = {
   isExpanded: boolean

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import {
   Collapse,
   IconButton,
@@ -8,9 +8,10 @@ import {
   TableHead,
   TableRow
 } from '@mui/material'
-import { ExpandLess, ExpandMore } from '@mui/icons-material'
-import { getMemberById, sortByGoals } from '@/utils'
+import { useState } from 'react'
+
 import { TMember, TTeam } from '@/types'
+import { getMemberById, sortByGoals } from '@/utils'
 
 type TLeaderboardRowProps = {
   team: TTeam

@@ -1,4 +1,3 @@
-import { useComponentHandler } from './use-component-handler'
 import {
   Box,
   Button,
@@ -11,10 +10,13 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+
 import { DateInput, MembersCheckboxListModal, Modal } from '@/components'
 import { TBaba, TMember } from '@/types'
 import { getMemberById, handleFocus } from '@/utils'
+
 import * as S from './styles'
+import { useComponentHandler } from './use-component-handler'
 
 export type TFormProps = {
   isOpened: boolean

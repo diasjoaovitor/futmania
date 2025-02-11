@@ -1,9 +1,10 @@
-import { PropsWithChildren, createContext, useContext } from 'react'
 import {
+  CssBaseline,
   Theme,
-  ThemeProvider as MUIThemeProvider,
-  CssBaseline
+  ThemeProvider as MUIThemeProvider
 } from '@mui/material'
+import { createContext, PropsWithChildren, useContext } from 'react'
+
 import { useComponentHandler } from './use-component-handler'
 
 type TThemeContext = {

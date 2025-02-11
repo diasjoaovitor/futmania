@@ -1,8 +1,10 @@
 import { Box, Typography } from '@mui/material'
+
 import { Alert, Layout, Loader, MemberStatsModal } from '@/components'
+
 import { Ranking, SeasonSelect } from './components'
-import { useComponentHandler } from './use-component-handler'
 import * as S from './styles'
+import { useComponentHandler } from './use-component-handler'
 
 export const Stats = () => {
   const {

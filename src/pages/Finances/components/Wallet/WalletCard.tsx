@@ -1,6 +1,8 @@
-import { Box, Typography } from '@mui/material'
 import { SvgIconComponent } from '@mui/icons-material'
+import { Box, Typography } from '@mui/material'
+
 import { formatCurrency } from '@/utils'
+
 import * as S from './styles'
 
 type TWalletCardProps = {

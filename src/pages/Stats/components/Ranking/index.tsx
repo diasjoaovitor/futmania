@@ -1,7 +1,9 @@
 import { TableCell, TableRow } from '@mui/material'
-import { TStats, sortByGoals, sortMembersByRanking } from '@/utils'
+
 import { useLimit } from '@/hooks'
 import { TMember } from '@/types'
+import { sortByGoals, sortMembersByRanking, TStats } from '@/utils'
+
 import { Table } from './Table'
 
 type TRankingProps = {

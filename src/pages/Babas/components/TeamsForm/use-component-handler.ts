@@ -1,9 +1,11 @@
+import { Dayjs } from 'dayjs'
+import { ChangeEvent, useState } from 'react'
+
+import { currentDate } from '@/constants'
 import { useModal } from '@/hooks'
 import { TTeam } from '@/types'
-import { ChangeEvent, useState } from 'react'
+
 import { assignTeams, drawTeams } from './utils'
-import { Dayjs } from 'dayjs'
-import { currentDate } from '@/constants'
 
 export const useComponentHandler = () => {
   const [date, setDate] = useState(currentDate)

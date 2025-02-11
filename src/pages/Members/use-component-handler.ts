@@ -1,22 +1,24 @@
 import { FormEvent, useEffect, useState } from 'react'
+
 import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
+import { createdAt } from '@/constants'
 import { useAuthContext } from '@/contexts'
+import { useAlert, useDialog, useModal } from '@/hooks'
 import {
   useMutationCreateMember,
   useMutationDeleteMember,
   useMutationUpdateMember,
   useQueriesMembersAndBabasAndFinances
 } from '@/react-query'
-import { useAlert, useDialog, useModal } from '@/hooks'
 import { TBaba, TFinance, TMember } from '@/types'
-import { createdAt } from '@/constants'
 import {
-  getElementValues,
   getElementsCheckedValues,
+  getElementValues,
   getMemberStats
 } from '@/utils'
-import { someBabaIncludesMember } from './utils'
+
 import { TFormProps } from './components'
+import { someBabaIncludesMember } from './utils'
 
 export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()

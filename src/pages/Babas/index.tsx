@@ -1,8 +1,10 @@
 import { Box, Button, Typography } from '@mui/material'
-import { Dialog, Layout, MemberStatsModal, Loader, Alert } from '@/components'
-import { Leaderboard, YearMonthDaySelect, TeamsForm, Form } from './components'
-import { useComponentHandler } from './use-component-handler'
+
+import { Alert, Dialog, Layout, Loader, MemberStatsModal } from '@/components'
+
+import { Form, Leaderboard, TeamsForm, YearMonthDaySelect } from './components'
 import * as S from './styles'
+import { useComponentHandler } from './use-component-handler'
 
 export const Babas = () => {
   const {

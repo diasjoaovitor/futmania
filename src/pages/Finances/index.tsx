@@ -1,9 +1,11 @@
 import { Box, Button, Divider } from '@mui/material'
+
 import { Alert, Dialog, ExpandButton, Layout, Loader } from '@/components'
 import { useLimit } from '@/hooks'
+
+import { Form, List, Wallet, YearMonthSelect } from './components'
 import { useComponentHandler } from './use-component-handler'
 import { sortFinances } from './utils'
-import { Form, List, Wallet, YearMonthSelect } from './components'
 
 export const Finances = () => {
   const {

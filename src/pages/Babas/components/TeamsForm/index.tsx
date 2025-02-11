@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -8,18 +7,21 @@ import {
   Switch,
   Typography
 } from '@mui/material'
+import { Link } from 'react-router-dom'
+
 import {
-  ExpandButton,
   DateInput,
+  ExpandButton,
   InputWithButton,
   MembersCheckboxList,
   Modal
 } from '@/components'
-import { handleFocus, separateMembers, sortMembersByName } from '@/utils'
-import { TFinance, TMember, TTeam } from '@/types'
 import { useLimit } from '@/hooks'
-import { useComponentHandler } from './use-component-handler'
+import { TFinance, TMember, TTeam } from '@/types'
+import { handleFocus, separateMembers, sortMembersByName } from '@/utils'
+
 import { TeamsModal } from './TeamsModal'
+import { useComponentHandler } from './use-component-handler'
 
 export type TeamsFormProps = {
   isOpened: boolean

@@ -1,4 +1,3 @@
-import { ChangeEvent } from 'react'
 import {
   Checkbox,
   FormControlLabel,
@@ -7,10 +6,13 @@ import {
   ListItemButton,
   Typography
 } from '@mui/material'
+import { ChangeEvent } from 'react'
+
+import * as GS from '@/styles'
 import { TFinance, TMember } from '@/types'
 import { someFinanceIncludesMember, sortMembersByName } from '@/utils'
+
 import { memberIsChecked } from './utils'
-import * as GS from '@/styles'
 
 type Props = {
   title: string

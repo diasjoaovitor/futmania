@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -8,10 +7,13 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import { Link } from 'react-router-dom'
+
 import { Alert, Loader, Logo } from '@/components'
-import { useComponentHandler } from './use-component-handler'
+
 import { inputs } from './inputs'
 import * as S from './styles'
+import { useComponentHandler } from './use-component-handler'
 
 export const Login = () => {
   const { isPending, alertProps, handleSubmit } = useComponentHandler()

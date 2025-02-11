@@ -1,5 +1,5 @@
-import { getYear, getYearMonth } from '@/utils'
 import { TFinance } from '@/types'
+import { getYear, getYearMonth } from '@/utils'
 
 export function getWallet(finances: TFinance[], date: string) {
   const yearMonth = getYearMonth(date)

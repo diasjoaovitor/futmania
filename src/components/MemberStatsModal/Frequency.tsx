@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Check, Close } from '@mui/icons-material'
 import {
   Box,
   List,
@@ -7,10 +7,12 @@ import {
   ListItemText,
   ListSubheader
 } from '@mui/material'
-import { Check, Close } from '@mui/icons-material'
-import { TFrequency, getDayNumMonthExtensiveYearNum, sortByDate } from '@/utils'
-import { ExpandButton } from '..'
+import { useState } from 'react'
+
 import * as GS from '@/styles'
+import { getDayNumMonthExtensiveYearNum, sortByDate, TFrequency } from '@/utils'
+
+import { ExpandButton } from '..'
 
 type TFrequencyProps = {
   frequency: TFrequency[]

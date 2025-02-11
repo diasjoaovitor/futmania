@@ -1,7 +1,8 @@
 import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import { getMonthExtensive, sortStringDesc } from '@/utils'
-import { seasons } from '@/constants'
+
 import { YearSelect } from '@/components'
+import { seasons } from '@/constants'
+import { getMonthExtensive, sortStringDesc } from '@/utils'
 
 type TSeasonSelectProps = {
   year: number

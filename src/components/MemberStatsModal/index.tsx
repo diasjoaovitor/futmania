@@ -1,10 +1,12 @@
 import { Divider } from '@mui/material'
-import { TMemberStats } from '@/utils'
+
 import { TFinance, TMember } from '@/types'
+import { TMemberStats } from '@/utils'
+
 import { Modal } from '..'
-import { Stats } from './Stats'
 import { Frequency } from './Frequency'
 import { Payments } from './Payments'
+import { Stats } from './Stats'
 
 export type TMemberStatsModalProps = {
   isOpened: boolean

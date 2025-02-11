@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
 import { User } from 'firebase/auth'
-import { authConfig } from '@/config'
-import { TBabaUser } from '@/types'
-import { useQueryUser } from '@/react-query'
-import { useAlert } from '@/hooks'
+import { useEffect, useState } from 'react'
+
 import { TAlertProps } from '@/components'
+import { authConfig } from '@/config'
+import { useAlert } from '@/hooks'
+import { useQueryUser } from '@/react-query'
+import { TBabaUser } from '@/types'
 
 export type TUseAuthContext = {
   user: User | null

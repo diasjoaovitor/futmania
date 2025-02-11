@@ -1,8 +1,8 @@
 import {
   Button,
+  Dialog as MUIDialog,
   DialogActions,
-  DialogTitle,
-  Dialog as MUIDialog
+  DialogTitle
 } from '@mui/material'
 
 export type TDialogProps = {

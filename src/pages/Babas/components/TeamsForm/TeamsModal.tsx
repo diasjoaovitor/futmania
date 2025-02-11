@@ -6,6 +6,7 @@ import {
   ListItemText,
   ListSubheader
 } from '@mui/material'
+
 import { Modal } from '@/components'
 import { TMember, TTeam } from '@/types'
 import { getMemberById } from '@/utils'

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Check, Close } from '@mui/icons-material'
 import {
   List,
   ListItem,
@@ -7,12 +7,14 @@ import {
   ListSubheader,
   Typography
 } from '@mui/material'
-import { Check, Close } from '@mui/icons-material'
+import { useState } from 'react'
+
 import { TFinance } from '@/types'
-import { TFrequency, formatCurrency, getMonthExtensiveYearNum } from '@/utils'
-import { getPayments, getPaymentsData } from './utils'
+import { formatCurrency, getMonthExtensiveYearNum, TFrequency } from '@/utils'
+
 import { ExpandButton } from '..'
 import * as S from './styles'
+import { getPayments, getPaymentsData } from './utils'
 
 type TPaymentsProps = {
   memberId: string

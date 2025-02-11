@@ -6,8 +6,9 @@ import {
   ListItemText,
   Typography
 } from '@mui/material'
-import { TMember } from '@/types'
+
 import * as GS from '@/styles'
+import { TMember } from '@/types'
 
 type TListProps = {
   title: string

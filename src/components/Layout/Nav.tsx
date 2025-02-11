@@ -1,10 +1,11 @@
-import { Link, useLocation } from 'react-router-dom'
-import { Box, Divider, Link as MUILink, ListItemButton } from '@mui/material'
 import { GitHub } from '@mui/icons-material'
-import { ToggleTheme } from './ToggleTheme'
+import { Box, Divider, Link as MUILink, ListItemButton } from '@mui/material'
+import { Link, useLocation } from 'react-router-dom'
+
 import { AuthButton } from './AuthButton'
 import { navItems } from './nav-items'
 import * as S from './styles'
+import { ToggleTheme } from './ToggleTheme'
 
 export const Nav = () => {
   const { pathname } = useLocation()

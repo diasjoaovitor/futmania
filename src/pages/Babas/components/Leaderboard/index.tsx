@@ -7,7 +7,9 @@ import {
   TableHead,
   TableRow
 } from '@mui/material'
+
 import { TBaba, TMember } from '@/types'
+
 import { LeaderboardRow } from './LeaderboardRow'
 import { sortTeamsByScore } from './utils'
 

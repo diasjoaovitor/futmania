@@ -1,5 +1,6 @@
-import { ListItemButton } from '@mui/material'
 import { Lightbulb } from '@mui/icons-material'
+import { ListItemButton } from '@mui/material'
+
 import { useThemeContext } from '@/contexts'
 
 export const ToggleTheme = () => {

@@ -1,10 +1,11 @@
-import { ChangeEvent } from 'react'
 import {
   FormControl,
   InputAdornment as MUIAdornment,
   InputLabel,
   OutlinedInput
 } from '@mui/material'
+import { ChangeEvent } from 'react'
+
 import { handleFocus } from '@/utils'
 
 type TInputAdornmentProps = {

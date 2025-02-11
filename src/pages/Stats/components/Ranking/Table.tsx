@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import {
   Paper,
   Table as MuiTable,
@@ -9,6 +8,8 @@ import {
   TableRow,
   Typography
 } from '@mui/material'
+import { ReactNode } from 'react'
+
 import { ExpandButton } from '@/components'
 import * as GS from '@/styles'
 

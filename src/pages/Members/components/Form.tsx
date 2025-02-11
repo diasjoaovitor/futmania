@@ -6,9 +6,10 @@ import {
   FormGroup,
   Switch
 } from '@mui/material'
-import { TMember } from '@/types'
+
 import { InputWithButton, Modal } from '@/components'
 import * as GS from '@/styles'
+import { TMember } from '@/types'
 
 export type TFormProps = {
   isOpened: boolean

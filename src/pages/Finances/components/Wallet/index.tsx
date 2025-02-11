@@ -1,7 +1,8 @@
-import { Box } from '@mui/material'
 import { ArrowDownward, ArrowUpward, AttachMoney } from '@mui/icons-material'
-import { WalletCard } from './WalletCard'
+import { Box } from '@mui/material'
+
 import * as S from './styles'
+import { WalletCard } from './WalletCard'
 
 type TWalletProps = {
   incomes: number

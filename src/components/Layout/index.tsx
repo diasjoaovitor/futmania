@@ -1,5 +1,6 @@
-import { ReactNode } from 'react'
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { ReactNode } from 'react'
+
 import { AppBar } from './AppBar'
 import * as S from './styles'
 

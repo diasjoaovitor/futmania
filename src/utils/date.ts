@@ -1,7 +1,10 @@
-import dayjs from 'dayjs'
-import { currentDate } from '@/constants'
-import { getDistinctValues } from './getters'
 import 'dayjs/locale/pt-br'
+
+import dayjs from 'dayjs'
+
+import { currentDate } from '@/constants'
+
+import { getDistinctValues } from './getters'
 
 dayjs.locale('pt-br')
 

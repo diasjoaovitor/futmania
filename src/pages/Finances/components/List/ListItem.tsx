@@ -1,7 +1,8 @@
 import { Box, ListItem as MuiListItem, Typography } from '@mui/material'
-import { formatCurrency, getDayNumMonthExtensive } from '@/utils'
-import { TFinance } from '@/types'
+
 import * as GS from '@/styles'
+import { TFinance } from '@/types'
+import { formatCurrency, getDayNumMonthExtensive } from '@/utils'
 
 type ListItemProps = {
   finance: TFinance

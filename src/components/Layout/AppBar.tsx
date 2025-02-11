@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react'
+import { Menu, MenuOpen } from '@mui/icons-material'
 import {
   AppBar as MUIAppBar,
-  Typography,
-  Toolbar,
-  IconButton,
   CSSObject,
-  Divider
+  Divider,
+  IconButton,
+  Toolbar,
+  Typography
 } from '@mui/material'
-import { Menu, MenuOpen } from '@mui/icons-material'
-import { Nav } from './Nav'
+import { useEffect, useState } from 'react'
+
 import { Logo } from '..'
+import { Nav } from './Nav'
 import * as S from './styles'
 
 type TAppBarProps = {

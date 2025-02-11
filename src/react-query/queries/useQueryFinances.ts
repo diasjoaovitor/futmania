@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+
 import { getFinances } from '@/firebase'
 
 export function useQueryFinances(id: string) {

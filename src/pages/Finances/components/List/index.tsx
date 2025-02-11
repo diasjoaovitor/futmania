@@ -4,7 +4,9 @@ import {
   ListItem as MuiListItem,
   Typography
 } from '@mui/material'
+
 import { TFinance } from '@/types'
+
 import { ListItem } from './ListItem'
 import * as S from './styles'
 

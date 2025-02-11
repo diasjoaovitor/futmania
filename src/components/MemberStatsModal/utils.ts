@@ -1,5 +1,5 @@
-import { TFrequency, getDistinctValues, getYearMonth } from '@/utils'
 import { TFinance } from '@/types'
+import { getDistinctValues, getYearMonth, TFrequency } from '@/utils'
 
 type TPaymentData = {
   yearMonth: string

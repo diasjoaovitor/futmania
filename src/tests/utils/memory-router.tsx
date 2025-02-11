@@ -1,8 +1,8 @@
 import {
+  createMemoryRouter,
   RouteObject,
   RouteProps,
-  RouterProvider,
-  createMemoryRouter
+  RouterProvider
 } from 'react-router-dom'
 
 export const memoryRouter = (

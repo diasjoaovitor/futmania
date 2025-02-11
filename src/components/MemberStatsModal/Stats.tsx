@@ -1,18 +1,20 @@
 import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader
-} from '@mui/material'
-import {
   Newspaper,
   Sports,
   SportsSoccer,
   StarRate,
   SvgIconComponent
 } from '@mui/icons-material'
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader
+} from '@mui/material'
+
 import { TMemberStats } from '@/utils'
+
 import * as S from './styles'
 
 type TListItems = {

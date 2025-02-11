@@ -1,11 +1,12 @@
-import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { AuthError } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
+
 import { TAlertProps } from '@/components'
 import { getErrorMessage } from '@/errors'
-import { getElementValues } from '@/utils'
 import { login } from '@/firebase'
 import { useAlert } from '@/hooks'
+import { getElementValues } from '@/utils'
 
 export const useComponentHandler = () => {
   const navigate = useNavigate()

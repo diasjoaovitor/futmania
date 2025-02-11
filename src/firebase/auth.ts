@@ -1,4 +1,5 @@
 import { signInWithEmailAndPassword } from 'firebase/auth'
+
 import { authConfig } from '@/config'
 
 export async function login(email: string, password: string) {

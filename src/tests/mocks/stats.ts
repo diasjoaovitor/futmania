@@ -1,4 +1,5 @@
 import { TStats } from '@/utils'
+
 import { mockedFrequency, mockedMember } from '..'
 
 export const mockedMemberStats: TStats = {

@@ -1,5 +1,6 @@
-import { Box, IconButton, Modal as MUIModal, Typography } from '@mui/material'
 import { Close } from '@mui/icons-material'
+import { Box, IconButton, Modal as MUIModal, Typography } from '@mui/material'
+
 import * as S from './styles'
 
 type TModalProps = {
