@@ -4,26 +4,19 @@ import { TMember } from '@/types'
 
 import { TMemberStats } from './stats'
 
-export function sortNumberDesc(values: number[]) {
-  return values.sort((a, b) => b - a)
-}
+export const sortNumberDesc = (values: number[]) => values.sort((a, b) => b - a)
 
-export function sortStringDesc(values: string[]) {
-  return values.sort((a, b) => b.localeCompare(a))
-}
+export const sortStringDesc = (values: string[]) =>
+  values.sort((a, b) => b.localeCompare(a))
 
-export function sortMembersByName(members: TMember[]) {
-  return members.sort((a, b) => a.name.localeCompare(b.name))
-}
+export const sortMembersByName = (members: TMember[]) =>
+  members.sort((a, b) => a.name.localeCompare(b.name))
 
-export function sortMembersByRanking(stats: TMemberStats[]) {
-  return stats.sort((a, b) => b.scoreRanking - a.scoreRanking)
-}
+export const sortMembersByRanking = (stats: TMemberStats[]) =>
+  stats.sort((a, b) => b.scoreRanking - a.scoreRanking)
 
-export function sortByGoals(data: { goals: number }[]) {
-  return data.sort((a, b) => b.goals - a.goals)
-}
+export const sortByGoals = (data: { goals: number }[]) =>
+  data.sort((a, b) => b.goals - a.goals)
 
-export function sortByDate(data: { date: string }[]) {
-  return data.sort((a, b) => dayjs(a.date).diff(b.date))
-}
+export const sortByDate = (data: { date: string }[]) =>
+  data.sort((a, b) => dayjs(a.date).diff(b.date))

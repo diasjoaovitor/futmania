@@ -1,5 +1,5 @@
 import { FocusEvent } from 'react'
 
-export function handleFocus(e: FocusEvent<HTMLInputElement>) {
+export const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
   e.target.select()
 }

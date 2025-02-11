@@ -1,6 +1,6 @@
 import { TFinance, TMember } from '@/types'
 
-export function separateMembers(members: TMember[]) {
+export const separateMembers = (members: TMember[]) => {
   const fixedMembers = members.filter(
     ({ isFixedMember, isGoalkeeper }) => isFixedMember && !isGoalkeeper
   )
@@ -15,9 +15,7 @@ export function separateMembers(members: TMember[]) {
   }
 }
 
-export function someFinanceIncludesMember(
+export const someFinanceIncludesMember = (
   finances: TFinance[],
   memberId: string
-) {
-  return finances.some(({ memberId: mId }) => mId === memberId)
-}
+) => finances.some(({ memberId: mId }) => mId === memberId)
