@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
-type TInputDateProps = {
+type TDateInputProps = {
   date: string
   color?: 'error' | 'primary'
   handleChange(e: Dayjs | null): void
@@ -26,10 +26,10 @@ const theme = (theme: Theme, color: 'error' | 'primary') =>
     }
   })
 
-export const InputDate = ({ date, color, handleChange }: TInputDateProps) => {
+export const DateInput = ({ date, color, handleChange }: TDateInputProps) => {
   return (
     <ThemeProvider theme={(t: Theme) => theme(t, color || 'primary')}>
-      <FormControl fullWidth className="InputDate">
+      <FormControl fullWidth className="DateInput">
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
           <DatePicker
             label="Data"

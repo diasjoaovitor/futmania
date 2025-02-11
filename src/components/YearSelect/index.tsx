@@ -1,13 +1,13 @@
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { sortNumberDesc } from '@/utils'
 
-type TSelectYearProps = {
+type TYearSelectProps = {
   year: number
   years: number[]
   handleChange(e: SelectChangeEvent): void
 }
 
-export const SelectYear = ({ year, years, handleChange }: TSelectYearProps) => {
+export const YearSelect = ({ year, years, handleChange }: TYearSelectProps) => {
   return (
     <Select name="year" value={String(year)} onChange={handleChange}>
       {sortNumberDesc(years.includes(year) ? years : [...years, year]).map(

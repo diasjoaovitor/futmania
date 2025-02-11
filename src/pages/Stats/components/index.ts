@@ -1,2 +1,2 @@
 export * from './Ranking'
-export * from './SelectSeason'
+export * from './SeasonSelect'

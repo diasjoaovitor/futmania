@@ -12,7 +12,7 @@ import {
 import { TFinance, TMember } from '@/types'
 import { useModal } from '@/hooks'
 import { sortMembersByName } from '@/utils'
-import { InputDate, MembersCheckboxListModal, Modal } from '@/components'
+import { DateInput, MembersCheckboxListModal, Modal } from '@/components'
 import { InputAdornment } from './InputAdornment'
 
 type TColor = {
@@ -110,7 +110,7 @@ export const Form = ({
             color={color.mui}
             handleChange={handleChange}
           />
-          <InputDate
+          <DateInput
             date={date}
             color={color.mui}
             handleChange={handleDateChange}

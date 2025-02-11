@@ -3,7 +3,7 @@ import { Alert, Dialog, ExpandButton, Layout, Loader } from '@/components'
 import { useLimit } from '@/hooks'
 import { useComponentHandler } from './use-component-handler'
 import { sortFinances } from './utils'
-import { Form, List, SelectYearMonth, Wallet } from './components'
+import { Form, List, Wallet, YearMonthSelect } from './components'
 
 export const Finances = () => {
   const {
@@ -27,7 +27,7 @@ export const Finances = () => {
   return (
     <Layout title="Finanças">
       <Box maxWidth={900}>
-        <SelectYearMonth
+        <YearMonthSelect
           year={year}
           month={month}
           years={years}

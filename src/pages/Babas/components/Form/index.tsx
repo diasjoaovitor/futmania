@@ -11,7 +11,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { InputDate, MembersCheckboxListModal, Modal } from '@/components'
+import { DateInput, MembersCheckboxListModal, Modal } from '@/components'
 import { TBaba, TMember } from '@/types'
 import { getMemberById, handleFocus } from '@/utils'
 import * as S from './styles'
@@ -54,7 +54,7 @@ export const Form = ({
   return (
     <Modal title="Editar Baba" isOpened={isOpened} handleClose={handleClose}>
       <Box sx={S.Wrapper}>
-        <InputDate date={date} handleChange={handleDateChange} />
+        <DateInput date={date} handleChange={handleDateChange} />
         {teams.map(({ name, members: mbs, draws, wins }, teamIndex) => (
           <List key={teamIndex}>
             <ListSubheader sx={S.SubHeader}>

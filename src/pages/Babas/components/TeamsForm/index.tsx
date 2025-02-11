@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import {
   ExpandButton,
-  InputDate,
+  DateInput,
   InputWithButton,
   MembersCheckboxList,
   Modal
@@ -70,7 +70,7 @@ export function TeamsForm({
         {members.length !== 0 ? (
           <>
             <Box mt={4}>
-              <InputDate date={date} handleChange={handleDateChange} />
+              <DateInput date={date} handleChange={handleDateChange} />
               <FormControlLabel
                 control={
                   <Switch

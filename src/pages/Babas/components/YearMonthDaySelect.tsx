@@ -1,5 +1,5 @@
 import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import { SelectYear } from '@/components'
+import { YearSelect } from '@/components'
 import {
   getMonthExtensive,
   getStringWeekDayNumberMonthDay,
@@ -45,7 +45,7 @@ export const YearMonthDaySelect = ({
           </MenuItem>
         ))}
       </Select>
-      <SelectYear year={year} years={years} handleChange={handleChange} />
+      <YearSelect year={year} years={years} handleChange={handleChange} />
     </Box>
   )
 }
