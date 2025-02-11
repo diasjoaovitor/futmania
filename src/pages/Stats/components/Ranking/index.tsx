@@ -2,19 +2,16 @@ import { TableCell, TableRow } from '@mui/material'
 import { TStats, sortByGoals, sortMembersByRanking } from '@/utils'
 import { useLimit } from '@/hooks'
 import { TMember } from '@/types'
-import { MembersRankingTable } from '..'
+import { Table } from './Table'
 
-type TMembersRankingProps = {
+type TRankingProps = {
   stats: TStats[]
   handleClick(member: TMember): void
 }
 
 const min = 5
 
-export const MembersRanking = ({
-  stats,
-  handleClick
-}: TMembersRankingProps) => {
+export const Ranking = ({ stats, handleClick }: TRankingProps) => {
   const {
     limited: limitedScoreRanking,
     isFull: scoreRankingIsFull,
@@ -27,7 +24,7 @@ export const MembersRanking = ({
   } = useLimit(sortByGoals(stats), min)
   return (
     <>
-      <MembersRankingTable
+      <Table
         title="Ranking"
         cols={['Posição', 'Nome', 'Score', 'Babas']}
         isFull={scoreRankingIsFull}
@@ -51,8 +48,8 @@ export const MembersRanking = ({
             )
           })}
         </>
-      </MembersRankingTable>
-      <MembersRankingTable
+      </Table>
+      <Table
         title="Artilharia"
         cols={['Posição', 'Nome', 'Gols', 'Babas', 'Média']}
         isFull={goalsRankingIsFull}
@@ -77,7 +74,7 @@ export const MembersRanking = ({
             )
           })}
         </>
-      </MembersRankingTable>
+      </Table>
     </>
   )
 }

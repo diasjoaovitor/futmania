@@ -1,12 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import {
-  Alert,
-  Layout,
-  Loader,
-  MemberModal,
-  MembersRanking,
-  SelectSeason
-} from '@/components'
+import { Alert, Layout, Loader, MemberModal } from '@/components'
+import { Ranking, SelectSeason } from './components'
 import { useComponentHandler } from './use-component-handler'
 import * as S from './styles'
 
@@ -34,7 +28,7 @@ export const Stats = () => {
         />
         {statsInSeason.length > 0 ? (
           <>
-            <MembersRanking
+            <Ranking
               stats={statsInSeason}
               handleClick={handleOpenMemberModal}
             />

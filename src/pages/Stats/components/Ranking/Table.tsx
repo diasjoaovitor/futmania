@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import {
   Paper,
-  Table,
+  Table as MuiTable,
   TableBody,
   TableCell,
   TableContainer,
@@ -9,10 +9,10 @@ import {
   TableRow,
   Typography
 } from '@mui/material'
-import { ExpandButton } from '..'
+import { ExpandButton } from '@/components'
 import * as GS from '@/styles'
 
-type TMembersRankingTableProps = {
+type TTableProps = {
   title: string
   cols: string[]
   children: ReactNode
@@ -20,20 +20,20 @@ type TMembersRankingTableProps = {
   handleLimit(): void
 }
 
-export const MembersRankingTable = ({
+export const Table = ({
   title,
   cols,
   children,
   isFull,
   handleLimit
-}: TMembersRankingTableProps) => {
+}: TTableProps) => {
   return (
     <>
       <Typography sx={GS.Title} component="h2" variant="h6" pt={3} pb={2}>
         {title}
       </Typography>
       <TableContainer component={Paper}>
-        <Table>
+        <MuiTable>
           <TableHead>
             <TableRow>
               {cols.map((col, index) => (
@@ -54,7 +54,7 @@ export const MembersRankingTable = ({
               </TableCell>
             </TableRow>
           </TableBody>
-        </Table>
+        </MuiTable>
       </TableContainer>
     </>
   )
