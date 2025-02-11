@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
 import { SelectChangeEvent } from '@mui/material'
-import { TAlertProps, TDialogProps, TFinancesFormProps } from '@/components'
+import { TAlertProps, TDialogProps } from '@/components'
 import {
   useMutationCreateFinance,
   useMutationCreateFinances,
@@ -17,6 +17,7 @@ import { TFinance, TMember } from '@/types'
 import { currentDate } from '@/constants'
 import { defaultFinanceState } from './constants'
 import { getPayments, getWallet } from './utils'
+import { TFormProps } from './components'
 
 export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()
@@ -333,7 +334,7 @@ export const useComponentHandler = () => {
     )
   }
 
-  const financesFormProps: TFinancesFormProps = {
+  const formProps: TFormProps = {
     isOpened: modalIsOpened,
     title: !finance.id ? 'Adicionar Finança' : 'Editar Finança',
     finance,
@@ -377,7 +378,7 @@ export const useComponentHandler = () => {
     handlePeriodChange,
     years,
     finances: filteredFinances,
-    financesFormProps,
+    formProps,
     handleOpenModal,
     handleOpenModalUpdate,
     alertProps,

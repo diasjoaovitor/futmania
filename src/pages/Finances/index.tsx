@@ -1,18 +1,9 @@
 import { Box, Button, Divider } from '@mui/material'
-import {
-  Alert,
-  Dialog,
-  ExpandButton,
-  FinancesForm,
-  FinancesList,
-  Layout,
-  Loader,
-  SelectYearMonth,
-  Wallet
-} from '@/components'
+import { Alert, Dialog, ExpandButton, Layout, Loader } from '@/components'
 import { useLimit } from '@/hooks'
 import { useComponentHandler } from './use-component-handler'
 import { sortFinances } from './utils'
+import { Form, List, SelectYearMonth, Wallet } from './components'
 
 export const Finances = () => {
   const {
@@ -23,7 +14,7 @@ export const Finances = () => {
     handlePeriodChange,
     years,
     finances,
-    financesFormProps,
+    formProps,
     handleOpenModal,
     handleOpenModalUpdate,
     alertProps,
@@ -49,7 +40,7 @@ export const Finances = () => {
           incomes={wallet.totalIncomesInMonth}
         />
         <Divider sx={{ my: 2 }} />
-        <FinancesList finances={limited} handleClick={handleOpenModalUpdate} />
+        <List finances={limited} handleClick={handleOpenModalUpdate} />
         {finances.length > 10 && (
           <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
         )}
@@ -58,7 +49,7 @@ export const Finances = () => {
             <Button sx={{ my: 2 }} variant="outlined" onClick={handleOpenModal}>
               Adicionar Finanças
             </Button>
-            <FinancesForm {...financesFormProps} />
+            <Form {...formProps} />
             <Dialog {...dialogProps} />
           </>
         )}

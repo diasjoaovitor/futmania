@@ -12,15 +12,15 @@ import {
 import { TFinance, TMember } from '@/types'
 import { useModal } from '@/hooks'
 import { sortMembersByName } from '@/utils'
-import { InputAdornment, InputDate, MembersCheckboxListModal, Modal } from '..'
-import * as S from './styles'
+import { InputDate, MembersCheckboxListModal, Modal } from '@/components'
+import { InputAdornment } from './InputAdornment'
 
 type TColor = {
   mui: 'error' | 'primary'
   hex: string
 }
 
-export type TFinancesFormProps = {
+export type TFormProps = {
   isOpened: boolean
   title: string
   finance: TFinance
@@ -35,7 +35,7 @@ export type TFinancesFormProps = {
   handleDelete(): void
 }
 
-export const FinancesForm = ({
+export const Form = ({
   isOpened,
   title,
   finance: { date, description, type, value, id, memberId },
@@ -48,7 +48,7 @@ export const FinancesForm = ({
   handleClose,
   handleSubmit,
   handleDelete
-}: TFinancesFormProps) => {
+}: TFormProps) => {
   const { modalIsOpened, handleOpenModal, handleCloseModal } = useModal()
 
   const color: TColor =
@@ -70,7 +70,14 @@ export const FinancesForm = ({
       color={color.hex}
     >
       <form onSubmit={handleSubmit} role="form" autoComplete="off">
-        <FormControl fullWidth sx={S.Wrapper}>
+        <FormControl
+          fullWidth
+          sx={{
+            '& .MuiInputBase-root': {
+              mb: 2
+            }
+          }}
+        >
           <RadioGroup
             name="type"
             value={type}

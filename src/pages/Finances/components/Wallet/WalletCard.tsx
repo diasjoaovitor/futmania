@@ -17,7 +17,7 @@ export const WalletCard = ({
   value
 }: TWalletCardProps) => {
   return (
-    <Box sx={{ ...S.Wrapper, borderColor: color }}>
+    <Box sx={{ ...S.WalletCardWrapper, borderColor: color }}>
       <div>
         <Typography variant="caption" color="text.secondary">
           {caption}

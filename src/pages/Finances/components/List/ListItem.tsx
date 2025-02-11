@@ -1,17 +1,14 @@
-import { Box, ListItem, Typography } from '@mui/material'
+import { Box, ListItem as MuiListItem, Typography } from '@mui/material'
 import { formatCurrency, getDayNumMonthExtensive } from '@/utils'
 import { TFinance } from '@/types'
 import * as GS from '@/styles'
 
-type FinancesListItemProps = {
+type ListItemProps = {
   finance: TFinance
   handleClick(finance: TFinance): void
 }
 
-export const FinancesListItem = ({
-  finance,
-  handleClick
-}: FinancesListItemProps) => {
+export const ListItem = ({ finance, handleClick }: ListItemProps) => {
   const { description, value, date, type } = finance
   const state =
     type === '-'
@@ -25,7 +22,7 @@ export const FinancesListItem = ({
         }
   const { caption, color } = state
   return (
-    <ListItem
+    <MuiListItem
       sx={{
         ...GS.Li(color),
         justifyContent: 'space-between',
@@ -46,6 +43,6 @@ export const FinancesListItem = ({
         </Typography>
         <Typography variant="h6">{formatCurrency(Number(value))}</Typography>
       </Box>
-    </ListItem>
+    </MuiListItem>
   )
 }
