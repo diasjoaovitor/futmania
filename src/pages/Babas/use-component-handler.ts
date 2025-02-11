@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { SelectChangeEvent } from '@mui/material'
-import { TAlertProps, TDialogProps, TMemberModalProps } from '@/components'
+import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
 import {
   useMutationCreateBaba,
   useMutationDeleteBaba,
@@ -283,7 +283,7 @@ export const useComponentHandler = () => {
     handleSubmit: handleCreate
   }
 
-  const memberModalProps: TMemberModalProps = {
+  const memberModalProps: TMemberStatsModalProps = {
     isOpened: memberModalIsOpened,
     member,
     stats,

@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { TAlertProps, TDialogProps, TMemberModalProps } from '@/components'
+import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
 import { useAuthContext } from '@/contexts'
 import {
   useMutationCreateMember,
@@ -239,7 +239,7 @@ export const useComponentHandler = () => {
     handleSubmit
   }
 
-  const memberStatsProps: TMemberModalProps = {
+  const memberStatsProps: TMemberStatsModalProps = {
     isOpened: memberStatsIsOpened,
     finances,
     member,

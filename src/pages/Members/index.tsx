@@ -5,7 +5,7 @@ import {
   ExpandButton,
   Layout,
   Loader,
-  MemberModal
+  MemberStatsModal
 } from '@/components'
 import { useLimit } from '@/hooks'
 import { separateMembers, sortMembersByName } from '@/utils'
@@ -72,7 +72,7 @@ export const Members = () => {
       ) : (
         <Typography>Não há membros cadastrados</Typography>
       )}
-      <MemberModal {...memberStatsProps} />
+      <MemberStatsModal {...memberStatsProps} />
       {user && (
         <>
           <Button

@@ -1,9 +1,12 @@
 import { Divider } from '@mui/material'
 import { TMemberStats } from '@/utils'
 import { TFinance, TMember } from '@/types'
-import { MemberFrequency, MemberPayments, MemberStats, Modal } from '..'
+import { Modal } from '..'
+import { Stats } from './Stats'
+import { Frequency } from './Frequency'
+import { Payments } from './Payments'
 
-export type TMemberModalProps = {
+export type TMemberStatsModalProps = {
   isOpened: boolean
   member: TMember | undefined
   stats: TMemberStats | null
@@ -11,13 +14,13 @@ export type TMemberModalProps = {
   handleClose(): void
 }
 
-export const MemberModal = ({
+export const MemberStatsModal = ({
   isOpened,
   member,
   stats,
   finances,
   handleClose
-}: TMemberModalProps) => {
+}: TMemberStatsModalProps) => {
   if (!member || !stats) return null
 
   const { name } = member
@@ -26,11 +29,11 @@ export const MemberModal = ({
   return (
     <Modal title={name} isOpened={isOpened} handleClose={handleClose}>
       <>
-        <MemberStats stats={stats} />
+        <Stats stats={stats} />
         <Divider sx={{ mb: 1 }} />
-        <MemberFrequency frequency={frequency} />
+        <Frequency frequency={frequency} />
         <Divider sx={{ mb: 1 }} />
-        <MemberPayments
+        <Payments
           memberId={member.id as string}
           frequency={frequency}
           finances={finances}

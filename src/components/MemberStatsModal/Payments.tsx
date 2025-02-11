@@ -14,17 +14,13 @@ import { getPayments, getPaymentsData } from './utils'
 import { ExpandButton } from '..'
 import * as S from './styles'
 
-type TMemberPaymentsProps = {
+type TPaymentsProps = {
   memberId: string
   frequency: TFrequency[]
   finances: TFinance[]
 }
 
-export const MemberPayments = ({
-  memberId,
-  frequency,
-  finances
-}: TMemberPaymentsProps) => {
+export const Payments = ({ memberId, frequency, finances }: TPaymentsProps) => {
   const payments = getPayments(finances, memberId)
   const data = getPaymentsData(frequency, payments)
 

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { Alert, Layout, Loader, MemberModal } from '@/components'
+import { Alert, Layout, Loader, MemberStatsModal } from '@/components'
 import { Ranking, SelectSeason } from './components'
 import { useComponentHandler } from './use-component-handler'
 import * as S from './styles'
@@ -32,7 +32,7 @@ export const Stats = () => {
               stats={statsInSeason}
               handleClick={handleOpenMemberModal}
             />
-            <MemberModal {...memberModalProps} />
+            <MemberStatsModal {...memberModalProps} />
           </>
         ) : (
           <Typography my={2}>Não há babas nessa temporada</Typography>

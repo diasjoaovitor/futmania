@@ -21,11 +21,11 @@ type TListItems = {
   icon: SvgIconComponent
 }
 
-type TMemberStatsProps = {
+type TStatsProps = {
   stats: TMemberStats
 }
 
-export const MemberStats = ({ stats }: TMemberStatsProps) => {
+export const Stats = ({ stats }: TStatsProps) => {
   const { numberOfBabas, numberOfMostScore, score, goals } = stats
 
   const listItems: TListItems[] = [
@@ -55,7 +55,7 @@ export const MemberStats = ({ stats }: TMemberStatsProps) => {
     <List>
       <ListSubheader sx={{ position: 'static' }}>Estatísticas</ListSubheader>
       {listItems.map(({ title, value, icon: Icon }, index) => (
-        <ListItem key={index} sx={S.Li}>
+        <ListItem key={index} sx={S.StatsLi}>
           <ListItemIcon>
             <Icon />
           </ListItemIcon>

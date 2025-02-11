@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
-import { Dialog, Layout, MemberModal, Loader, Alert } from '@/components'
+import { Dialog, Layout, MemberStatsModal, Loader, Alert } from '@/components'
 import { Leaderboard, YearMonthDaySelect, TeamsForm, Form } from './components'
 import { useComponentHandler } from './use-component-handler'
 import * as S from './styles'
@@ -40,7 +40,7 @@ export const Babas = () => {
               members={members}
               handleClick={handleOpenMemberModal}
             />
-            <MemberModal {...memberModalProps} />
+            <MemberStatsModal {...memberModalProps} />
           </>
         ) : (
           <Typography my={2}>Não há baba nessa data</Typography>

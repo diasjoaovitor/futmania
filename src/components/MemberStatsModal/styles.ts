@@ -1,6 +1,12 @@
 import { SxProps, Theme } from '@mui/material'
 import * as GS from '@/styles'
 
+export const StatsLi: SxProps<Theme> = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr 1fr',
+  gap: 1
+}
+
 export const PaymentItem: SxProps<Theme> = {
   ...GS.FlexRow,
   gap: 2,

@@ -12,11 +12,11 @@ import { TFrequency, getDayNumMonthExtensiveYearNum, sortByDate } from '@/utils'
 import { ExpandButton } from '..'
 import * as GS from '@/styles'
 
-type TMemberFrequencyProps = {
+type TFrequencyProps = {
   frequency: TFrequency[]
 }
 
-export const MemberFrequency = ({ frequency }: TMemberFrequencyProps) => {
+export const Frequency = ({ frequency }: TFrequencyProps) => {
   const [open, setOpen] = useState(false)
 
   const handleOpen = () => setOpen(true)

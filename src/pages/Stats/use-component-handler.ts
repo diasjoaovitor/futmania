@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { SelectChangeEvent } from '@mui/material'
-import { TAlertProps, TMemberModalProps } from '@/components'
+import { TAlertProps, TMemberStatsModalProps } from '@/components'
 import { useQueriesMembersAndBabasAndFinances } from '@/react-query'
 import { useAuthContext } from '@/contexts'
 import {
@@ -81,7 +81,7 @@ export const useComponentHandler = () => {
     handleOpenModal()
   }
 
-  const memberModalProps: TMemberModalProps = {
+  const memberModalProps: TMemberStatsModalProps = {
     isOpened: modalIsOpened,
     finances,
     member,
