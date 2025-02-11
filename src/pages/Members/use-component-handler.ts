@@ -1,10 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
-import {
-  TAlertProps,
-  TDialogProps,
-  TMemberModalProps,
-  TMembersFormProps
-} from '@/components'
+import { TAlertProps, TDialogProps, TMemberModalProps } from '@/components'
 import { useAuthContext } from '@/contexts'
 import {
   useMutationCreateMember,
@@ -21,6 +16,7 @@ import {
   getMemberStats
 } from '@/utils'
 import { someBabaIncludesMember } from './utils'
+import { TFormProps } from './components'
 
 export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()
@@ -233,7 +229,7 @@ export const useComponentHandler = () => {
     !member.id ? mutateCreate(data) : mutateUpdate({ ...data, id: member.id })
   }
 
-  const membersFormProps: TMembersFormProps = {
+  const formProps: TFormProps = {
     isOpened: memberFormIsOpened,
     title: !member.id ? 'Cadastrar Membros' : 'Editar Membro',
     member,
@@ -277,7 +273,7 @@ export const useComponentHandler = () => {
     members,
     handleOpenMemberForm,
     handleMemberClick,
-    membersFormProps,
+    formProps,
     memberStatsProps,
     alertProps,
     dialogProps,

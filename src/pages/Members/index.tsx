@@ -5,13 +5,12 @@ import {
   ExpandButton,
   Layout,
   Loader,
-  MemberModal,
-  MembersForm,
-  MembersList
+  MemberModal
 } from '@/components'
 import { useLimit } from '@/hooks'
 import { separateMembers, sortMembersByName } from '@/utils'
 import { useComponentHandler } from './use-component-handler'
+import { Form, List } from './components'
 
 const min = 5
 
@@ -21,7 +20,7 @@ export const Members = () => {
     members,
     handleOpenMemberForm,
     handleMemberClick,
-    membersFormProps,
+    formProps,
     memberStatsProps,
     alertProps,
     dialogProps,
@@ -41,7 +40,7 @@ export const Members = () => {
       {members.length !== 0 ? (
         <>
           {fixedMembers.length !== 0 && (
-            <MembersList
+            <List
               title="Membros Fixos"
               members={sortMembersByName(fixedMembers)}
               color="primary.main"
@@ -49,7 +48,7 @@ export const Members = () => {
             />
           )}
           {goalkeepers.length !== 0 && (
-            <MembersList
+            <List
               title="Goleiros"
               members={sortMembersByName(goalkeepers)}
               color="secondary.main"
@@ -58,7 +57,7 @@ export const Members = () => {
           )}
           {nonMembers.length !== 0 && (
             <>
-              <MembersList
+              <List
                 title="Membros Avulsos"
                 members={limitedNonMembers}
                 color="secondary.light"
@@ -83,7 +82,7 @@ export const Members = () => {
           >
             Cadastrar Membros
           </Button>
-          <MembersForm {...membersFormProps} />
+          <Form {...formProps} />
           <Dialog {...dialogProps} />
         </>
       )}

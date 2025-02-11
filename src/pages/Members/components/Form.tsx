@@ -7,10 +7,10 @@ import {
   Switch
 } from '@mui/material'
 import { TMember } from '@/types'
-import { InputWithButton, Modal } from '..'
+import { InputWithButton, Modal } from '@/components'
 import * as GS from '@/styles'
 
-export type TMembersFormProps = {
+export type TFormProps = {
   isOpened: boolean
   title: string
   member: TMember
@@ -20,7 +20,7 @@ export type TMembersFormProps = {
   handleDelete(): void
 }
 
-export const MembersForm = ({
+export const Form = ({
   isOpened,
   title,
   member: { id, name, isFixedMember, isGoalkeeper },
@@ -28,7 +28,7 @@ export const MembersForm = ({
   handleOpenMemberStats,
   handleSubmit,
   handleDelete
-}: TMembersFormProps) => {
+}: TFormProps) => {
   return (
     <Modal title={title} isOpened={isOpened} handleClose={handleClose}>
       <form onSubmit={handleSubmit} role="form">
