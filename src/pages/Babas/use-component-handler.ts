@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react'
 import { SelectChangeEvent } from '@mui/material'
-import {
-  TAlertProps,
-  TBabaFormProps,
-  TDialogProps,
-  TMemberModalProps,
-  TeamsFormProps
-} from '@/components'
+import { TAlertProps, TDialogProps, TMemberModalProps } from '@/components'
 import {
   useMutationCreateBaba,
   useMutationDeleteBaba,
@@ -24,6 +18,7 @@ import {
 import { useAlert, useDialog, useModal } from '@/hooks'
 import { TBaba, TFinance, TMember, TTeam } from '@/types'
 import { createdAt, currentDate } from '@/constants'
+import { TeamsFormProps, TFormProps } from './components'
 import { getBabaDatesInYearMonth } from './utils'
 
 export const useComponentHandler = () => {
@@ -272,7 +267,7 @@ export const useComponentHandler = () => {
     mutateCreate(data)
   }
 
-  const babaFormProps: TBabaFormProps = {
+  const formProps: TFormProps = {
     isOpened: babaModalIsOpened,
     baba: baba as TBaba,
     members,
@@ -329,7 +324,7 @@ export const useComponentHandler = () => {
     handleOpenTeamsModal,
     handleOpenMemberModal,
     handleOpenDialogDelete,
-    babaFormProps,
+    formProps,
     teamsFormProps,
     memberModalProps,
     alertProps,

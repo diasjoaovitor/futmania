@@ -12,7 +12,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { getMemberById, sortByGoals } from '@/utils'
 import { TMember, TTeam } from '@/types'
 
-type TBabaLeaderboardRowProps = {
+type TLeaderboardRowProps = {
   team: TTeam
   members: TMember[]
   handleClick(member: TMember): void
@@ -20,14 +20,14 @@ type TBabaLeaderboardRowProps = {
 
 type TTeamMember = {
   goals: number
-  id: string
+  memberId: string
 }
 
-export const BabaLeaderboardRow = ({
+export const LeaderboardRow = ({
   team,
   members: allMembers,
   handleClick
-}: TBabaLeaderboardRowProps) => {
+}: TLeaderboardRowProps) => {
   const [open, setOpen] = useState(false)
 
   const { name, draws, wins, members } = team
@@ -62,12 +62,12 @@ export const BabaLeaderboardRow = ({
               </TableHead>
               <TableBody>
                 {(sortByGoals([...members]) as TTeamMember[]).map((member) => {
-                  const { id, goals } = member
-                  const m = getMemberById(allMembers, id)
+                  const { memberId, goals } = member
+                  const m = getMemberById(allMembers, memberId)
                   if (!m) return null
                   return (
                     <TableRow
-                      key={id}
+                      key={memberId}
                       sx={{ cursor: 'pointer' }}
                       onClick={() => handleClick(m)}
                     >

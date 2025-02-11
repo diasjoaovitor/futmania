@@ -1,18 +1,16 @@
 import { TMember, TTeam } from '@/types'
 
-export function memberIsChecked(member: TMember, checkedMembers: TMember[]) {
-  return checkedMembers.includes(member)
-}
+export const memberIsChecked = (member: TMember, checkedMembers: TMember[]) =>
+  checkedMembers.includes(member)
 
-export function memberHasBeenDrawn(member: TMember, drawnMembers: TMember[]) {
-  return drawnMembers.includes(member)
-}
+export const memberHasBeenDrawn = (member: TMember, drawnMembers: TMember[]) =>
+  drawnMembers.includes(member)
 
-export function drawTeams(
+export const drawTeams = (
   teams: TTeam[],
   members: string[],
   numberOfTeams: number
-) {
+) => {
   let tms: TTeam[] = new Array(numberOfTeams)
     .fill({ members: [], name: '', draws: 0, wins: 0 } as TTeam)
     .map((team, index) =>
@@ -44,7 +42,7 @@ export function drawTeams(
             members: [
               ...team.members,
               {
-                id: member,
+                memberId: member,
                 goals: 0
               }
             ]
@@ -55,11 +53,11 @@ export function drawTeams(
   return tms
 }
 
-export function assignTeams(
+export const assignTeams = (
   teams: TTeam[],
   members: string[],
   teamIndex: number
-) {
+) => {
   const tms: TTeam[] = new Array(
     teams.length <= teamIndex ? teamIndex : teams.length
   )

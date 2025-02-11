@@ -1,15 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
-import {
-  BabaForm,
-  BabaLeaderboard,
-  Dialog,
-  Layout,
-  MemberModal,
-  SelectYearMonthDay,
-  TeamsForm,
-  Loader,
-  Alert
-} from '@/components'
+import { Dialog, Layout, MemberModal, Loader, Alert } from '@/components'
+import { Leaderboard, YearMonthDaySelect, TeamsForm, Form } from './components'
 import { useComponentHandler } from './use-component-handler'
 import * as S from './styles'
 
@@ -26,7 +17,7 @@ export const Babas = () => {
     handleOpenTeamsModal,
     handleOpenMemberModal,
     handleOpenDialogDelete,
-    babaFormProps,
+    formProps,
     teamsFormProps,
     memberModalProps,
     alertProps,
@@ -36,7 +27,7 @@ export const Babas = () => {
   return (
     <Layout title="Babas">
       <Box sx={S.Wrapper}>
-        <SelectYearMonthDay
+        <YearMonthDaySelect
           {...period}
           years={years}
           dates={babaDates}
@@ -44,7 +35,7 @@ export const Babas = () => {
         />
         {baba ? (
           <>
-            <BabaLeaderboard
+            <Leaderboard
               baba={baba}
               members={members}
               handleClick={handleOpenMemberModal}
@@ -76,7 +67,7 @@ export const Babas = () => {
                   >
                     Excluir Baba
                   </Button>
-                  <BabaForm {...babaFormProps} />
+                  <Form {...formProps} />
                 </>
               )}
             </Box>

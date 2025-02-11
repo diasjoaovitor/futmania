@@ -10,7 +10,7 @@ export type TMember = {
 export type TTeam = {
   name: string
   members: {
-    id: string
+    memberId: string
     goals: number
   }[]
   wins: number

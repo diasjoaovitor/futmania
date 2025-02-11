@@ -11,12 +11,12 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import { InputDate, MembersCheckboxListModal, Modal } from '@/components'
 import { TBaba, TMember } from '@/types'
 import { getMemberById, handleFocus } from '@/utils'
-import { InputDate, MembersCheckboxListModal, Modal } from '..'
 import * as S from './styles'
 
-export type TBabaFormProps = {
+export type TFormProps = {
   isOpened: boolean
   baba: TBaba
   members: TMember[]
@@ -24,13 +24,13 @@ export type TBabaFormProps = {
   handleUpdate(baba: TBaba): void
 }
 
-export const BabaForm = ({
+export const Form = ({
   isOpened,
   baba: b,
   members,
   handleClose,
   handleUpdate
-}: TBabaFormProps) => {
+}: TFormProps) => {
   const {
     baba,
     member,
@@ -47,7 +47,9 @@ export const BabaForm = ({
 
   const disabledMembers: string[] = []
   teams.forEach(({ members }) => {
-    members.forEach(({ id }) => id !== member[1] && disabledMembers.push(id))
+    members.forEach(
+      ({ memberId }) => memberId !== member[1] && disabledMembers.push(memberId)
+    )
   })
   return (
     <Modal title="Editar Baba" isOpened={isOpened} handleClose={handleClose}>
@@ -59,10 +61,10 @@ export const BabaForm = ({
               <Typography>{name}</Typography>
               <Typography>Gols</Typography>
             </ListSubheader>
-            {mbs.map(({ id, goals }, memberIndex) => {
-              const member = getMemberById(members, id)
+            {mbs.map(({ memberId, goals }, memberIndex) => {
+              const member = getMemberById(members, memberId)
               return (
-                <ListItem key={id} sx={S.Member} disablePadding>
+                <ListItem key={memberId} sx={S.Member} disablePadding>
                   <ListItemButton
                     sx={{ py: 1 }}
                     onClick={() => handleMemberClick(member?.id as string)}

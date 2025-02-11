@@ -13,13 +13,13 @@ import {
   InputDate,
   InputWithButton,
   MembersCheckboxList,
-  Modal,
-  TeamsModal
+  Modal
 } from '@/components'
 import { handleFocus, separateMembers, sortMembersByName } from '@/utils'
 import { TFinance, TMember, TTeam } from '@/types'
 import { useLimit } from '@/hooks'
 import { useComponentHandler } from './use-component-handler'
+import { TeamsModal } from './TeamsModal'
 
 export type TeamsFormProps = {
   isOpened: boolean

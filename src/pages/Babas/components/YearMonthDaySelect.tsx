@@ -1,13 +1,13 @@
 import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { SelectYear } from '@/components'
 import {
   getMonthExtensive,
   getStringWeekDayNumberMonthDay,
   sortNumberDesc
 } from '@/utils'
 import { months } from '@/constants'
-import { SelectYear } from '../SelectYear'
 
-type TSelectYearMonthDayProps = {
+type TYearMonthDaySelectProps = {
   year: number
   years: number[]
   month: number
@@ -16,14 +16,14 @@ type TSelectYearMonthDayProps = {
   handleChange(e: SelectChangeEvent): void
 }
 
-export const SelectYearMonthDay = ({
+export const YearMonthDaySelect = ({
   year,
   years,
   month,
   date,
   dates,
   handleChange
-}: TSelectYearMonthDayProps) => {
+}: TYearMonthDaySelectProps) => {
   return (
     <Box data-testid="select-year-month-day">
       <Select name="date" value={date} onChange={handleChange}>

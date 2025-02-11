@@ -89,12 +89,12 @@ export const useComponentHandler = ({
       ...team,
       members: newMember
         ? team.members.map((m) =>
-            m.id !== prevMember ? m : { ...m, id: newMember }
+            m.memberId !== prevMember ? m : { ...m, memberId: newMember }
           )
-        : team.members.filter(({ id }) => prevMember !== id)
+        : team.members.filter(({ memberId }) => prevMember !== memberId)
     }))
     if (!prevMember && newMember)
-      teams[teamIndex].members.push({ id: newMember, goals: 0 })
+      teams[teamIndex].members.push({ memberId: newMember, goals: 0 })
     setBaba({ ...baba, teams })
     handleCloseModal()
   }

@@ -6,9 +6,9 @@ import {
   ListItemText,
   ListSubheader
 } from '@mui/material'
+import { Modal } from '@/components'
 import { TMember, TTeam } from '@/types'
 import { getMemberById } from '@/utils'
-import { Modal } from '..'
 
 type TTeamsModalProps = {
   date: string
@@ -34,11 +34,11 @@ export const TeamsModal = ({
           <List key={index}>
             <ListSubheader sx={{ position: 'static' }}>{name}</ListSubheader>
             {mbs.length > 0 ? (
-              mbs.map(({ id }, index) => (
-                <ListItem key={id}>
+              mbs.map(({ memberId }, index) => (
+                <ListItem key={memberId}>
                   <ListItemText
                     primary={`${index + 1} - ${
-                      getMemberById(members, id)?.name
+                      getMemberById(members, memberId)?.name
                     }`}
                   />
                 </ListItem>
