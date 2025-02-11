@@ -1,10 +1,12 @@
 import { Box, Button, Divider } from '@mui/material'
 import {
+  Alert,
   Dialog,
   ExpandButton,
   FinancesForm,
   FinancesList,
   Layout,
+  Loader,
   SelectYearMonth,
   Wallet
 } from '@/components'
@@ -32,7 +34,7 @@ export const Finances = () => {
   const { limited, isFull, handleLimit } = useLimit(sortFinances(finances), 10)
 
   return (
-    <Layout title="Finanças" alertProps={alertProps} isPending={isPending}>
+    <Layout title="Finanças">
       <Box maxWidth={900}>
         <SelectYearMonth
           year={year}
@@ -61,6 +63,8 @@ export const Finances = () => {
           </>
         )}
       </Box>
+      <Loader open={isPending} />
+      <Alert {...alertProps} />
     </Layout>
   )
 }

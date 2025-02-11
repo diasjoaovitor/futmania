@@ -1,5 +1,12 @@
 import { Box, Typography } from '@mui/material'
-import { Layout, MemberModal, MembersRanking, SelectSeason } from '@/components'
+import {
+  Alert,
+  Layout,
+  Loader,
+  MemberModal,
+  MembersRanking,
+  SelectSeason
+} from '@/components'
 import { useComponentHandler } from './use-component-handler'
 import * as S from './styles'
 
@@ -18,11 +25,7 @@ export const Stats = () => {
 
   return (
     <Box sx={S.Wrapper}>
-      <Layout
-        title="Estatísticas"
-        isPending={isPending}
-        alertProps={alertProps}
-      >
+      <Layout title="Estatísticas">
         <SelectSeason
           season={season}
           year={year}
@@ -41,6 +44,8 @@ export const Stats = () => {
           <Typography my={2}>Não há babas nessa temporada</Typography>
         )}
       </Layout>
+      <Loader open={isPending} />
+      <Alert {...alertProps} />
     </Box>
   )
 }

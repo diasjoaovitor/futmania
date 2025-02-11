@@ -4,6 +4,7 @@ import { useThemeContext } from '@/contexts'
 
 export const ToggleTheme = () => {
   const { toggleTheme } = useThemeContext()
+
   return (
     <ListItemButton onClick={toggleTheme}>
       <Lightbulb />

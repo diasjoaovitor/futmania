@@ -181,7 +181,7 @@ export function TeamsForm({
           <Typography>Não há membros cadastrados</Typography>
         )}
         <Divider sx={{ my: 2 }} />
-        <MUILink component={Link} to="/membros">
+        <MUILink component={Link} to="/members">
           Cadastrar Membros
         </MUILink>
       </>

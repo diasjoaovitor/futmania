@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   AppBar as MUIAppBar,
   Typography,
@@ -7,8 +8,8 @@ import {
   Divider
 } from '@mui/material'
 import { Menu, MenuOpen } from '@mui/icons-material'
-import { Logo, Nav } from '..'
-import { useComponentHandler } from './use-component-handler'
+import { Nav } from './Nav'
+import { Logo } from '..'
 import * as S from './styles'
 
 type TAppBarProps = {
@@ -17,11 +18,21 @@ type TAppBarProps = {
 }
 
 export const AppBar = ({ title, md }: TAppBarProps) => {
-  const { isOpened, handleOpen } = useComponentHandler(md)
-  const MenuIcon = !isOpened ? Menu : MenuOpen
+  const [open, setOpen] = useState(md)
+
+  useEffect(() => {
+    setOpen(md)
+  }, [md])
+
+  const handleMenuClick = () => {
+    setOpen((open) => !open)
+  }
+
+  const MenuIcon = !open ? Menu : MenuOpen
+
   return (
     <>
-      {isOpened && !md && (
+      {open && !md && (
         <>
           <Toolbar />
           <Divider />
@@ -29,13 +40,15 @@ export const AppBar = ({ title, md }: TAppBarProps) => {
       )}
       <MUIAppBar
         sx={
-          !isOpened ? S.Wrapper : ({ ...S.Wrapper, ...S.Opened } as CSSObject)
+          !open
+            ? S.AppBarWrapper
+            : ({ ...S.AppBarWrapper, ...S.Opened } as CSSObject)
         }
       >
         <Toolbar>
           {!md ? (
             <>
-              <IconButton size="large" edge="start" onClick={handleOpen}>
+              <IconButton size="large" edge="start" onClick={handleMenuClick}>
                 <MenuIcon />
               </IconButton>
               <Typography ml={2} component="h1" variant="h6">
@@ -47,7 +60,7 @@ export const AppBar = ({ title, md }: TAppBarProps) => {
           )}
         </Toolbar>
         <Divider />
-        {isOpened && <Nav />}
+        {open && <Nav />}
       </MUIAppBar>
     </>
   )

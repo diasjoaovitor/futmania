@@ -1,8 +1,10 @@
 import { Button, Typography } from '@mui/material'
 import {
+  Alert,
   Dialog,
   ExpandButton,
   Layout,
+  Loader,
   MemberModal,
   MembersForm,
   MembersList
@@ -35,7 +37,7 @@ export const Members = () => {
   } = useLimit(sortMembersByName(nonMembers), min)
 
   return (
-    <Layout title="Membros" isPending={isPending} alertProps={alertProps}>
+    <Layout title="Membros">
       {members.length !== 0 ? (
         <>
           {fixedMembers.length !== 0 && (
@@ -85,6 +87,8 @@ export const Members = () => {
           <Dialog {...dialogProps} />
         </>
       )}
+      <Loader open={isPending} />
+      <Alert {...alertProps} />
     </Layout>
   )
 }

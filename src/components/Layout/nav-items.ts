@@ -20,17 +20,17 @@ export const navItems: TNavItem[] = [
   },
   {
     label: 'Estatísticas',
-    to: '/estatisticas',
+    to: '/stats',
     icon: Analytics
   },
   {
     label: 'Membros',
-    to: '/membros',
+    to: '/members',
     icon: AccountBox
   },
   {
     label: 'Finanças',
-    to: '/financas',
+    to: '/finances',
     icon: AttachMoney
   }
 ]

@@ -1,13 +1,14 @@
 import { Box, Button, Typography } from '@mui/material'
 import {
-  TAlertProps,
   BabaForm,
   BabaLeaderboard,
   Dialog,
   Layout,
   MemberModal,
   SelectYearMonthDay,
-  TeamsForm
+  TeamsForm,
+  Loader,
+  Alert
 } from '@/components'
 import { useComponentHandler } from './use-component-handler'
 import * as S from './styles'
@@ -33,11 +34,7 @@ export const Babas = () => {
     isPending
   } = useComponentHandler()
   return (
-    <Layout
-      title="Babas"
-      alertProps={alertProps as TAlertProps}
-      isPending={isPending}
-    >
+    <Layout title="Babas">
       <Box sx={S.Wrapper}>
         <SelectYearMonthDay
           {...period}
@@ -88,6 +85,8 @@ export const Babas = () => {
           </>
         )}
       </Box>
+      <Loader open={isPending} />
+      <Alert {...alertProps} />
     </Layout>
   )
 }
