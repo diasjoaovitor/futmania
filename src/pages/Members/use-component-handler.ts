@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 
 import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
-import { createdAt } from '@/constants'
 import { useAuthContext } from '@/contexts'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import {
@@ -14,7 +13,8 @@ import { TBaba, TFinance, TMember } from '@/types'
 import {
   getElementsCheckedValues,
   getElementValues,
-  getMemberStats
+  getMemberStats,
+  getTimestamp
 } from '@/utils'
 
 import { TFormProps } from './components'
@@ -221,11 +221,12 @@ export const useComponentHandler = () => {
       })
       return
     }
+    const timestamp = getTimestamp()
     const data: TMember = {
       name,
       isFixedMember,
       isGoalkeeper,
-      createdAt,
+      createdAt: timestamp,
       userId: user.uid
     }
     !member.id ? mutateCreate(data) : mutateUpdate({ ...data, id: member.id })

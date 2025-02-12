@@ -1,15 +1,28 @@
 import 'dayjs/locale/pt-br'
 
 import dayjs from 'dayjs'
-
-import { currentDate } from '@/constants'
+import utc from 'dayjs/plugin/utc'
 
 import { getDistinctValues } from './getters'
 
+dayjs.extend(utc)
 dayjs.locale('pt-br')
 
 const capitalize = (sentence: string) =>
   sentence.charAt(0).toUpperCase() + sentence.slice(1)
+
+export const getTimestamp = () => dayjs().utc().format('YYYY-MM-DDTHH:mm:ss')
+export const getCurrentDate = () => dayjs().format('YYYY-MM-DD')
+
+export const getCurrentSeason = (seasons: string[], currentDate: string) =>
+  seasons.find((season) => {
+    const [monthFrom] = season.split('-')
+    const currentSeason = new Array(4)
+      .fill(0)
+      .map((_, index) => Number(monthFrom) + index)
+      .includes(dayjs(currentDate).month())
+    return currentSeason
+  }) as string
 
 export const getDayNumMonthExtensive = (date: string) =>
   dayjs(date).format('D MMMM').split(' ').join(' de ')
@@ -35,5 +48,5 @@ export const getYearMonth = (date: string) => dayjs(date).format('YYYY/MM')
 export const getYears = (dates: string[]) =>
   getDistinctValues([
     ...dates.map((date) => getYear(date)),
-    getYear(currentDate)
+    getYear(getCurrentDate())
   ])

@@ -1,4 +1,4 @@
-export * from './date'
+export * from './datetime'
 export * from './formatters'
 export * from './getters'
 export * from './handlers'

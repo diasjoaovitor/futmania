@@ -2,7 +2,6 @@ import { SelectChangeEvent } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
-import { createdAt, currentDate } from '@/constants'
 import { useAuthContext } from '@/contexts'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import {
@@ -13,8 +12,10 @@ import {
 } from '@/react-query'
 import { TBaba, TFinance, TMember, TTeam } from '@/types'
 import {
+  getCurrentDate,
   getMemberStats,
   getMonth,
+  getTimestamp,
   getYear,
   getYears,
   sortByDate
@@ -22,6 +23,8 @@ import {
 
 import { TeamsFormProps, TFormProps } from './components'
 import { getBabaDatesInYearMonth } from './utils'
+
+const currentDate = getCurrentDate()
 
 export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()
@@ -260,8 +263,9 @@ export const useComponentHandler = () => {
   }
 
   const handleCreate = (teams: TTeam[], date: string) => {
+    const timestamp = getTimestamp()
     const data: TBaba = {
-      createdAt,
+      createdAt: timestamp,
       date,
       userId: user?.uid as string,
       teams

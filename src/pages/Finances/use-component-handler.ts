@@ -3,7 +3,6 @@ import { Dayjs } from 'dayjs'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 
 import { TAlertProps, TDialogProps } from '@/components'
-import { currentDate } from '@/constants'
 import { useAuthContext } from '@/contexts'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import {
@@ -15,11 +14,13 @@ import {
   useQueryMembers
 } from '@/react-query'
 import { TFinance, TMember } from '@/types'
-import { getMemberById, getMonth, getYear } from '@/utils'
+import { getCurrentDate, getMemberById, getMonth, getYear } from '@/utils'
 
 import { TFormProps } from './components'
 import { defaultFinanceState } from './constants'
 import { getPayments, getWallet } from './utils'
+
+const currentDate = getCurrentDate()
 
 export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()

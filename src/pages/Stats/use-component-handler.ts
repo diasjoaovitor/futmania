@@ -2,18 +2,23 @@ import { SelectChangeEvent } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import { TAlertProps, TMemberStatsModalProps } from '@/components'
-import { currentDate, currentSeason } from '@/constants'
+import { seasons } from '@/constants'
 import { useAuthContext } from '@/contexts'
 import { useAlert, useModal } from '@/hooks'
 import { useQueriesMembersAndBabasAndFinances } from '@/react-query'
 import { TBaba, TFinance, TMember } from '@/types'
 import {
   getBabasInSeason,
+  getCurrentDate,
+  getCurrentSeason,
   getMembersStats,
   getMemberStats,
   getYear,
   getYears
 } from '@/utils'
+
+const currentDate = getCurrentDate()
+const currentSeason = getCurrentSeason(seasons, currentDate)
 
 export const useComponentHandler = () => {
   const { user, babaUser } = useAuthContext()

@@ -1,5 +1,7 @@
-import { currentDate } from '@/constants'
 import { TFinance } from '@/types'
+import { getCurrentDate } from '@/utils'
+
+const currentDate = getCurrentDate()
 
 export const defaultFinanceState = {
   date: currentDate,
