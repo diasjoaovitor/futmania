@@ -69,15 +69,16 @@ export const assignTeams = (
     )
   return tms.map((team, index) => {
     if (index + 1 !== teamIndex) return team
-    return {
+    const result: TTeam = {
       ...team,
       members: [
         ...team.members,
-        ...members.map((id) => ({
-          id,
+        ...members.map((memberId) => ({
+          memberId,
           goals: 0
         }))
       ]
     }
+    return result
   })
 }
