@@ -37,7 +37,7 @@ export const List = ({ users }: TListProps) => {
           >
             <ListItemButton>
               <ListItemText
-                primary={user.name}
+                primary={user.displayName}
                 secondary={`Criado em ${formatDayNumMonthExtensiveYearNum(
                   user.createdAt
                 )}`}

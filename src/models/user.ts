@@ -1,6 +1,6 @@
 export type TUserModel = {
   id: string
-  name: string
+  displayName: string
   createdAt: string
   updatedAt: string
 }
