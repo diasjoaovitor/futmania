@@ -25,11 +25,6 @@ export type TBaba = {
   createdAt: string
 }
 
-export type TBabaUser = {
-  id: string
-  name: string
-}
-
 export type TFinance = {
   id?: string
   memberId?: string

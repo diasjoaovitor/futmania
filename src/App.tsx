@@ -1,6 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { BrowserRouter } from 'react-router'
 
-import { AuthProvider, ThemeProvider } from './contexts'
+import {
+  AppProvider,
+  AuthProvider,
+  NotificationProvider,
+  ThemeProvider
+} from './contexts'
 import { Router } from './Router'
 
 const queryClient = new QueryClient()
@@ -9,9 +15,15 @@ const App = () => {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Router />
-        </AuthProvider>
+        <NotificationProvider>
+          <BrowserRouter>
+            <AuthProvider>
+              <AppProvider>
+                <Router />
+              </AppProvider>
+            </AuthProvider>
+          </BrowserRouter>
+        </NotificationProvider>
       </QueryClientProvider>
     </ThemeProvider>
   )

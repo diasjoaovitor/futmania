@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { TAlertProps, TMemberStatsModalProps } from '@/components'
 import { seasons } from '@/constants'
-import { useAuthContext } from '@/contexts'
+import { useAppContext } from '@/contexts'
 import { useAlert, useModal } from '@/hooks'
 import { useQueriesMembersAndBabasAndFinances } from '@/react-query'
 import { TBaba, TFinance, TMember } from '@/types'
@@ -21,7 +21,8 @@ const currentDate = getCurrentDate()
 const currentSeason = getCurrentSeason(seasons, currentDate)
 
 export const useComponentHandler = () => {
-  const { user, babaUser } = useAuthContext()
+  const { babaUser } = useAppContext()
+
   const [period, setPeriod] = useState({
     year: getYear(currentDate),
     season: currentSeason
@@ -31,7 +32,6 @@ export const useComponentHandler = () => {
   const [member, setMember] = useState({} as TMember)
   const [members, setMembers] = useState<TMember[]>([])
 
-  const id = user?.uid || babaUser.id
   const { year, season } = period
   const dates = babas.map(({ date }) => date)
   const years = getYears(dates) as number[]
@@ -50,7 +50,7 @@ export const useComponentHandler = () => {
     financesData,
     financesIsPending,
     isFinancesError
-  } = useQueriesMembersAndBabasAndFinances(id)
+  } = useQueriesMembersAndBabasAndFinances(babaUser?.id)
 
   const { alert, setAlert, alertIsOpened, handleCloseAlert } = useAlert()
   const { modalIsOpened, handleOpenModal, handleCloseModal } = useModal()

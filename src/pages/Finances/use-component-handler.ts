@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs'
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 
 import { TAlertProps, TDialogProps } from '@/components'
-import { useAuthContext } from '@/contexts'
+import { useAppContext } from '@/contexts'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import {
   useMutationCreateFinance,
@@ -23,7 +23,8 @@ import { getPayments, getWallet } from './utils'
 const currentDate = getCurrentDate()
 
 export const useComponentHandler = () => {
-  const { user, babaUser } = useAuthContext()
+  const { isAuthenticatedInTheSelectedBaba, babaUser, userId } = useAppContext()
+
   const [period, setPeriod] = useState({
     year: getYear(currentDate),
     month: getMonth(currentDate)
@@ -33,7 +34,6 @@ export const useComponentHandler = () => {
   const [members, setMembers] = useState<TMember[]>([])
   const [checkedMembers, setCheckedMembers] = useState<string[]>([])
 
-  const id = user?.uid || babaUser.id
   const { year, month } = period
   const date = `${year}-${month + 1}-01`
   const wallet = getWallet(finances, date)
@@ -45,13 +45,13 @@ export const useComponentHandler = () => {
     data: membersData,
     isError: isMembersError,
     isPending: membersIsPending
-  } = useQueryMembers(id)
+  } = useQueryMembers(babaUser?.id)
   const {
     data: financesData,
     isError: isFinancesError,
     isPending: financesIsPending,
     refetch
-  } = useQueryFinances(id)
+  } = useQueryFinances(babaUser?.id)
 
   const {
     mutate: mutateCreate,
@@ -290,7 +290,7 @@ export const useComponentHandler = () => {
   }
 
   const handleOpenModalUpdate = (finance: TFinance) => {
-    if (!user) return
+    if (!isAuthenticatedInTheSelectedBaba) return
     setFinance(finance)
     finance.memberId && setCheckedMembers([finance.memberId])
     handleOpenModal()
@@ -317,7 +317,7 @@ export const useComponentHandler = () => {
     e.preventDefault()
     const data: TFinance = {
       ...finance,
-      userId: user?.uid as string
+      userId: userId as string
     }
     const mutate = !data.id ? mutateCreate : mutateUpdate
     if (checkedMembers.length === 0) {
@@ -374,7 +374,7 @@ export const useComponentHandler = () => {
     deleteIsPending
 
   return {
-    user,
+    isAuthenticatedInTheSelectedBaba,
     year,
     month,
     wallet,

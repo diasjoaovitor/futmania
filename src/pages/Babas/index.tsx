@@ -8,7 +8,7 @@ import { useComponentHandler } from './use-component-handler'
 
 export const Babas = () => {
   const {
-    user,
+    isAuthenticatedInTheSelectedBaba,
     period,
     babaDates,
     handlePeriodChange,
@@ -47,7 +47,7 @@ export const Babas = () => {
         ) : (
           <Typography my={2}>Não há baba nessa data</Typography>
         )}
-        {user && (
+        {isAuthenticatedInTheSelectedBaba && (
           <>
             <Box sx={S.ButtonsGrid}>
               <Button variant="outlined" onClick={handleOpenTeamsModal}>

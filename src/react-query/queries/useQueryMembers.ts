@@ -2,10 +2,11 @@ import { useQuery } from '@tanstack/react-query'
 
 import { getMembers } from '@/firebase'
 
-export function useQueryMembers(id: string) {
+export function useQueryMembers(id: string | undefined) {
   const { data, isError, isPending, error } = useQuery({
     queryKey: ['members'],
-    queryFn: async () => await getMembers(id)
+    queryFn: async () => (id ? await getMembers(id) : null),
+    enabled: !!id
   })
 
   error && console.error({ error })

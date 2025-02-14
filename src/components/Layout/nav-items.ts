@@ -2,6 +2,7 @@ import {
   AccountBox,
   Analytics,
   AttachMoney,
+  DeviceHub,
   Sports,
   SvgIconComponent
 } from '@mui/icons-material'
@@ -32,5 +33,10 @@ export const navItems: TNavItem[] = [
     label: 'Finanças',
     to: '/finances',
     icon: AttachMoney
+  },
+  {
+    label: 'Explorar Babas',
+    to: '/explorer',
+    icon: DeviceHub
   }
 ]

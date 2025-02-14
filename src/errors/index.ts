@@ -1,5 +1,7 @@
-export const getErrorMessage = (error: string) => {
-  switch (error) {
+import { AuthError } from 'firebase/auth'
+
+export const getAuthErrorMessage = (error: AuthError) => {
+  switch (error.code) {
     case 'auth/invalid-login-credentials':
       return 'Email ou senha inválidos!'
     case 'auth/email-already-in-use':

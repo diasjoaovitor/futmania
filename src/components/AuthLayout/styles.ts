@@ -10,14 +10,15 @@ export const Wrapper: SxProps<Theme> = {
   ...GS.FlexColumn
 }
 
-export const Form: SxProps<Theme> = {
+export const Paper: SxProps<Theme> = {
+  my: 3,
   p: 2,
-  my: 2,
+  textAlign: 'center',
+  width: '100%',
+  maxWidth: 400,
   h1: {
-    mb: 2,
+    textAlign: 'left',
+    mb: 3,
     ...(GS.Title as CSSObject)
-  },
-  '& .MuiInputBase-root': {
-    marginBottom: 1
   }
 }

@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react'
 
 import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
-import { useAuthContext } from '@/contexts'
+import { useAppContext } from '@/contexts'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import {
   useMutationCreateMember,
@@ -21,12 +21,12 @@ import { TFormProps } from './components'
 import { someBabaIncludesMember } from './utils'
 
 export const useComponentHandler = () => {
-  const { user, babaUser } = useAuthContext()
+  const { isAuthenticatedInTheSelectedBaba, babaUser, userId } = useAppContext()
+
   const [finances, setFinances] = useState<TFinance[]>([])
   const [babas, setBabas] = useState<TBaba[]>([])
   const [members, setMembers] = useState<TMember[]>([])
   const [member, setMember] = useState<TMember>({} as TMember)
-  const id = user?.uid || babaUser.id
 
   const stats = member.id ? getMemberStats(babas, member.id) : null
 
@@ -40,7 +40,7 @@ export const useComponentHandler = () => {
     financesData,
     financesIsPending,
     isFinancesError
-  } = useQueriesMembersAndBabasAndFinances(id)
+  } = useQueriesMembersAndBabasAndFinances(babaUser?.id)
 
   const {
     mutate: mutateCreate,
@@ -166,7 +166,9 @@ export const useComponentHandler = () => {
 
   const handleMemberClick = (member: TMember) => {
     setMember(member)
-    !user ? handleOpenMemberStats() : handleOpenMemberForm()
+    !isAuthenticatedInTheSelectedBaba
+      ? handleOpenMemberStats()
+      : handleOpenMemberForm()
   }
 
   const handleOpenDialogDelete = () => {
@@ -206,7 +208,7 @@ export const useComponentHandler = () => {
       !name ||
       typeof isGoalkeeper !== 'boolean' ||
       typeof isFixedMember !== 'boolean' ||
-      !user
+      !userId
     )
       return
     const memberAlreadyExists = members.some(
@@ -227,7 +229,7 @@ export const useComponentHandler = () => {
       isFixedMember,
       isGoalkeeper,
       createdAt: timestamp,
-      userId: user.uid
+      userId: userId as string
     }
     !member.id ? mutateCreate(data) : mutateUpdate({ ...data, id: member.id })
   }
@@ -272,7 +274,7 @@ export const useComponentHandler = () => {
     deleteIsPending
 
   return {
-    user,
+    isAuthenticatedInTheSelectedBaba,
     members,
     handleOpenMemberForm,
     handleMemberClick,

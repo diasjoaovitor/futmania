@@ -18,7 +18,7 @@ const min = 5
 
 export const Members = () => {
   const {
-    user,
+    isAuthenticatedInTheSelectedBaba,
     members,
     handleOpenMemberForm,
     handleMemberClick,
@@ -75,7 +75,7 @@ export const Members = () => {
         <Typography>Não há membros cadastrados</Typography>
       )}
       <MemberStatsModal {...memberStatsProps} />
-      {user && (
+      {isAuthenticatedInTheSelectedBaba && (
         <>
           <Button
             sx={{ my: 2 }}

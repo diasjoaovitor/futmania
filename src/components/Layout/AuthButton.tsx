@@ -1,9 +1,11 @@
 import { Login, Logout } from '@mui/icons-material'
 import { ListItemButton } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 import { useAuthContext } from '@/contexts'
-import { logout } from '@/firebase'
+import { AuthService } from '@/services'
+
+const authService = new AuthService()
 
 export const AuthButton = () => {
   const { user } = useAuthContext()
@@ -15,7 +17,7 @@ export const AuthButton = () => {
   }
 
   const handleSignOut = async () => {
-    await logout()
+    await authService.signOut()
   }
 
   return !user?.uid ? (

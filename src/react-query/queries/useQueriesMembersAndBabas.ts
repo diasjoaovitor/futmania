@@ -2,7 +2,7 @@ import { useQueries } from '@tanstack/react-query'
 
 import { getBabas, getMembers } from '@/firebase'
 
-export function useQueriesMembersAndBabas(id: string) {
+export function useQueriesMembersAndBabas(id: string | undefined) {
   const [
     {
       data: membersData,
@@ -20,11 +20,13 @@ export function useQueriesMembersAndBabas(id: string) {
     queries: [
       {
         queryKey: ['members'],
-        queryFn: async () => await getMembers(id)
+        queryFn: async () => (id ? await getMembers(id) : null),
+        enabled: !!id
       },
       {
         queryKey: ['babas'],
-        queryFn: async () => await getBabas(id)
+        queryFn: async () => (id ? await getBabas(id) : null),
+        enabled: !!id
       }
     ]
   })

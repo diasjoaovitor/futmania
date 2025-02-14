@@ -1,7 +1,8 @@
 import { collection, getDocs, query, where } from 'firebase/firestore'
 
 import { db } from '@/config'
-import { TBaba, TBabaUser, TFinance, TMember } from '@/types'
+import { TFinanceModel } from '@/models'
+import { TBaba, TMember } from '@/types'
 
 async function get(collectionName: string, userId: string) {
   const q = query(collection(db, collectionName), where('userId', '==', userId))
@@ -25,15 +26,5 @@ export async function getBabas(userId: string) {
 
 export async function getFinances(userId: string) {
   const data = await get('finances', userId)
-  return data as TFinance[]
-}
-
-export async function getUser(userId: string) {
-  const q = query(collection(db, 'users'), where('id', '==', userId))
-  const { docs } = await getDocs(q)
-  const data = docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  }))
-  return data[0] as TBabaUser
+  return data as TFinanceModel[]
 }

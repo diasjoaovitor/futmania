@@ -2,7 +2,7 @@ import { SelectChangeEvent } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
-import { useAuthContext } from '@/contexts'
+import { useAppContext } from '@/contexts'
 import { useAlert, useDialog, useModal } from '@/hooks'
 import {
   useMutationCreateBaba,
@@ -27,7 +27,8 @@ import { getBabaDatesInYearMonth } from './utils'
 const currentDate = getCurrentDate()
 
 export const useComponentHandler = () => {
-  const { user, babaUser } = useAuthContext()
+  const { isAuthenticatedInTheSelectedBaba, babaUser, userId } = useAppContext()
+
   const [period, setPeriod] = useState({
     year: getYear(currentDate),
     month: getMonth(currentDate),
@@ -40,7 +41,6 @@ export const useComponentHandler = () => {
   const [members, setMembers] = useState<TMember[]>([])
   const [finances, setFinances] = useState<TFinance[]>([])
 
-  const id = user?.uid || babaUser.id
   const { year, month, date } = period
   const dates = babas.map(({ date }) => date)
   const years = getYears(dates) as number[]
@@ -56,7 +56,7 @@ export const useComponentHandler = () => {
     financesData,
     financesIsPending,
     isFinancesError
-  } = useQueriesMembersAndBabasAndFinances(id)
+  } = useQueriesMembersAndBabasAndFinances(babaUser?.id)
 
   const {
     mutate: mutateCreate,
@@ -267,7 +267,7 @@ export const useComponentHandler = () => {
     const data: TBaba = {
       createdAt: timestamp,
       date,
-      userId: user?.uid as string,
+      userId: userId as string,
       teams
     }
     mutateCreate(data)
@@ -319,7 +319,7 @@ export const useComponentHandler = () => {
     deleteIsPending
 
   return {
-    user,
+    isAuthenticatedInTheSelectedBaba,
     period,
     babaDates,
     handlePeriodChange,

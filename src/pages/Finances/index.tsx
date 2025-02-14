@@ -9,7 +9,7 @@ import { sortFinances } from './utils'
 
 export const Finances = () => {
   const {
-    user,
+    isAuthenticatedInTheSelectedBaba,
     year,
     month,
     wallet,
@@ -46,7 +46,7 @@ export const Finances = () => {
         {finances.length > 10 && (
           <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
         )}
-        {user && (
+        {isAuthenticatedInTheSelectedBaba && (
           <>
             <Button sx={{ my: 2 }} variant="outlined" onClick={handleOpenModal}>
               Adicionar Finanças
