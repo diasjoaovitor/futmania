@@ -28,31 +28,25 @@ export const List = ({ users }: TListProps) => {
 
   return (
     <MuiList sx={S.ListWrapper}>
-      {users.length ? (
-        [...users]
-          .sort((a, b) => a.displayName.localeCompare(b.displayName))
-          .map((user) => (
-            <ListItem
-              key={user.id}
-              sx={S.ListItem}
-              dense
-              onClick={() => handleClick(user)}
-            >
-              <ListItemButton>
-                <ListItemText
-                  primary={user.displayName}
-                  secondary={`Criado em ${getDayNumMonthExtensiveYearNum(
-                    user.createdAt
-                  )}`}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))
-      ) : (
-        <ListItem>
-          <ListItemText primary="Ainda não há existe nenhum Baba criado" />
-        </ListItem>
-      )}
+      {[...users]
+        .sort((a, b) => a.displayName.localeCompare(b.displayName))
+        .map((user) => (
+          <ListItem
+            key={user.id}
+            sx={S.ListItem}
+            dense
+            onClick={() => handleClick(user)}
+          >
+            <ListItemButton>
+              <ListItemText
+                primary={user.displayName}
+                secondary={`Criado em ${getDayNumMonthExtensiveYearNum(
+                  user.createdAt
+                )}`}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
     </MuiList>
   )
 }

@@ -24,14 +24,3 @@ export type TBaba = {
   userId: string
   createdAt: string
 }
-
-export type TFinance = {
-  id?: string
-  memberId?: string
-  date: string
-  description: string
-  value: number
-  type: '+' | '-'
-  userId: string
-  createdAt: string
-}

@@ -10,7 +10,12 @@ import {
   NotificationProvider,
   ThemeProvider
 } from '@/contexts'
-import { UserService } from '@/services'
+import {
+  BabaService,
+  FinanceService,
+  MemberService,
+  UserService
+} from '@/services'
 import { memoryRouter, mockedUser, mockedUsers } from '@/tests'
 
 import { Explorer } from '../Explorer'
@@ -37,9 +42,11 @@ jest.mock('firebase/auth', () => ({
   }))
 }))
 
-jest.mock('@/services/user')
-
 const mockedFindAllUsers = jest.spyOn(UserService.prototype, 'findAll')
+const mockedFindAllBabas = jest.spyOn(BabaService.prototype, 'findAll')
+const mockedFindAllFinances = jest.spyOn(FinanceService.prototype, 'findAll')
+const mockedFindAllMembers = jest.spyOn(MemberService.prototype, 'findAll')
+
 const mockedUpdateUser = jest.spyOn(UserService.prototype, 'update')
 
 const original = console.error
@@ -96,6 +103,9 @@ const setup = () => {
 describe('<Settings />', () => {
   beforeAll(() => {
     mockedFindAllUsers.mockResolvedValue(mockedUsers)
+    mockedFindAllBabas.mockResolvedValue([])
+    mockedFindAllFinances.mockResolvedValue([])
+    mockedFindAllMembers.mockResolvedValue([])
   })
 
   it('should update Baba name successfully', async () => {

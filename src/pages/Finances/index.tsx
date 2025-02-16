@@ -1,6 +1,6 @@
-import { Box, Button, Divider } from '@mui/material'
+import { Button, Divider } from '@mui/material'
 
-import { Alert, Dialog, ExpandButton, Layout, Loader } from '@/components'
+import { ExpandButton, Layout } from '@/components'
 import { useLimit } from '@/hooks'
 
 import { Form, List, Wallet, YearMonthSelect } from './components'
@@ -10,54 +10,43 @@ import { sortFinances } from './utils'
 export const Finances = () => {
   const {
     isAuthenticatedInTheSelectedBaba,
-    year,
-    month,
     wallet,
-    handlePeriodChange,
-    years,
-    finances,
     formProps,
-    handleOpenModal,
-    handleOpenModalUpdate,
-    alertProps,
-    dialogProps,
-    isPending
+    yearMonthSelectProps,
+    setIsFormModalOpen,
+    handleFinanceClick
   } = useComponentHandler()
+
+  const finances = [...wallet.expensesInMonth, ...wallet.incomesInMonth]
 
   const { limited, isFull, handleLimit } = useLimit(sortFinances(finances), 10)
 
   return (
     <Layout title="Finanças">
-      <Box maxWidth={900}>
-        <YearMonthSelect
-          year={year}
-          month={month}
-          years={years}
-          handleChange={handlePeriodChange}
-        />
-        <Divider sx={{ my: 2 }} />
-        <Wallet
-          balance={wallet.balance}
-          expenses={wallet.totalExpensesInMonth}
-          incomes={wallet.totalIncomesInMonth}
-        />
-        <Divider sx={{ my: 2 }} />
-        <List finances={limited} handleClick={handleOpenModalUpdate} />
-        {finances.length > 10 && (
-          <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
-        )}
-        {isAuthenticatedInTheSelectedBaba && (
-          <>
-            <Button sx={{ my: 2 }} variant="outlined" onClick={handleOpenModal}>
-              Adicionar Finanças
-            </Button>
-            <Form {...formProps} />
-            <Dialog {...dialogProps} />
-          </>
-        )}
-      </Box>
-      <Loader open={isPending} />
-      <Alert {...alertProps} />
+      <YearMonthSelect {...yearMonthSelectProps} />
+      <Divider sx={{ my: 2 }} />
+      <Wallet
+        balance={wallet.balance}
+        expenses={wallet.totalExpensesInMonth}
+        incomes={wallet.totalIncomesInMonth}
+      />
+      <Divider sx={{ my: 2 }} />
+      <List finances={limited} handleClick={handleFinanceClick} />
+      {finances.length > 10 && (
+        <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
+      )}
+      {isAuthenticatedInTheSelectedBaba && (
+        <>
+          <Button
+            sx={{ my: 2 }}
+            variant="outlined"
+            onClick={() => setIsFormModalOpen(true)}
+          >
+            Adicionar Finanças
+          </Button>
+          <Form {...formProps} />
+        </>
+      )}
     </Layout>
   )
 }

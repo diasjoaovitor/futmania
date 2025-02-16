@@ -1,25 +1,22 @@
-import { TFinance } from '@/types'
-import { getYear, getYearMonth } from '@/utils'
+import { TFinanceModel } from '@/models'
+import { getCurrentDate, getYear, getYearMonth } from '@/utils'
 
-export function getWallet(finances: TFinance[], date: string) {
-  const yearMonth = getYearMonth(date)
-  const incomesInMonth: TFinance[] = []
-  const expensesInMonth: TFinance[] = []
-  const years = new Set<number>()
+export const getWallet = (finances: TFinanceModel[], yearMonth: string) => {
+  const incomesInMonth: TFinanceModel[] = []
+  const expensesInMonth: TFinanceModel[] = []
+  const years = new Set<number>([getYear(getCurrentDate())])
   let totalIncomesInMonth = 0
   let totalExpensesInMonth = 0
   let totalIncomes = 0
   let totalExpenses = 0
-  let a = 0
   finances.forEach((finance) => {
-    const { date, type, value, memberId } = finance
+    const { date, type, value } = finance
     years.add(getYear(date))
     const ym = getYearMonth(date)
     const v = Number(value)
     if (type === '+') {
       totalIncomes += v
       if (ym === yearMonth) {
-        memberId && a++
         incomesInMonth.push(finance)
         totalIncomesInMonth += v
       }
@@ -44,14 +41,12 @@ export function getWallet(finances: TFinance[], date: string) {
   }
 }
 
-export function sortFinances(finances: TFinance[]) {
-  return finances.sort((a, b) => {
+export const sortFinances = (finances: TFinanceModel[]) =>
+  finances.sort((a, b) => {
     return a.date !== b.date
       ? b.date.localeCompare(a.date)
       : a.description.localeCompare(b.description)
   })
-}
 
-export function getPayments(finances: TFinance[]) {
-  return finances.filter(({ memberId }) => memberId)
-}
+export const getPayments = (finances: TFinanceModel[]) =>
+  finances.filter(({ memberId }) => memberId)

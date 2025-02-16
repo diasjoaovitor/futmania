@@ -1,4 +1,6 @@
 export * from './App'
 export * from './Auth'
+export * from './Callback'
+export * from './Dialog'
 export * from './Notification'
 export * from './Theme'

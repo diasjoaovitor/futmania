@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router'
 import {
   AppProvider,
   AuthProvider,
+  CallbackProvider,
+  DialogProvider,
   NotificationProvider,
   ThemeProvider
 } from './contexts'
@@ -15,15 +17,19 @@ const App = () => {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <NotificationProvider>
-          <BrowserRouter>
-            <AuthProvider>
-              <AppProvider>
-                <Router />
-              </AppProvider>
-            </AuthProvider>
-          </BrowserRouter>
-        </NotificationProvider>
+        <CallbackProvider>
+          <NotificationProvider>
+            <DialogProvider>
+              <BrowserRouter>
+                <AuthProvider>
+                  <AppProvider>
+                    <Router />
+                  </AppProvider>
+                </AuthProvider>
+              </BrowserRouter>
+            </DialogProvider>
+          </NotificationProvider>
+        </CallbackProvider>
       </QueryClientProvider>
     </ThemeProvider>
   )

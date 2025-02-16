@@ -10,11 +10,11 @@ const AppContext = createContext({} as TAppContext)
 export const useAppContext = () => useContext(AppContext)
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const { isLoading, ...rest } = useComponentHandler()
+  const props = useComponentHandler()
   return (
-    <AppContext.Provider value={rest}>
+    <AppContext.Provider value={props}>
       {children}
-      <Loader open={isLoading} />
+      <Loader open={props.isLoading} />
     </AppContext.Provider>
   )
 }
