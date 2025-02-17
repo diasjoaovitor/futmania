@@ -21,4 +21,7 @@ export type TAppContext = {
   financeMutationDeleteMutate(id: string): void
 
   members: TMemberModel[]
+  memberMutationCreateMutate(data: TParamsCreate<TMemberModel>): void
+  memberMutationUpdateMutate(data: TParamsUpdate<TMemberModel>): void
+  memberMutationDeleteMutate(id: string): void
 }

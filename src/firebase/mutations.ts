@@ -7,20 +7,7 @@ import {
 } from 'firebase/firestore'
 
 import { db } from '@/config'
-import { TBaba, TMember } from '@/types'
-
-export async function createMember(member: TMember) {
-  const { id } = await addDoc(collection(db, 'members'), member)
-  return id
-}
-
-export async function updateMember(member: TMember) {
-  await updateDoc(doc(db, 'members', member!.id as string), member)
-}
-
-export async function deleteMember(id: string) {
-  await deleteDoc(doc(db, 'members', id))
-}
+import { TBaba } from '@/types'
 
 export async function createBaba(baba: TBaba) {
   const { id } = await addDoc(collection(db, 'babas'), baba)

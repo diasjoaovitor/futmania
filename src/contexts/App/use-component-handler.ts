@@ -8,6 +8,7 @@ import { useAuthContext } from '..'
 import { TAppContext } from './types'
 import { useDataFetch } from './use-data-fetch'
 import { useFinanceMutation } from './use-finance-mutation'
+import { useMemberMutation } from './use-member-mutation'
 import { useUserMutation } from './use-user-mutation'
 
 const appRoutes = ['/', '/finances', '/members', '/stats']
@@ -28,47 +29,49 @@ export const useComponentHandler = () => {
 
   const userId = user?.uid
 
-  const babaId = babaUser?.id || userId
-
   const { isFetching, usersData, babasData, financesData, membersData } =
-    useDataFetch(babaId)
+    useDataFetch(babaUser?.id)
 
   const { userMutationIsPending, ...userMutationRest } =
     useUserMutation(setUsers)
   const { financeMutationIsPending, ...financeMutationRest } =
     useFinanceMutation(setFinances)
+  const { memberMutationIsPending, ...memberMutationRest } =
+    useMemberMutation(setMembers)
 
   useEffect(() => {
-    if (!usersData) return
+    if (!usersData || !babasData || !financesData || !membersData) return
     setUsers(usersData)
-    babasData && setBabas(babasData)
-    financesData && setFinances(financesData)
-    membersData && setMembers(membersData)
+    setBabas(babasData)
+    setFinances(financesData)
+    setMembers(membersData)
   }, [usersData, babasData, financesData, membersData])
 
   useEffect(() => {
-    if (!users.length) return
-    const babaUserIsValid = !!users.find((user) => user.id === babaUser?.id)
+    if (!usersData) return
+    const babaUserIsValid = !!usersData.find((user) => user.id === babaUser?.id)
     if (babaUserIsValid) return
-    const loggedUser = users.find((user) => user.id === userId)
+    const loggedUser = usersData.find((user) => user.id === userId)
     if (loggedUser) {
       setBabaUser(loggedUser)
     }
-  }, [babaUser, users, userId, pathname, navigate])
+  }, [usersData, babaUser, userId, pathname, navigate])
 
   useEffect(() => {
-    if (!usersData || !appRoutes.includes(pathname) || isFetching) return
+    if (!usersData || !appRoutes.includes(pathname) || userId || isFetching)
+      return
     if (usersData.length === 0) {
       navigate('/signin')
       return
     }
-    if (!babaUser) {
-      navigate('/explorer')
-    }
-  }, [usersData, babaUser, isFetching, pathname, navigate])
+    navigate('/explorer')
+  }, [usersData, babaUser, userId, isFetching, pathname, navigate])
 
   const isLoading =
-    isFetching || userMutationIsPending || financeMutationIsPending
+    isFetching ||
+    userMutationIsPending ||
+    financeMutationIsPending ||
+    memberMutationIsPending
 
   const isAuthenticatedInTheSelectedBaba = !!userId && userId === babaUser?.id
 
@@ -83,7 +86,8 @@ export const useComponentHandler = () => {
     finances,
     members,
     ...userMutationRest,
-    ...financeMutationRest
+    ...financeMutationRest,
+    ...memberMutationRest
   }
 
   return result

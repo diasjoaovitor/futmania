@@ -1,287 +1,48 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { TAlertProps, TDialogProps, TMemberStatsModalProps } from '@/components'
 import { useAppContext } from '@/contexts'
-import { useAlert, useDialog, useModal } from '@/hooks'
-import {
-  useMutationCreateMember,
-  useMutationDeleteMember,
-  useMutationUpdateMember,
-  useQueriesMembersAndBabasAndFinances
-} from '@/react-query'
-import { TBaba, TFinance, TMember } from '@/types'
-import {
-  getElementsCheckedValues,
-  getElementValues,
-  getMemberStats,
-  getTimestamp
-} from '@/utils'
+import { TMemberModel } from '@/models'
 
 import { TFormProps } from './components'
-import { someBabaIncludesMember } from './utils'
 
 export const useComponentHandler = () => {
-  const { isAuthenticatedInTheSelectedBaba, babaUser, userId } = useAppContext()
+  const { members, babas, finances, isAuthenticatedInTheSelectedBaba } =
+    useAppContext()
 
-  const [finances, setFinances] = useState<TFinance[]>([])
-  const [babas, setBabas] = useState<TBaba[]>([])
-  const [members, setMembers] = useState<TMember[]>([])
-  const [member, setMember] = useState<TMember>({} as TMember)
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false)
+  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
+  const [member, setMember] = useState<TMemberModel | null>(null)
 
-  const stats = member.id ? getMemberStats(babas, member.id) : null
-
-  const {
-    membersData,
-    membersIsPending,
-    isMembersError,
-    babasData,
-    babasIsPending,
-    isBabasError,
-    financesData,
-    financesIsPending,
-    isFinancesError
-  } = useQueriesMembersAndBabasAndFinances(babaUser?.id)
-
-  const {
-    mutate: mutateCreate,
-    data: mutateDataCreate,
-    isError: isCreateError,
-    isPending: createIsPending
-  } = useMutationCreateMember()
-  const {
-    mutate: mutateUpdate,
-    data: mutateDataUpdate,
-    isError: isUpdateError,
-    isPending: updateIsPending
-  } = useMutationUpdateMember()
-  const {
-    mutate: mutateDelete,
-    data: mutateDataDelete,
-    isError: isDeleteError,
-    isPending: deleteIsPending
-  } = useMutationDeleteMember()
-
-  const { alert, setAlert, alertIsOpened, handleCloseAlert } = useAlert()
-  const {
-    modalIsOpened: memberFormIsOpened,
-    handleOpenModal: handleOpenMemberForm,
-    handleCloseModal: handleCloseMemberFormModal
-  } = useModal()
-  const {
-    modalIsOpened: memberStatsIsOpened,
-    handleOpenModal: handleOpenMemberStats,
-    handleCloseModal: handleCloseMemberStats
-  } = useModal()
-  const { dialog, dialogIsOpened, setDialog, handleCloseDialog } = useDialog()
-
-  const description =
-    'Verifique sua conexão com a internet ou atualize a página'
-
-  useEffect(() => {
-    if (membersData && babasData && financesData) {
-      setMembers(membersData)
-      setBabas(babasData)
-      setFinances(financesData)
-    }
-  }, [membersData, babasData, financesData])
-
-  useEffect(() => {
-    if (!isMembersError || !isBabasError || !isFinancesError) return
-    setAlert({
-      severity: 'error',
-      title: 'Não foi possível buscar os dados',
-      description
-    })
-  }, [isMembersError, isBabasError, isFinancesError])
-
-  useEffect(() => {
-    if (!isCreateError) return
-    setAlert({
-      severity: 'error',
-      title: 'Não foi possível criar o membro',
-      description
-    })
-  }, [isCreateError])
-
-  useEffect(() => {
-    if (!isUpdateError) return
-    setAlert({
-      severity: 'error',
-      title: `Não foi possível atualizar os dados de ${member.name}`,
-      description
-    })
-  }, [isUpdateError])
-
-  useEffect(() => {
-    if (!isDeleteError) return
-    setAlert({
-      severity: 'error',
-      title: `Não foi possível excluir ${member.name}`,
-      description
-    })
-  }, [isDeleteError])
-
-  useEffect(() => {
-    if (!mutateDataCreate) return
-    setAlert({
-      severity: 'info',
-      title: 'Membro criado com sucesso!',
-      autoHide: true
-    })
-    setMembers((members) => [...members, mutateDataCreate])
-  }, [mutateDataCreate])
-
-  useEffect(() => {
-    if (!mutateDataUpdate) return
-    setAlert({
-      severity: 'info',
-      title: 'Membro editado com sucesso!',
-      autoHide: true
-    })
-    setMembers((members) =>
-      members.map((member) =>
-        member.id !== mutateDataUpdate.id ? member : mutateDataUpdate
-      )
-    )
-    handleCloseMemberForm()
-  }, [mutateDataUpdate])
-
-  useEffect(() => {
-    if (!mutateDataDelete) return
-    setAlert({
-      severity: 'info',
-      title: 'Membro excluído com sucesso!',
-      autoHide: true
-    })
-    setMembers((members) =>
-      members.filter((member) => member.id !== mutateDataDelete)
-    )
-    handleCloseMemberForm()
-  }, [mutateDataDelete])
-
-  const handleCloseMemberForm = () => {
-    setMember({} as TMember)
-    handleCloseMemberFormModal()
-  }
-
-  const handleMemberClick = (member: TMember) => {
+  const handleMemberClick = (member: TMemberModel) => {
     setMember(member)
     !isAuthenticatedInTheSelectedBaba
-      ? handleOpenMemberStats()
-      : handleOpenMemberForm()
+      ? setIsStatsModalOpen(true)
+      : setIsFormModalOpen(true)
   }
 
-  const handleOpenDialogDelete = () => {
-    setDialog(`Deseja realmente excluir ${member.name}?`)
-  }
-
-  const handleDelete = () => {
-    if (!member.id || !babasData) {
-      setAlert({
-        severity: 'error',
-        title: `Não foi possível excluir ${member.name}`,
-        description: description
-      })
-      return
-    }
-    if (someBabaIncludesMember(member.id, babasData)) {
-      setAlert({
-        severity: 'error',
-        title: 'Não foi possível excluir!',
-        description: `${member.name} já está vinculado a um baba`
-      })
-      handleCloseDialog()
-      return
-    }
-    handleCloseDialog()
-    mutateDelete(member.id)
-  }
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const [name] = getElementValues(e, ['name'])
-    const [isGoalkeeper, isFixedMember] = getElementsCheckedValues(e, [
-      'isGoalkeeper',
-      'isFixedMember'
-    ])
-    if (
-      !name ||
-      typeof isGoalkeeper !== 'boolean' ||
-      typeof isFixedMember !== 'boolean' ||
-      !userId
-    )
-      return
-    const memberAlreadyExists = members.some(
-      ({ name: _name, id }) =>
-        name.toLowerCase() === _name.toLowerCase() && id !== member.id
-    )
-    if (memberAlreadyExists) {
-      setAlert({
-        severity: 'error',
-        title: 'Não possível realizar a ação!',
-        description: `Um membro de nome ${name} já existe`
-      })
-      return
-    }
-    const timestamp = getTimestamp()
-    const data: TMember = {
-      name,
-      isFixedMember,
-      isGoalkeeper,
-      createdAt: timestamp,
-      userId: userId as string
-    }
-    !member.id ? mutateCreate(data) : mutateUpdate({ ...data, id: member.id })
+  const handleFormClose = () => {
+    setMember(null)
+    setIsFormModalOpen(false)
   }
 
   const formProps: TFormProps = {
-    isOpened: memberFormIsOpened,
-    title: !member.id ? 'Cadastrar Membros' : 'Editar Membro',
+    isOpened: isFormModalOpen,
+    title: !member ? 'Cadastrar Membros' : 'Editar Membro',
     member,
-    handleClose: handleCloseMemberForm,
-    handleOpenMemberStats: handleOpenMemberStats,
-    handleDelete: handleOpenDialogDelete,
-    handleSubmit
+    handleClose: handleFormClose,
+    handleOpenMemberStats: () => setIsStatsModalOpen(true)
   }
-
-  const memberStatsProps: TMemberStatsModalProps = {
-    isOpened: memberStatsIsOpened,
-    finances,
-    member,
-    stats,
-    handleClose: handleCloseMemberStats
-  }
-
-  const alertProps: TAlertProps = {
-    ...alert,
-    isOpened: alertIsOpened,
-    handleClose: handleCloseAlert
-  }
-
-  const dialogProps: TDialogProps = {
-    isOpened: dialogIsOpened,
-    title: dialog,
-    handleAccept: handleDelete,
-    handleClose: handleCloseDialog
-  }
-
-  const isPending =
-    membersIsPending ||
-    babasIsPending ||
-    financesIsPending ||
-    createIsPending ||
-    updateIsPending ||
-    deleteIsPending
 
   return {
     isAuthenticatedInTheSelectedBaba,
+    member,
     members,
-    handleOpenMemberForm,
-    handleMemberClick,
+    babas,
+    finances,
     formProps,
-    memberStatsProps,
-    alertProps,
-    dialogProps,
-    isPending
+    isStatsModalOpen,
+    handleMemberClick,
+    setIsStatsModalOpen,
+    setIsFormModalOpen
   }
 }
