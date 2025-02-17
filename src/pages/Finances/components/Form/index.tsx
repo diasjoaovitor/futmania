@@ -100,7 +100,7 @@ export const Form = ({ isOpened, title, finance, handleClose }: TFormProps) => {
               {...field}
               label="Valor"
               color={color.variant}
-              inputProps={{
+              slotProps={{
                 input: {
                   startAdornment: (
                     <InputAdornment position="start">R$</InputAdornment>

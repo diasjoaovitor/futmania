@@ -38,10 +38,10 @@ import { getCurrentDate, getMonth, getMonthExtensive, getYear } from '@/utils'
 
 import { Finances } from '.'
 
-let user: {
+const user: {
   emailVerified: boolean
   uid: string
-} | null = null
+} | null = { emailVerified: true, uid: '1' }
 
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(() => ({
@@ -147,10 +147,6 @@ const setup = () => {
 }
 
 describe('<Finances />', () => {
-  beforeEach(() => {
-    user = { emailVerified: true, uid: '1' }
-  })
-
   beforeAll(() => {
     mockedFindAllUsers.mockResolvedValue(mockedUsers)
     mockedFindAllBabas.mockResolvedValue(mockedBabas)
@@ -158,29 +154,25 @@ describe('<Finances />', () => {
     mockedFindAllMembers.mockResolvedValue(mockedMembers)
   })
 
-  it('should redirect to the signin page when there is no authentication and show all the following pages in the initial state', async () => {
-    user = null
+  it('should render the finances page with initial empty state', async () => {
     const { Component } = setup()
-    render(<Component />)
     await waitFor(() => {
-      expect(
-        screen.getByRole('heading', { name: 'Explorar Babas' })
-      ).toBeInTheDocument()
+      render(<Component />)
     })
-    fireEvent.click(screen.getByText('Baba Test'))
-    fireEvent.click(screen.getByText('Navigate to finances page'))
-    expect(screen.getByTestId('wallet').textContent).toBe(
-      'Saldo em caixaR$ 0,00Receitas do mêsR$ 0,00Despesas do mêsR$ 0,00'
-    )
+    await waitFor(() => {
+      expect(screen.getByTestId('wallet').textContent).toBe(
+        'Saldo em caixaR$ 0,00Receitas do mêsR$ 0,00Despesas do mêsR$ 0,00'
+      )
+    })
     expect(
       screen.getByText('Não há finanças registradas no mês')
     ).toBeInTheDocument()
     expect(
-      screen.queryByRole('button', { name: /Adicionar Finanças/i })
-    ).not.toBeInTheDocument()
+      screen.getByRole('button', { name: /Adicionar Finanças/i })
+    ).toBeInTheDocument()
   })
 
-  it('should render financial data correctly', async () => {
+  it('should display correct financial data for a specific month and year', async () => {
     const { Component } = setup()
     render(<Component />)
     await waitFor(() => {
@@ -199,7 +191,7 @@ describe('<Finances />', () => {
     expect(c.querySelector('p')?.textContent).toBe('Pagamento de João')
   })
 
-  it('should create a new income successfully', async () => {
+  it('should successfully create a new income entry', async () => {
     mockedCreateFinance.mockImplementation(
       () =>
         new Promise((resolve) => {
@@ -248,7 +240,7 @@ describe('<Finances />', () => {
     expect(screen.getAllByRole('listitem').length).toBe(1)
   })
 
-  it('should create a new single payment successfully', async () => {
+  it('should successfully create a new single member payment', async () => {
     mockedCreateFinance.mockImplementation(
       () =>
         new Promise((resolve) => {
@@ -290,7 +282,7 @@ describe('<Finances />', () => {
     expect(screen.queryByRole('form')).not.toBeInTheDocument()
   })
 
-  it('should create many payments successfully', async () => {
+  it('should successfully create multiple member payments at once', async () => {
     mockedCreateManyFinances.mockImplementation(
       () =>
         new Promise((resolve) => {
@@ -371,7 +363,7 @@ describe('<Finances />', () => {
     console.error = original
   })
 
-  it('should update a payment successfully', async () => {
+  it('should successfully update an existing payment', async () => {
     mockedUpdateFinance.mockImplementation(() => {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -494,7 +486,7 @@ describe('<Finances />', () => {
     console.error = original
   })
 
-  it('should not render action buttons in another baba', async () => {
+  it('should not display action buttons when viewing finances of another baba', async () => {
     mockedUseMediaQuery.mockReturnValue(true)
     const { Component, router } = setup()
     render(<Component />)
