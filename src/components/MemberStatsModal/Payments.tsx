@@ -9,32 +9,32 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-import { TFinance } from '@/types'
-import { formatCurrency, getMonthExtensiveYearNum, TFrequency } from '@/utils'
+import { TFinanceModel } from '@/models'
+import {
+  formatCurrency,
+  getMemberPayments,
+  getMonthExtensiveYearNum,
+  getPaymentsData,
+  isNotPaid,
+  TFrequency
+} from '@/utils'
 
 import { ExpandButton } from '..'
 import * as S from './styles'
-import { getPayments, getPaymentsData } from './utils'
 
-type TPaymentsProps = {
+type TPaymentProps = {
   memberId: string
   frequency: TFrequency[]
-  finances: TFinance[]
+  finances: TFinanceModel[]
 }
 
-export const Payments = ({ memberId, frequency, finances }: TPaymentsProps) => {
-  const payments = getPayments(finances, memberId)
+export const Payments = ({ memberId, frequency, finances }: TPaymentProps) => {
+  const payments = getMemberPayments(finances, memberId)
   const data = getPaymentsData(frequency, payments)
 
-  const isNotPaid = data.some(
-    ({ exemptPayment, payment }) => !exemptPayment && !payment
-  )
+  const isPaid = !isNotPaid(data)
 
   const [open, setOpen] = useState(false)
-
-  const handleOpen = () => setOpen(true)
-
-  const handleClose = () => setOpen(false)
 
   return (
     <List>
@@ -44,10 +44,10 @@ export const Payments = ({ memberId, frequency, finances }: TPaymentsProps) => {
           {!open ? (
             <ListItem>
               <ListItemButton
-                onClick={handleOpen}
+                onClick={() => setOpen(true)}
                 sx={{ p: 0, textAlign: 'center', gap: 1, alignItems: 'center' }}
               >
-                {!isNotPaid ? (
+                {isPaid ? (
                   <>
                     <Check />
                     <Typography sx={{ position: 'relative', top: 2 }}>
@@ -91,7 +91,10 @@ export const Payments = ({ memberId, frequency, finances }: TPaymentsProps) => {
           )}
           {open && (
             <ListItem disablePadding>
-              <ExpandButton isExpanded={true} handleClick={handleClose} />
+              <ExpandButton
+                isExpanded={true}
+                handleClick={() => setOpen(false)}
+              />
             </ListItem>
           )}
         </>

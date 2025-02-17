@@ -1,5 +1,6 @@
-import { TFinance } from '@/types'
-import { getDistinctValues, getYearMonth, TFrequency } from '@/utils'
+import { TFinanceModel } from '@/models'
+
+import { getDistinctValues, getYearMonth, TFrequency } from '.'
 
 type TPaymentData = {
   yearMonth: string
@@ -8,16 +9,18 @@ type TPaymentData = {
   exemptPayment?: boolean
 }
 
-export const getPayments = (finances: TFinance[], memberId: string) =>
-  finances.filter(({ memberId: mId }) => mId === memberId)
+export const getMemberPayments = (
+  finances: TFinanceModel[],
+  memberId: string
+) => finances.filter(({ memberId: mId }) => mId === memberId)
 
 export const getPaymentsData = (
   frequency: TFrequency[],
-  payments: TFinance[]
+  payments: TFinanceModel[]
 ) => {
-  const yearMonths = getDistinctValues(
+  const yearMonths = getDistinctValues<string>(
     frequency.map(({ date }) => getYearMonth(date))
-  ) as string[]
+  )
   const data = yearMonths.map((yearMonth) => {
     const babas = frequency.filter(
       ({ date, showedUp }) => getYearMonth(date) === yearMonth && showedUp
@@ -38,3 +41,6 @@ export const getPaymentsData = (
   )
   return data.sort((a, b) => b.yearMonth.localeCompare(a.yearMonth))
 }
+
+export const isNotPaid = (data: TPaymentData[]) =>
+  data.some(({ exemptPayment, payment }) => !exemptPayment && !payment)

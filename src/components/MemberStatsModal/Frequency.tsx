@@ -21,10 +21,6 @@ type TFrequencyProps = {
 export const Frequency = ({ frequency }: TFrequencyProps) => {
   const [open, setOpen] = useState(false)
 
-  const handleOpen = () => setOpen(true)
-
-  const handleClose = () => setOpen(false)
-
   const sortedFrequency = sortByDate(frequency) as TFrequency[]
 
   return (
@@ -41,7 +37,7 @@ export const Frequency = ({ frequency }: TFrequencyProps) => {
                     key={date}
                     sx={{ p: 0, pt: 1 }}
                     data-testid="frequency-item"
-                    onClick={handleOpen}
+                    onClick={() => setOpen(true)}
                   >
                     <ListItemButton sx={{ p: 0, textAlign: 'center' }}>
                       <ListItemText
@@ -70,7 +66,10 @@ export const Frequency = ({ frequency }: TFrequencyProps) => {
           )}
           {open && (
             <ListItem disablePadding>
-              <ExpandButton isExpanded={true} handleClick={handleClose} />
+              <ExpandButton
+                isExpanded={true}
+                handleClick={() => setOpen(false)}
+              />
             </ListItem>
           )}
         </>

@@ -24,5 +24,9 @@ export const mockedFrequency: TFrequency[] = [
   {
     date: '2023-11-26',
     showedUp: false
+  },
+  {
+    date: '2024-05-26',
+    showedUp: false
   }
 ]
