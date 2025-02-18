@@ -33,7 +33,7 @@ const signUpSetup = async ({ email, displayName, password }: TSignUpParams) => {
   await userEvent.type(screen.getByLabelText('Nome do Baba'), displayName)
   await userEvent.type(screen.getByLabelText('Email'), email)
   await userEvent.type(screen.getByLabelText('Senha'), password)
-  await userEvent.click(screen.getByRole('button', { name: 'Sign Up' }))
+  await userEvent.click(screen.getByRole('button', { name: 'SignUp' }))
 }
 
 const client = new QueryClient({
@@ -84,8 +84,8 @@ const setup = () => {
   }
 }
 
-describe('<signUp />', () => {
-  it('should navigate to signIn page', async () => {
+describe('<SignUp />', () => {
+  it('should navigate to sign-in page', async () => {
     const { Component, router } = setup()
     render(<Component />)
     await waitFor(() => {
@@ -94,7 +94,7 @@ describe('<signUp />', () => {
     expect(router.state.location.pathname).toBe('/signin')
   })
 
-  it('should signUp correctly', async () => {
+  it('should sign-up correctly', async () => {
     mockedSignUp.mockImplementation(() => Promise.resolve())
     const { Component, router } = setup()
     render(<Component />)

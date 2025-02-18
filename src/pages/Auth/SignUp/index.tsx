@@ -12,11 +12,11 @@ const authService = new AuthService()
 export const SignUp = () => {
   return (
     <Auth
-      title="Sign Up"
-      buttonText="Sign Up"
+      title="SignUp"
+      buttonText="SignUp"
       schema={schema}
       inputs={inputs}
-      errorMessage="Erro ao fazer o Sign Up"
+      errorMessage="Erro ao fazer o SignUp"
       fn={authService.signUp}
       LinkGroup={() => (
         <Typography>

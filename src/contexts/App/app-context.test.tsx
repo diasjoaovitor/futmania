@@ -89,7 +89,7 @@ describe('AppContext', () => {
     mockedFindAllMembers.mockResolvedValue([])
   })
 
-  it('should redirect to explorer page when user is not authenticated', async () => {
+  it('should redirect to explorer page when user is not authenticated and no baba is saved', async () => {
     const { Component, router } = setup()
     render(<Component />)
     await waitFor(() => {
@@ -97,7 +97,7 @@ describe('AppContext', () => {
     })
   })
 
-  it('should render home page when user is authenticated', async () => {
+  it('should render home page when user is authenticated and email is verified', async () => {
     user = { uid: '1', emailVerified: true }
     const { Component, router } = setup()
     await waitFor(() => {
@@ -108,7 +108,7 @@ describe('AppContext', () => {
     })
   })
 
-  it('should render the home page when the user is not authenticated but has a baba saved in local storage', async () => {
+  it('should render home page when user is not authenticated but has a baba saved in local storage', async () => {
     user = null
     mockedGetLocalStorage.mockReturnValue(mockedUser)
     const { Component, router } = setup()
@@ -118,7 +118,7 @@ describe('AppContext', () => {
     })
   })
 
-  it('should redirect to the signin page when there is no authentication and there is no baba created', async () => {
+  it('should redirect to signin page when user is not authenticated and no babas exist', async () => {
     user = null
     mockedFindAllUsers.mockResolvedValue([])
     const { Component, router } = setup()

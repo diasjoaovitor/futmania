@@ -19,7 +19,7 @@ const original = console.error
 const signInSetup = async ({ email, password }: TSignInParams) => {
   await userEvent.type(screen.getByLabelText('Email'), email)
   await userEvent.type(screen.getByLabelText('Senha'), password)
-  await userEvent.click(screen.getByRole('button', { name: 'Sign In' }))
+  await userEvent.click(screen.getByRole('button', { name: 'SignIn' }))
 }
 
 const client = new QueryClient({
@@ -74,8 +74,8 @@ const setup = () => {
   }
 }
 
-describe('<signIn />', () => {
-  it('should navigate to signUp page', async () => {
+describe('<SignIn />', () => {
+  it('should navigate to sign-up page', async () => {
     const { Component, router } = setup()
     render(<Component />)
     await waitFor(() => {
@@ -93,7 +93,7 @@ describe('<signIn />', () => {
     expect(router.state.location.pathname).toBe('/forgot-password')
   })
 
-  it('should signIn correctly', async () => {
+  it('should sign-in correctly', async () => {
     mockedSignIn.mockResolvedValue()
     const { Component, router } = setup()
     render(<Component />)

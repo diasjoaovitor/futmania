@@ -59,7 +59,7 @@ describe('AuthContext', () => {
     })
   })
 
-  it('should render to home page when user is authenticated and email is verified', async () => {
+  it('should redirect to the home page when the user is authenticated and the email is verified', async () => {
     user = { emailVerified: true }
     const { Component, router } = setup()
     render(<Component />)
@@ -68,7 +68,7 @@ describe('AuthContext', () => {
     })
   })
 
-  it('should render to home page when user is not authenticated', async () => {
+  it('should redirect to the home page when the user is not authenticated', async () => {
     user = null
     const { Component, router } = setup()
     render(<Component />)
