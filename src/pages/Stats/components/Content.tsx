@@ -1,19 +1,81 @@
-import { TableCell, TableRow } from '@mui/material'
+import {
+  Paper,
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material'
+import { ReactNode } from 'react'
 
+import { ExpandButton } from '@/components'
 import { useLimit } from '@/hooks'
-import { TMember } from '@/types'
+import { TMemberModel } from '@/models'
+import * as GS from '@/styles'
 import { sortByGoals, sortMembersByRanking, TStats } from '@/utils'
 
-import { Table } from './Table'
+type TTableProps = {
+  title: string
+  cols: string[]
+  children: ReactNode
+  isFull: boolean
+  showExpandButton: boolean
+  handleLimit(): void
+}
 
-type TRankingProps = {
+export const Table = ({
+  title,
+  cols,
+  children,
+  isFull,
+  showExpandButton,
+  handleLimit
+}: TTableProps) => {
+  return (
+    <>
+      <Typography sx={GS.Title} component="h2" variant="h6" pt={3} pb={2}>
+        {title}
+      </Typography>
+      <TableContainer component={Paper}>
+        <MuiTable>
+          <TableHead>
+            <TableRow>
+              {cols.map((col, index) => (
+                <TableCell
+                  key={index}
+                  align={`${index !== 1 ? 'center' : 'left'}`}
+                >
+                  {col}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {children}
+            {showExpandButton && (
+              <TableRow>
+                <TableCell colSpan={cols.length}>
+                  <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </MuiTable>
+      </TableContainer>
+    </>
+  )
+}
+
+type TContentProps = {
   stats: TStats[]
-  handleClick(member: TMember): void
+  handleClick(member: TMemberModel): void
 }
 
 const min = 5
 
-export const Ranking = ({ stats, handleClick }: TRankingProps) => {
+export const Content = ({ stats, handleClick }: TContentProps) => {
   const {
     limited: limitedScoreRanking,
     isFull: scoreRankingIsFull,
@@ -30,6 +92,7 @@ export const Ranking = ({ stats, handleClick }: TRankingProps) => {
         title="Ranking"
         cols={['Posição', 'Nome', 'Score', 'Babas']}
         isFull={scoreRankingIsFull}
+        showExpandButton={stats.length > min}
         handleLimit={handleLimitScoreRanking}
       >
         <>
@@ -55,6 +118,7 @@ export const Ranking = ({ stats, handleClick }: TRankingProps) => {
         title="Artilharia"
         cols={['Posição', 'Nome', 'Gols', 'Babas', 'Média']}
         isFull={goalsRankingIsFull}
+        showExpandButton={stats.length > min}
         handleLimit={handleLimitGoalsRanking}
       >
         <>

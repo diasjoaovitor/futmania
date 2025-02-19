@@ -1,47 +1,51 @@
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 
-import { Alert, Layout, Loader, MemberStatsModal } from '@/components'
+import { Layout, MemberStatsModal } from '@/components'
 
-import { Ranking, SeasonSelect } from './components'
-import * as S from './styles'
+import { Content, SeasonSelect } from './components'
 import { useComponentHandler } from './use-component-handler'
 
 export const Stats = () => {
   const {
+    finances,
     season,
     year,
     years,
     statsInSeason,
-    handleOpenMemberModal,
-    memberModalProps,
-    handlePeriodChange,
-    alertProps,
-    isPending
+    member,
+    memberStats,
+    isStatsModalOpen,
+    handleMemberClick,
+    handleYearChange,
+    handleSeasonChange,
+    setIsStatsModalOpen
   } = useComponentHandler()
 
   return (
-    <Box sx={S.Wrapper}>
-      <Layout title="Estatísticas">
-        <SeasonSelect
-          season={season}
-          year={year}
-          years={years}
-          handleChange={handlePeriodChange}
-        />
-        {statsInSeason.length > 0 ? (
-          <>
-            <Ranking
-              stats={statsInSeason}
-              handleClick={handleOpenMemberModal}
+    <Layout title="Estatísticas">
+      <SeasonSelect
+        season={season}
+        year={year}
+        years={years}
+        handleYearChange={handleYearChange}
+        handleSeasonChange={handleSeasonChange}
+      />
+      {statsInSeason.length > 0 ? (
+        <>
+          <Content stats={statsInSeason} handleClick={handleMemberClick} />
+          {member && (
+            <MemberStatsModal
+              isOpened={isStatsModalOpen}
+              member={member}
+              finances={finances}
+              handleClose={() => setIsStatsModalOpen(false)}
+              stats={memberStats}
             />
-            <MemberStatsModal {...memberModalProps} />
-          </>
-        ) : (
-          <Typography my={2}>Não há babas nessa temporada</Typography>
-        )}
-      </Layout>
-      <Loader open={isPending} />
-      <Alert {...alertProps} />
-    </Box>
+          )}
+        </>
+      ) : (
+        <Typography my={2}>Não há babas nessa temporada</Typography>
+      )}
+    </Layout>
   )
 }

@@ -1,4 +1,4 @@
-import { TBaba, TMember } from '@/types'
+import { TBabaModel, TMemberModel } from '@/models'
 
 import { sortByDate } from './sort'
 
@@ -18,11 +18,14 @@ export type TMemberStats = {
   frequency: TFrequency[]
 }
 
-export type TStats = TMemberStats & TMember
+export type TStats = TMemberStats & TMemberModel
 
-export const getMemberStats = (babas: TBaba[], id: string): TMemberStats => {
+export const getMemberStats = (
+  babas: TBabaModel[],
+  id: string
+): TMemberStats => {
   const frequency: TFrequency[] = []
-  const bs = (sortByDate(babas) as TBaba[]).filter(({ date, teams }) => {
+  const bs = (sortByDate(babas) as TBabaModel[]).filter(({ date, teams }) => {
     const team = teams.find(({ members }) =>
       members.find(({ memberId }) => memberId === id)
     )
@@ -66,8 +69,8 @@ export const getMemberStats = (babas: TBaba[], id: string): TMemberStats => {
 }
 
 export const getMembersStats = (
-  babas: TBaba[],
-  members: TMember[]
+  babas: TBabaModel[],
+  members: TMemberModel[]
 ): TStats[] => {
   const stats = members
     .map((member) => {

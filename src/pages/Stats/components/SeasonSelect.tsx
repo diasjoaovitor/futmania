@@ -2,41 +2,41 @@ import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 import { YearSelect } from '@/components'
 import { seasons } from '@/constants'
-import { getMonthExtensive, sortStringDesc } from '@/utils'
+import { getMonthExtensive } from '@/utils'
 
 type TSeasonSelectProps = {
   year: number
   years: number[]
   season: string
-  handleChange(e: SelectChangeEvent): void
+  handleYearChange(e: SelectChangeEvent): void
+  handleSeasonChange(e: SelectChangeEvent): void
 }
 
 export const SeasonSelect = ({
   year,
   years,
   season,
-  handleChange
+  handleSeasonChange,
+  handleYearChange
 }: TSeasonSelectProps) => {
   return (
-    <Box data-testid="select-season">
+    <Box data-testid="season-select">
       <Select
         name="season"
         value={season}
-        onChange={handleChange}
+        onChange={handleSeasonChange}
         sx={{ mr: 1 }}
       >
-        {sortStringDesc(seasons).map((season) => {
+        {seasons.map((season) => {
           const [monthFrom, monthTo] = season.split('-')
           return (
             <MenuItem key={season} value={season}>
-              {`${getMonthExtensive(Number(monthFrom))} - ${getMonthExtensive(
-                Number(monthTo)
-              )}`}
+              {`${getMonthExtensive(Number(monthFrom))} - ${getMonthExtensive(Number(monthTo))}`}
             </MenuItem>
           )
         })}
       </Select>
-      <YearSelect year={year} years={years} handleChange={handleChange} />
+      <YearSelect year={year} years={years} handleChange={handleYearChange} />
     </Box>
   )
 }
