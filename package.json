@@ -18,7 +18,7 @@
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "generate": "plop --plopfile generators/plopfile.js",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
