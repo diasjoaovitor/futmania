@@ -8,7 +8,7 @@ import {
   TableRow
 } from '@mui/material'
 
-import { TBaba, TMember } from '@/types'
+import { TBabaModel, TMemberModel } from '@/models'
 
 import { LeaderboardRow } from './LeaderboardRow'
 import { sortTeamsByScore } from './utils'
@@ -16,9 +16,9 @@ import { sortTeamsByScore } from './utils'
 const cols = ['Classificação', 'PTS', 'V', 'E']
 
 type TLeaderboardProps = {
-  baba: TBaba
-  members: TMember[]
-  handleClick(member: TMember): void
+  baba: TBabaModel
+  members: TMemberModel[]
+  handleClick(member: TMemberModel): void
 }
 
 export const Leaderboard = ({

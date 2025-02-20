@@ -10,18 +10,13 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-import { TMember, TTeam } from '@/types'
+import { TMemberModel, TTeam, TTeamMember } from '@/models'
 import { getMemberById, sortByGoals } from '@/utils'
 
 type TLeaderboardRowProps = {
   team: TTeam
-  members: TMember[]
-  handleClick(member: TMember): void
-}
-
-type TTeamMember = {
-  goals: number
-  memberId: string
+  members: TMemberModel[]
+  handleClick(member: TMemberModel): void
 }
 
 export const LeaderboardRow = ({

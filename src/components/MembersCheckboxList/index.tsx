@@ -8,29 +8,29 @@ import {
 } from '@mui/material'
 import { ChangeEvent } from 'react'
 
+import { TFinanceModel, TMemberModel } from '@/models'
 import * as GS from '@/styles'
-import { TFinance, TMember } from '@/types'
 import { someFinanceIncludesMember, sortMembersByName } from '@/utils'
 
 import { memberIsChecked } from './utils'
 
-type Props = {
+type TMembersCheckboxListProps = {
   title: string
-  members: TMember[]
+  members: TMemberModel[]
   checkedMembers: string[]
   disabledMembers?: string[]
-  finances: TFinance[]
+  finances: TFinanceModel[]
   handleChange(e: ChangeEvent<HTMLInputElement>): void
 }
 
-export function MembersCheckboxList({
+export const MembersCheckboxList = ({
   title,
   members,
   checkedMembers,
   disabledMembers,
   finances,
   handleChange
-}: Props) {
+}: TMembersCheckboxListProps) => {
   return (
     <List>
       <Typography component="h3" variant="h6" mb={2}>

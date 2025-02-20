@@ -8,12 +8,12 @@ import {
 } from '@mui/material'
 
 import { Modal } from '@/components'
-import { TMember, TTeam } from '@/types'
+import { TMemberModel, TTeam } from '@/models'
 import { getMemberById } from '@/utils'
 
 type TTeamsModalProps = {
   date: string
-  members: TMember[]
+  members: TMemberModel[]
   teams: TTeam[]
   isOpened: boolean
   handleClose(): void
@@ -38,9 +38,8 @@ export const TeamsModal = ({
               mbs.map(({ memberId }, index) => (
                 <ListItem key={memberId}>
                   <ListItemText
-                    primary={`${index + 1} - ${
-                      getMemberById(members, memberId)?.name
-                    }`}
+                    primary={`${index + 1} - ${getMemberById(members, memberId)
+                      ?.name}`}
                   />
                 </ListItem>
               ))

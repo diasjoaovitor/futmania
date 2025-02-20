@@ -1,16 +1,13 @@
 import { Dayjs } from 'dayjs'
 import { ChangeEvent, useState } from 'react'
 
-import { useModal } from '@/hooks'
-import { TTeam } from '@/types'
+import { TTeam } from '@/models'
 import { getCurrentDate } from '@/utils'
 
 import { assignTeams, drawTeams } from './utils'
 
-const currentDate = getCurrentDate()
-
 export const useComponentHandler = () => {
-  const [date, setDate] = useState(currentDate)
+  const [date, setDate] = useState(getCurrentDate())
   const [isPrizeDraw, setIsPrizeDraw] = useState(true)
   const [checkedMembers, setCheckedMembers] = useState<string[]>([])
   const [drawnMembers, setDrawnMembers] = useState<string[]>([])
@@ -18,7 +15,7 @@ export const useComponentHandler = () => {
   const [numberOfTeams, setNumberOfTeams] = useState(4)
   const [selectedTeam, setSelectedTeam] = useState(1)
 
-  const { modalIsOpened, handleOpenModal, handleCloseModal } = useModal()
+  const [modalIsOpened, setModalIsOpened] = useState(false)
 
   const handleDateChange = (e: Dayjs | null) => {
     if (e === null) return
@@ -63,7 +60,7 @@ export const useComponentHandler = () => {
     !isPrizeDraw && setSelectedTeam((value) => value + 1)
     setDrawnMembers((drawn) => [...drawn, ...checkedMembers])
     setCheckedMembers([])
-    handleOpenModal()
+    setModalIsOpened(true)
   }
 
   return {
@@ -82,7 +79,6 @@ export const useComponentHandler = () => {
     handleTeams,
     handleClear,
     modalIsOpened,
-    handleOpenModal,
-    handleCloseModal
+    setModalIsOpened
   }
 }

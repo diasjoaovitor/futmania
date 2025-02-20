@@ -1,25 +1,25 @@
 import { Dayjs } from 'dayjs'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-import { useModal } from '@/hooks'
-import { TBaba } from '@/types'
+import { TBabaModel } from '@/models'
 
-export const useComponentHandler = ({
+export function useBabaForm({
   baba: b,
   isOpened
 }: {
-  baba: TBaba
+  baba: TBabaModel
   isOpened: boolean
-}) => {
-  const [member, setMember] = useState<[string, string | undefined]>(['', ''])
-  const [baba, setBaba] = useState<TBaba>(b)
+}) {
+  const [selectedMembers, setSelectedMembers] = useState<
+    [string, string | null]
+  >(['', ''])
+  const [baba, setBaba] = useState<TBabaModel>(b)
   const [teamIndex, setTeamIndex] = useState(0)
-
-  const { modalIsOpened, handleOpenModal, handleCloseModal } = useModal()
+  const [modalIsOpened, setModalIsOpened] = useState(false)
 
   useEffect(() => {
     setBaba(b)
-  }, [isOpened])
+  }, [isOpened, b])
 
   const handleDateChange = (e: Dayjs | null) => {
     if (e === null || !baba) return
@@ -28,16 +28,15 @@ export const useComponentHandler = ({
   }
 
   const handleMemberClick = (id: string) => {
-    setMember([id, id])
-    handleOpenModal()
+    setSelectedMembers([id, id])
+    setModalIsOpened(true)
   }
 
   const handleMemberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target
-    setMember((member) => {
-      const [prevMember] = member
-      const newMember = checked ? value : undefined
-      return [prevMember, newMember]
+    setSelectedMembers(([prevMemberId]) => {
+      const newMemberId = checked ? value : null
+      return [prevMemberId, newMemberId]
     })
   }
 
@@ -81,34 +80,34 @@ export const useComponentHandler = ({
 
   const handleAddMemberClick = (team: number) => {
     setTeamIndex(team)
-    handleOpenModal()
+    setModalIsOpened(true)
   }
 
-  const handleCloseMembersModal = () => {
-    const [prevMember, newMember] = member
+  const handleMembersModalClose = () => {
+    const [prevMemberId, newMemberId] = selectedMembers
     const teams = baba.teams.map((team) => ({
       ...team,
-      members: newMember
+      members: newMemberId
         ? team.members.map((m) =>
-            m.memberId !== prevMember ? m : { ...m, memberId: newMember }
+            m.memberId !== prevMemberId ? m : { ...m, memberId: newMemberId }
           )
-        : team.members.filter(({ memberId }) => prevMember !== memberId)
+        : team.members.filter(({ memberId }) => prevMemberId !== memberId)
     }))
-    if (!prevMember && newMember)
-      teams[teamIndex].members.push({ memberId: newMember, goals: 0 })
+    if (!prevMemberId && newMemberId)
+      teams[teamIndex].members.push({ memberId: newMemberId, goals: 0 })
     setBaba({ ...baba, teams })
-    handleCloseModal()
+    setModalIsOpened(false)
   }
 
   return {
     baba,
-    member,
+    selectedMembers,
+    modalIsOpened,
     handleDateChange,
     handleAddMemberClick,
     handleMemberClick,
     handleMemberChange,
     handleChange,
-    modalIsOpened,
-    handleCloseMembersModal
+    handleMembersModalClose
   }
 }

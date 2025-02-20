@@ -6,6 +6,7 @@ import { getLocalStorage } from '@/utils'
 
 import { useAuthContext } from '..'
 import { TAppContext } from './types'
+import { useBabaMutation } from './use-baba-mutation'
 import { useDataFetch } from './use-data-fetch'
 import { useFinanceMutation } from './use-finance-mutation'
 import { useMemberMutation } from './use-member-mutation'
@@ -34,6 +35,8 @@ export const useComponentHandler = () => {
 
   const { userMutationIsPending, ...userMutationRest } =
     useUserMutation(setUsers)
+  const { babaMutationIsPending, ...babaMutationRest } =
+    useBabaMutation(setBabas)
   const { financeMutationIsPending, ...financeMutationRest } =
     useFinanceMutation(setFinances)
   const { memberMutationIsPending, ...memberMutationRest } =
@@ -70,6 +73,7 @@ export const useComponentHandler = () => {
   const isLoading =
     isFetching ||
     userMutationIsPending ||
+    babaMutationIsPending ||
     financeMutationIsPending ||
     memberMutationIsPending
 
@@ -86,6 +90,7 @@ export const useComponentHandler = () => {
     finances,
     members,
     ...userMutationRest,
+    ...babaMutationRest,
     ...financeMutationRest,
     ...memberMutationRest
   }

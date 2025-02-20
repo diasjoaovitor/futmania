@@ -1,10 +1,18 @@
-import { TMember, TTeam } from '@/types'
+import { TMemberModel, TTeam } from '@/models'
 
-export const memberIsChecked = (member: TMember, checkedMembers: TMember[]) =>
-  checkedMembers.includes(member)
+export const memberIsChecked = (
+  member: TMemberModel,
+  checkedMembers: TMemberModel[]
+) => {
+  return checkedMembers.includes(member)
+}
 
-export const memberHasBeenDrawn = (member: TMember, drawnMembers: TMember[]) =>
-  drawnMembers.includes(member)
+export const memberHasBeenDrawn = (
+  member: TMemberModel,
+  drawnMembers: TMemberModel[]
+) => {
+  return drawnMembers.includes(member)
+}
 
 export const drawTeams = (
   teams: TTeam[],
@@ -21,10 +29,10 @@ export const drawTeams = (
   const mbs = [...members]
   while (mbs.length > 0) {
     const lengths = tms.map(({ members }) => members.length)
-    const minLenght = Math.min(...lengths)
+    const minLength = Math.min(...lengths)
     const possibleTeamsIndex = tms
       .map(({ members }, index) =>
-        members.length === minLenght ? index : null
+        members.length === minLength ? index : null
       )
       .filter((i) => i !== null)
       .sort((a, b) => (a && b ? a - b : 1))
@@ -33,7 +41,7 @@ export const drawTeams = (
       possibleTeamsIndex[
         Math.floor(Math.random() * (possibleTeamsIndex.length - 1))
       ]
-    const member = mbs[mbs.length - 1]
+    const memberId = mbs[mbs.length - 1]
     tms = tms.map((team, i) => {
       return index !== i
         ? team
@@ -42,7 +50,7 @@ export const drawTeams = (
             members: [
               ...team.members,
               {
-                memberId: member,
+                memberId,
                 goals: 0
               }
             ]
@@ -55,7 +63,7 @@ export const drawTeams = (
 
 export const assignTeams = (
   teams: TTeam[],
-  members: string[],
+  memberIds: string[],
   teamIndex: number
 ) => {
   const tms: TTeam[] = new Array(
@@ -67,18 +75,18 @@ export const assignTeams = (
         ? { ...teams[index] }
         : { ...team, name: `Time ${index + 1}` }
     )
-  return tms.map((team, index) => {
+  const result: TTeam[] = tms.map((team, index) => {
     if (index + 1 !== teamIndex) return team
-    const result: TTeam = {
+    return {
       ...team,
       members: [
         ...team.members,
-        ...members.map((memberId) => ({
+        ...memberIds.map((memberId) => ({
           memberId,
           goals: 0
         }))
       ]
     }
-    return result
   })
+  return result
 }

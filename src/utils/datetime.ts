@@ -11,7 +11,10 @@ dayjs.locale('pt-br')
 const capitalize = (sentence: string) =>
   sentence.charAt(0).toUpperCase() + sentence.slice(1)
 
+export const formatDate = (date: string) => dayjs(date).format('YYYY-MM-DD')
+
 export const getTimestamp = () => dayjs().utc().format('YYYY-MM-DDTHH:mm:ss')
+
 export const getCurrentDate = () => dayjs().format('YYYY-MM-DD')
 
 export const getCurrentSeason = (seasons: string[], currentDate: string) =>

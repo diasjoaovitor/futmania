@@ -2,19 +2,19 @@ import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 import { YearSelect } from '@/components'
 import { months } from '@/constants'
-import {
-  getMonthExtensive,
-  getStringWeekDayNumberMonthDay,
-  sortNumberDesc
-} from '@/utils'
+import { getMonthExtensive, getStringWeekDayNumberMonthDay } from '@/utils'
 
-type TYearMonthDaySelectProps = {
+import * as S from './styles'
+
+export type TYearMonthDaySelectProps = {
   year: number
   years: number[]
   month: number
   date: string
   dates: string[]
-  handleChange(e: SelectChangeEvent): void
+  handleYearChange(e: SelectChangeEvent): void
+  handleMonthChange(e: SelectChangeEvent): void
+  handleDateChange(e: SelectChangeEvent): void
 }
 
 export const YearMonthDaySelect = ({
@@ -23,30 +23,27 @@ export const YearMonthDaySelect = ({
   month,
   date,
   dates,
-  handleChange
+  handleYearChange,
+  handleMonthChange,
+  handleDateChange
 }: TYearMonthDaySelectProps) => {
   return (
-    <Box data-testid="select-year-month-day">
-      <Select name="date" value={date} onChange={handleChange}>
+    <Box sx={S.YearMonthDaySelectWrapper} data-testid="select-year-month-day">
+      <Select name="date" value={date} onChange={handleDateChange}>
         {dates.map((date) => (
           <MenuItem key={date} value={date}>
             {getStringWeekDayNumberMonthDay(date)}
           </MenuItem>
         ))}
       </Select>
-      <Select
-        name="month"
-        value={String(month)}
-        onChange={handleChange}
-        sx={{ mx: 1 }}
-      >
-        {sortNumberDesc(months).map((month) => (
+      <Select name="month" value={String(month)} onChange={handleMonthChange}>
+        {months.map((month) => (
           <MenuItem key={month} value={month}>
             {getMonthExtensive(month)}
           </MenuItem>
         ))}
       </Select>
-      <YearSelect year={year} years={years} handleChange={handleChange} />
+      <YearSelect year={year} years={years} handleChange={handleYearChange} />
     </Box>
   )
 }

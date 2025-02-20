@@ -10,53 +10,59 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import dayjs from 'dayjs'
 
 import { DateInput, MembersCheckboxListModal, Modal } from '@/components'
-import { TBaba, TMember } from '@/types'
+import { useAppContext } from '@/contexts'
+import { TBabaModel, TMemberModel } from '@/models'
 import { getMemberById, handleFocus } from '@/utils'
 
 import * as S from './styles'
-import { useComponentHandler } from './use-component-handler'
+import { useBabaForm } from './use-component-handler'
 
-export type TFormProps = {
+export type TBabaFormProps = {
   isOpened: boolean
-  baba: TBaba
-  members: TMember[]
+  baba: TBabaModel
+  members: TMemberModel[]
   handleClose(): void
-  handleUpdate(baba: TBaba): void
 }
 
-export const Form = ({
+export const BabaForm = ({
   isOpened,
   baba: b,
   members,
-  handleClose,
-  handleUpdate
-}: TFormProps) => {
+  handleClose
+}: TBabaFormProps) => {
+  const { babaMutationUpdateMutate } = useAppContext()
   const {
     baba,
-    member,
+    selectedMembers,
+    modalIsOpened,
     handleDateChange,
     handleAddMemberClick,
     handleMemberClick,
     handleMemberChange,
     handleChange,
-    modalIsOpened: membersModalIsOpened,
-    handleCloseMembersModal
-  } = useComponentHandler({ baba: b, isOpened })
+    handleMembersModalClose
+  } = useBabaForm({ baba: b, isOpened })
 
   const { teams, date } = baba
 
   const disabledMembers: string[] = []
   teams.forEach(({ members }) => {
     members.forEach(
-      ({ memberId }) => memberId !== member[1] && disabledMembers.push(memberId)
+      ({ memberId }) =>
+        memberId !== selectedMembers[1] && disabledMembers.push(memberId)
     )
   })
   return (
     <Modal title="Editar Baba" isOpened={isOpened} handleClose={handleClose}>
       <Box sx={S.Wrapper}>
-        <DateInput date={date} handleChange={handleDateChange} />
+        <DateInput
+          label="Data"
+          value={dayjs(date)}
+          onChange={handleDateChange}
+        />
         {teams.map(({ name, members: mbs, draws, wins }, teamIndex) => (
           <List key={teamIndex}>
             <ListSubheader sx={S.SubHeader}>
@@ -64,12 +70,12 @@ export const Form = ({
               <Typography>Gols</Typography>
             </ListSubheader>
             {mbs.map(({ memberId, goals }, memberIndex) => {
-              const member = getMemberById(members, memberId)
+              const member = getMemberById(members, memberId) as TMemberModel
               return (
                 <ListItem key={memberId} sx={S.Member} disablePadding>
                   <ListItemButton
                     sx={{ py: 1 }}
-                    onClick={() => handleMemberClick(member?.id as string)}
+                    onClick={() => handleMemberClick(member.id)}
                   >
                     <ListItemText primary={`${member?.name}`} />
                   </ListItemButton>
@@ -79,7 +85,7 @@ export const Form = ({
                     }
                     value={goals}
                     type="number"
-                    inputProps={{ min: 0 }}
+                    slotProps={{ htmlInput: { min: 0 } }}
                     size="small"
                     onFocus={handleFocus}
                   />
@@ -100,7 +106,7 @@ export const Form = ({
                 label="Vitórias"
                 value={wins}
                 type="number"
-                inputProps={{ min: 0 }}
+                slotProps={{ htmlInput: { min: 0 } }}
                 sx={{ mr: 1 }}
                 onFocus={handleFocus}
               />
@@ -112,7 +118,7 @@ export const Form = ({
                 label="Empates"
                 value={draws}
                 type="number"
-                inputProps={{ min: 0 }}
+                slotProps={{ htmlInput: { min: 0 } }}
                 onFocus={handleFocus}
               />
             </ListItem>
@@ -122,19 +128,19 @@ export const Form = ({
         <Button
           variant="contained"
           fullWidth
-          onClick={() => handleUpdate(baba)}
+          onClick={() => babaMutationUpdateMutate(baba)}
         >
           Salvar
         </Button>
         <MembersCheckboxListModal
-          isOpened={membersModalIsOpened}
+          isOpened={modalIsOpened}
           title="Selecionar Membro"
           members={members}
-          checkedMembers={member[1] ? [member[1]] : []}
+          checkedMembers={selectedMembers[1] ? [selectedMembers[1]] : []}
           disabledMembers={disabledMembers}
           finances={[]}
           handleChange={handleMemberChange}
-          handleClose={handleCloseMembersModal}
+          handleClose={handleMembersModalClose}
         />
       </Box>
     </Modal>

@@ -7,6 +7,7 @@ import {
   Switch,
   Typography
 } from '@mui/material'
+import dayjs from 'dayjs'
 import { Link } from 'react-router'
 
 import {
@@ -16,28 +17,30 @@ import {
   MembersCheckboxList,
   Modal
 } from '@/components'
+import { useAppContext, useCallbackContext } from '@/contexts'
 import { useLimit } from '@/hooks'
-import { TFinance, TMember, TTeam } from '@/types'
+import { TFinanceModel, TMemberModel } from '@/models'
 import { handleFocus, separateMembers, sortMembersByName } from '@/utils'
 
 import { TeamsModal } from './TeamsModal'
 import { useComponentHandler } from './use-component-handler'
 
-export type TeamsFormProps = {
+export type TTeamsFormProps = {
   isOpened: boolean
-  members: TMember[]
-  finances: TFinance[]
+  members: TMemberModel[]
+  finances: TFinanceModel[]
   handleClose(): void
-  handleSubmit(teams: TTeam[], date: string): void
 }
 
-export function TeamsForm({
+export const TeamsForm = ({
   isOpened,
   finances,
   members,
-  handleClose,
-  handleSubmit
-}: TeamsFormProps) {
+  handleClose
+}: TTeamsFormProps) => {
+  const { babaMutationCreateMutate, babaUser } = useAppContext()
+  const { setSuccessCallbacks } = useCallbackContext()
+
   const {
     date,
     handleDateChange,
@@ -54,8 +57,7 @@ export function TeamsForm({
     handleTeams,
     handleClear,
     modalIsOpened,
-    handleOpenModal,
-    handleCloseModal
+    setModalIsOpened
   } = useComponentHandler()
 
   const min = 10
@@ -72,8 +74,13 @@ export function TeamsForm({
         {members.length !== 0 ? (
           <>
             <Box mt={4}>
-              <DateInput date={date} handleChange={handleDateChange} />
+              <DateInput
+                label="Data"
+                value={dayjs(date)}
+                onChange={handleDateChange}
+              />
               <FormControlLabel
+                sx={{ display: 'block' }}
                 control={
                   <Switch
                     checked={isPrizeDraw}
@@ -83,30 +90,36 @@ export function TeamsForm({
                 label={isPrizeDraw ? 'Sorteio' : 'Atribuir'}
               />
             </Box>
-            <MembersCheckboxList
-              title="Membros Fixos"
-              checkedMembers={[...checkedMembers, ...drawnMembers]}
-              finances={finances}
-              handleChange={handleChange}
-              members={sortMembersByName([...fixedMembers])}
-              disabledMembers={drawnMembers}
-            />
-            <MembersCheckboxList
-              title="Goleiros"
-              checkedMembers={[...checkedMembers, ...drawnMembers]}
-              finances={finances}
-              handleChange={handleChange}
-              members={sortMembersByName([...goalkeepers])}
-              disabledMembers={drawnMembers}
-            />
-            <MembersCheckboxList
-              title="Membros Avulsos"
-              checkedMembers={[...checkedMembers, ...drawnMembers]}
-              finances={finances}
-              handleChange={handleChange}
-              members={sortMembersByName([...limitedNonMembers])}
-              disabledMembers={drawnMembers}
-            />
+            {fixedMembers.length > 0 && (
+              <MembersCheckboxList
+                title="Membros Fixos"
+                checkedMembers={[...checkedMembers, ...drawnMembers]}
+                finances={finances}
+                handleChange={handleChange}
+                members={sortMembersByName([...fixedMembers])}
+                disabledMembers={drawnMembers}
+              />
+            )}
+            {goalkeepers.length > 0 && (
+              <MembersCheckboxList
+                title="Goleiros"
+                checkedMembers={[...checkedMembers, ...drawnMembers]}
+                finances={finances}
+                handleChange={handleChange}
+                members={sortMembersByName([...goalkeepers])}
+                disabledMembers={drawnMembers}
+              />
+            )}
+            {nonMembers.length > 0 && (
+              <MembersCheckboxList
+                title="Membros Avulsos"
+                checkedMembers={[...checkedMembers, ...drawnMembers]}
+                finances={finances}
+                handleChange={handleChange}
+                members={sortMembersByName([...limitedNonMembers])}
+                disabledMembers={drawnMembers}
+              />
+            )}
             {nonMembers.length > min && (
               <ExpandButton isExpanded={isFull} handleClick={handleLimit} />
             )}
@@ -118,6 +131,7 @@ export function TeamsForm({
               {isPrizeDraw ? (
                 <InputWithButton
                   inputProps={{
+                    name: 'numberOfTeams',
                     type: 'number',
                     label: 'Quantidade de Times',
                     value: numberOfTeams,
@@ -136,6 +150,7 @@ export function TeamsForm({
               ) : (
                 <InputWithButton
                   inputProps={{
+                    name: 'team',
                     type: 'number',
                     label: 'Time',
                     value: selectedTeam,
@@ -157,7 +172,7 @@ export function TeamsForm({
                 <Button
                   sx={{ mr: 1 }}
                   variant="outlined"
-                  onClick={handleOpenModal}
+                  onClick={() => setModalIsOpened(true)}
                 >
                   Ver Times
                 </Button>
@@ -175,8 +190,18 @@ export function TeamsForm({
               teams={teams}
               members={members}
               isOpened={modalIsOpened && isOpened}
-              handleClose={handleCloseModal}
-              handleSubmit={() => handleSubmit(teams, date)}
+              handleClose={() => setModalIsOpened(false)}
+              handleSubmit={() => {
+                setSuccessCallbacks([
+                  handleClose,
+                  () => () => setModalIsOpened(false)
+                ])
+                babaMutationCreateMutate({
+                  date,
+                  teams,
+                  userId: babaUser!.id
+                })
+              }}
             />
           </>
         ) : (

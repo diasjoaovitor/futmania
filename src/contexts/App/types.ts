@@ -13,6 +13,9 @@ export type TAppContext = {
   userMutationUpdateMutate(data: TParamsUpdate<TUserModel>): void
 
   babas: TBabaModel[]
+  babaMutationCreateMutate(data: TParamsCreate<TBabaModel>): void
+  babaMutationUpdateMutate(data: TParamsUpdate<TBabaModel>): void
+  babaMutationDeleteMutate(id: string): void
 
   finances: TFinanceModel[]
   financeMutationCreateMutate(data: TParamsCreate<TFinanceModel>): void
