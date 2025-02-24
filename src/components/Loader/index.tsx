@@ -7,6 +7,7 @@ export const Loader = ({ open }: { open?: boolean }) => {
         zIndex: (theme) => theme.zIndex.drawer + 1
       }}
       open={!!open}
+      data-testid={`loader-${!!open}`}
     >
       <CircularProgress />
     </Backdrop>
