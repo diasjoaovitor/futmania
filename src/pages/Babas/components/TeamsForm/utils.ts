@@ -3,16 +3,12 @@ import { TMemberModel, TTeam } from '@/models'
 export const memberIsChecked = (
   member: TMemberModel,
   checkedMembers: TMemberModel[]
-) => {
-  return checkedMembers.includes(member)
-}
+) => checkedMembers.includes(member)
 
 export const memberHasBeenDrawn = (
   member: TMemberModel,
   drawnMembers: TMemberModel[]
-) => {
-  return drawnMembers.includes(member)
-}
+) => drawnMembers.includes(member)
 
 export const drawTeams = (
   teams: TTeam[],
@@ -36,7 +32,7 @@ export const drawTeams = (
       )
       .filter((i) => i !== null)
       .sort((a, b) => (a && b ? a - b : 1))
-      .slice(0, members.length)
+      .slice(0, mbs.length)
     const index =
       possibleTeamsIndex[
         Math.floor(Math.random() * (possibleTeamsIndex.length - 1))
