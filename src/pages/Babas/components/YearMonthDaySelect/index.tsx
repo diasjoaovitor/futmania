@@ -28,7 +28,7 @@ export const YearMonthDaySelect = ({
   handleDateChange
 }: TYearMonthDaySelectProps) => {
   return (
-    <Box sx={S.YearMonthDaySelectWrapper} data-testid="select-year-month-day">
+    <Box sx={S.YearMonthDaySelectWrapper} data-testid="year-month-day-select">
       <Select name="date" value={date} onChange={handleDateChange}>
         {dates.map((date) => (
           <MenuItem key={date} value={date}>

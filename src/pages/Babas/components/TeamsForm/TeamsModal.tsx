@@ -12,16 +12,14 @@ import { TMemberModel, TTeam } from '@/models'
 import { getMemberById } from '@/utils'
 
 type TTeamsModalProps = {
-  date: string
   members: TMemberModel[]
   teams: TTeam[]
   isOpened: boolean
   handleClose(): void
-  handleSubmit(teams: TTeam[], date: string): void
+  handleSubmit(): void
 }
 
 export const TeamsModal = ({
-  date,
   members,
   teams,
   isOpened,
@@ -38,8 +36,9 @@ export const TeamsModal = ({
               mbs.map(({ memberId }, index) => (
                 <ListItem key={memberId}>
                   <ListItemText
-                    primary={`${index + 1} - ${getMemberById(members, memberId)
-                      ?.name}`}
+                    primary={`${index + 1} - ${
+                      getMemberById(members, memberId)?.name
+                    }`}
                   />
                 </ListItem>
               ))
@@ -53,11 +52,7 @@ export const TeamsModal = ({
           </List>
         ))}
         <ButtonGroup sx={{ my: 2 }}>
-          <Button
-            variant="contained"
-            sx={{ mr: 1 }}
-            onClick={() => handleSubmit(teams, date)}
-          >
+          <Button variant="contained" sx={{ mr: 1 }} onClick={handleSubmit}>
             Salvar
           </Button>
           <Button variant="contained" color="secondary" onClick={handleClose}>

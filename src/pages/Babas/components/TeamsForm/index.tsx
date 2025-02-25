@@ -68,6 +68,15 @@ export const TeamsForm = ({
     handleLimit
   } = useLimit(sortMembersByName(nonMembers), min)
 
+  const handleSubmit = () => {
+    setSuccessCallbacks([handleClose, () => () => setModalIsOpened(false)])
+    babaMutationCreateMutate({
+      date,
+      teams: teams.filter((team) => team.members.length),
+      userId: babaUser!.id
+    })
+  }
+
   return (
     <Modal title="Montar Times" isOpened={isOpened} handleClose={handleClose}>
       <>
@@ -137,7 +146,12 @@ export const TeamsForm = ({
                     value: numberOfTeams,
                     onFocus: handleFocus,
                     onChange: handleNumberOfTeamsChange,
-                    inputProps: { min: 2 },
+                    slotProps: {
+                      htmlInput: {
+                        min: 2,
+                        max: members.length
+                      }
+                    },
                     disabled: drawnMembers.length > 0
                   }}
                   buttonProps={{
@@ -156,7 +170,12 @@ export const TeamsForm = ({
                     value: selectedTeam,
                     onFocus: handleFocus,
                     onChange: handleSelectedTeamChange,
-                    inputProps: { min: 1 }
+                    slotProps: {
+                      htmlInput: {
+                        min: 1,
+                        max: members.length
+                      }
+                    }
                   }}
                   buttonProps={{
                     children: 'Atribuir',
@@ -186,22 +205,11 @@ export const TeamsForm = ({
               </Box>
             )}
             <TeamsModal
-              date={date}
               teams={teams}
               members={members}
               isOpened={modalIsOpened && isOpened}
               handleClose={() => setModalIsOpened(false)}
-              handleSubmit={() => {
-                setSuccessCallbacks([
-                  handleClose,
-                  () => () => setModalIsOpened(false)
-                ])
-                babaMutationCreateMutate({
-                  date,
-                  teams,
-                  userId: babaUser!.id
-                })
-              }}
+              handleSubmit={handleSubmit}
             />
           </>
         ) : (
