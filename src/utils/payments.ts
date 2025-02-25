@@ -1,6 +1,6 @@
 import { TFinanceModel } from '@/models'
 
-import { getDistinctValues, getYearMonth,TFrequency } from '.'
+import { getDistinctValues, getYearMonth, TFrequency } from '.'
 
 type TPaymentData = {
   yearMonth: string
@@ -18,9 +18,9 @@ export const getPaymentsData = (
   frequency: TFrequency[],
   payments: TFinanceModel[]
 ) => {
-  const yearMonths = getDistinctValues(
+  const yearMonths = getDistinctValues<string>(
     frequency.map(({ date }) => getYearMonth(date))
-  ) as string[]
+  )
   const data = yearMonths.map((yearMonth) => {
     const babas = frequency.filter(
       ({ date, showedUp }) => getYearMonth(date) === yearMonth && showedUp

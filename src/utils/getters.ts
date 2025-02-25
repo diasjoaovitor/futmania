@@ -33,8 +33,8 @@ export const getElementsCheckedValues = (
 export const getMemberById = (members: TMemberModel[], id: string) =>
   members.find(({ id: _id }) => _id === id)
 
-export const getDistinctValues = (values: (string | number)[]) =>
-  Array.from(new Set(values))
+export const getDistinctValues = <T>(values: (string | number)[]) =>
+  Array.from(new Set(values)) as T[]
 
 export const getBabasInSeason = (
   season: string,

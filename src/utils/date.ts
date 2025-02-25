@@ -49,4 +49,4 @@ export const getMonth = (date: string) => dayjs(date).month()
 export const getYearMonth = (date: string) => dayjs(date).format('YYYY-MM')
 
 export const getYears = (dates: string[]) =>
-  getDistinctValues(dates.map((date) => getYear(date))) as number[]
+  getDistinctValues<number>(dates.map((date) => getYear(date)))
