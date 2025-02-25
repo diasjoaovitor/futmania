@@ -1,34 +1,8 @@
-import { TBaba, TMember } from '@/types'
+import { TBabaModel, TMemberModel } from '@/models'
 
 import { getMonth, getYear } from './datetime'
 
-const getElements = (
-  e: React.FormEvent<HTMLFormElement>,
-  elementNames: string[]
-) =>
-  elementNames.map((elementName) =>
-    e.currentTarget.elements.namedItem(elementName)
-  )
-
-export const getElementValues = (
-  e: React.FormEvent<HTMLFormElement>,
-  elementNames: string[]
-) => {
-  const elements = getElements(e, elementNames)
-  return elements.map((element) => (element as HTMLInputElement | null)?.value)
-}
-
-export const getElementsCheckedValues = (
-  e: React.FormEvent<HTMLFormElement>,
-  elementNames: string[]
-) => {
-  const elements = getElements(e, elementNames)
-  return elements.map(
-    (element) => (element as HTMLInputElement | null)?.checked
-  )
-}
-
-export const getMemberById = (members: TMember[], id: string) =>
+export const getMemberById = (members: TMemberModel[], id: string) =>
   members.find(({ id: _id }) => _id === id)
 
 export const getDistinctValues = <T>(values: (string | number)[]) =>
@@ -37,7 +11,7 @@ export const getDistinctValues = <T>(values: (string | number)[]) =>
 export const getBabasInSeason = (
   season: string,
   year: number,
-  babas: TBaba[]
+  babas: TBabaModel[]
 ) =>
   babas.filter(({ date }) => {
     const month = getMonth(date)

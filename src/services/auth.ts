@@ -13,7 +13,7 @@ import { getTimestamp } from '@/utils'
 import { UserService } from './user'
 
 export class AuthService implements IAuth {
-  async signUp({ email, name, password }: TSignUpParams): Promise<void> {
+  async signUp({ email, displayName, password }: TSignUpParams): Promise<void> {
     const { user } = await createUserWithEmailAndPassword(
       authConfig,
       email,
@@ -22,11 +22,11 @@ export class AuthService implements IAuth {
     const userService = new UserService()
     const timestamp = getTimestamp()
     await Promise.all([
-      updateProfile(user, { displayName: name }),
+      updateProfile(user, { displayName }),
       sendEmailVerification(user),
       userService.create({
         id: user.uid,
-        name,
+        displayName,
         createdAt: timestamp,
         updatedAt: timestamp
       })

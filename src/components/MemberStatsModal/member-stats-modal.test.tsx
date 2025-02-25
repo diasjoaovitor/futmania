@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 
-import { TBabaModel } from '@/models'
+import { TBabaModel, TMemberModel } from '@/models'
 import {
   mockedBaba,
   mockedBabas,
@@ -9,7 +9,6 @@ import {
   mockedMember,
   mockedMembers
 } from '@/tests'
-import { TMember } from '@/types'
 import { getMemberStats } from '@/utils'
 
 import { MemberStatsModal, TMemberStatsModalProps } from '.'
@@ -29,7 +28,7 @@ const babas: TBabaModel[] = mockedFrequency.map(({ date, showedUp }) => ({
 
 const Component = (
   props: Partial<TMemberStatsModalProps> & {
-    member: TMember
+    member: TMemberModel
     babas?: TBabaModel[]
   }
 ) => {
