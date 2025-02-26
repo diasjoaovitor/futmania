@@ -83,13 +83,23 @@ const setup = () => {
 
 describe('AppContext', () => {
   beforeAll(() => {
-    mockedFindAllUsers.mockResolvedValue(mockedUsers)
+    mockedFindAllUsers.mockResolvedValue([])
     mockedFindAllBabas.mockResolvedValue([])
     mockedFindAllFinances.mockResolvedValue([])
     mockedFindAllMembers.mockResolvedValue([])
   })
 
+  it('should redirect to signin page when user is not authenticated and no babas exist', async () => {
+    user = null
+    const { Component, router } = setup()
+    render(<Component />)
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe('/signin')
+    })
+  })
+
   it('should redirect to explorer page when user is not authenticated and no baba is saved', async () => {
+    mockedFindAllUsers.mockResolvedValue(mockedUsers)
     const { Component, router } = setup()
     render(<Component />)
     await waitFor(() => {
@@ -115,16 +125,6 @@ describe('AppContext', () => {
     render(<Component />)
     await waitFor(() => {
       expect(router.state.location.pathname).toBe('/')
-    })
-  })
-
-  it('should redirect to signin page when user is not authenticated and no babas exist', async () => {
-    user = null
-    mockedFindAllUsers.mockResolvedValue([])
-    const { Component, router } = setup()
-    render(<Component />)
-    await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/signin')
     })
   })
 })

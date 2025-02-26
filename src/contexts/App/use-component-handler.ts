@@ -29,9 +29,10 @@ export const useComponentHandler = () => {
   const [members, setMembers] = useState<TMemberModel[]>([])
 
   const userId = user?.uid
+  const babaId = babaUser?.id
 
   const { isFetching, usersData, babasData, financesData, membersData } =
-    useDataFetch(babaUser?.id)
+    useDataFetch(babaId)
 
   const { userMutationIsPending, ...userMutationRest } =
     useUserMutation(setUsers)
@@ -43,12 +44,16 @@ export const useComponentHandler = () => {
     useMemberMutation(setMembers)
 
   useEffect(() => {
-    if (!usersData || !babasData || !financesData || !membersData) return
+    if (!usersData) return
     setUsers(usersData)
+  }, [usersData])
+
+  useEffect(() => {
+    if (!babasData || !financesData || !membersData) return
     setBabas(babasData)
     setFinances(financesData)
     setMembers(membersData)
-  }, [usersData, babasData, financesData, membersData])
+  }, [babasData, financesData, membersData])
 
   useEffect(() => {
     if (!usersData) return
@@ -61,14 +66,20 @@ export const useComponentHandler = () => {
   }, [usersData, babaUser, userId, pathname, navigate])
 
   useEffect(() => {
-    if (!usersData || !appRoutes.includes(pathname) || userId || isFetching)
+    if (
+      !usersData ||
+      !appRoutes.includes(pathname) ||
+      userId ||
+      babaId ||
+      isFetching
+    )
       return
     if (usersData.length === 0) {
       navigate('/signin')
       return
     }
     navigate('/explorer')
-  }, [usersData, babaUser, userId, isFetching, pathname, navigate])
+  }, [usersData, userId, babaId, isFetching, pathname, navigate])
 
   const isLoading =
     isFetching ||
