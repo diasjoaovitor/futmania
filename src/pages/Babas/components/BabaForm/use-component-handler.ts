@@ -97,6 +97,7 @@ export function useBabaForm({
       teams[teamIndex].members.push({ memberId: newMemberId, goals: 0 })
     setBaba({ ...baba, teams })
     setModalIsOpened(false)
+    setSelectedMembers(['', ''])
   }
 
   return {
