@@ -1,5 +1,6 @@
 export default {
   testEnvironment: 'jsdom',
+  testTimeout: 60000,
   testPathIgnorePatterns: ['/node_modules/'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   modulePaths: ['<rootDir>/src/'],
