@@ -171,9 +171,11 @@ describe('<Babas />', () => {
     await waitFor(() => {
       expect(screen.queryByTestId('loader-true')).not.toBeInTheDocument()
     })
-    expect(screen.getByTestId('year-month-day-select')).toHaveTextContent(
-      'Sábado dia 1​Abril​2024'
-    )
+    await waitFor(() => {
+      expect(screen.getByTestId('year-month-day-select')).toHaveTextContent(
+        'Quinta-feira dia 4​Abril​2024'
+      )
+    })
     expect(
       screen.getByRole('button', { name: 'Novo Baba' })
     ).toBeInTheDocument()

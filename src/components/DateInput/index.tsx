@@ -5,7 +5,6 @@ import {
   LocalizationProvider
 } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { Dayjs } from 'dayjs'
 import { forwardRef } from 'react'
 
 const theme = (theme: Theme, color: 'error' | 'primary') =>
@@ -27,7 +26,7 @@ const theme = (theme: Theme, color: 'error' | 'primary') =>
 
 export const DateInput = forwardRef(
   (
-    props: DatePickerProps<Dayjs> & {
+    props: DatePickerProps & {
       color?: 'error' | 'primary'
       label: string
     },
